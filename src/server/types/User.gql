@@ -1,0 +1,33 @@
+enum Role {
+  admin
+  director
+  manager
+}
+type User {
+  _id: ID  
+  username: String! 
+  email: String
+  password: String! 
+  roles:[Role] 
+  createdDate: String
+
+}
+type inputUser {
+  username: String
+  email: String
+}
+type Token {
+  token: String!
+}
+
+type Query {
+  getCurrentUser: User
+  getUsers: [User]
+}
+
+type Mutation {  
+  modifyUser(input: inputUser!)
+  deleteUser(id: ID!)
+  signIn(username: String!, password: String!): Token
+  signUp(username: String!,email: String!, password: String!): User  
+}

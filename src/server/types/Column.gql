@@ -1,0 +1,8 @@
+type Column {
+    name: String            
+    }
+
+type Query {
+    getColumns(table:String):[Column]
+}
+
