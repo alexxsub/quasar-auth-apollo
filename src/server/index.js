@@ -8,9 +8,8 @@ const app = require('express')(),
   mongoose = require('mongoose'),
   jwt = require('jsonwebtoken'),
   typeDefs = require('./types'),
-  resolvers = require('./resolvers')
-
-var context = require('./models')
+  resolvers = require('./resolvers'),
+  context = require('./models')
 
 require('dotenv').config({ path: '../../.env' })
 const port = process.env.PORT || 8080
@@ -79,8 +78,8 @@ const server = new ApolloServer({
         'signUp'],
       token = req.headers.token,
       query = req.body.operationName,
-      signin = noAuth.includes(query)
-    context.currentUser = await getUser(token, signin)
+      signed = noAuth.includes(query)
+    context.currentUser = await getUser(token, signed)
     context.userIP = req.ip.split(':').pop()
     return context
   }

@@ -12,7 +12,7 @@ type User {
   createdDate: String
 
 }
-type inputUser {
+input inputUser {
   username: String
   email: String
 }
@@ -26,8 +26,8 @@ type Query {
 }
 
 type Mutation {  
-  modifyUser(input: inputUser!)
-  deleteUser(id: ID!)
+  modifyUser(input: inputUser!):User
+  deleteUser(id: ID!):User
   signIn(username: String!, password: String!): Token
   signUp(username: String!,email: String!, password: String!): User  
 }

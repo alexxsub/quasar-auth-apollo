@@ -11,7 +11,6 @@ export const langs = [
     id: 'ru',
     name: 'Русский'
   },
-
   {
     id: 'en-us',
     name: 'English'

@@ -41,7 +41,7 @@
           <q-card-section>
             <q-fab
               color="primary"
-              @click="register = !register"
+              @click="signup = !signup"
               icon="add"
               class="absolute"
               style="top: 0; right: 12px; transform: translateY(-50%);"
@@ -50,7 +50,7 @@
             <q-form class="q-px-sm q-pt-xl">
               <q-input
                 ref="email"
-                v-if="register"
+                v-if="signup"
                 square
                 clearable
                 v-model="form.email"
@@ -102,7 +102,7 @@
               <q-input
                 ref="repassword"
                 autocomplete="on"
-                v-if="register"
+                v-if="signup"
                 square
                 clearable
                 v-model="form.repassword"
@@ -136,7 +136,7 @@
             />
           </q-card-actions>
           <q-card-section
-            v-if="!register"
+            v-if="!signup"
             class="text-center q-pa-sm"
           >
             <p class="text-grey-6">
@@ -165,7 +165,7 @@ export default {
         password: '',
         repassword: ''
       },
-      register: false,
+      signup: false,
       visibility: false,
       lang: this.$i18n.locale
 
@@ -185,7 +185,14 @@ export default {
   },
   computed: {
     langs () {
-      return require('src/i18n').langs
+      // load lang's native names from quasar
+      var la = []
+      for (var key in this.$i18n.messages) {
+        const lang = require('quasar/lang/' + key)
+        la.push({ id: key, name: lang.default.nativeName })
+      }
+      // return require('src/i18n').langs // this is short
+      return la
     },
     visibilityIcon () {
       return this.visibility ? 'visibility_off' : 'visibility'
@@ -194,10 +201,10 @@ export default {
       return this.visibility ? 'text' : 'password'
     },
     title () {
-      return this.register ? this.$t('auth.newuser') : this.$t('auth.auth')
+      return this.signup ? this.$t('auth.newuser') : this.$t('auth.auth')
     },
     btnLabel () {
-      return this.register ? this.$t('auth.signup') : this.$t('auth.signin')
+      return this.signup ? this.$t('auth.signup') : this.$t('auth.signin')
     },
     langImg: (app) => (lang) => {
       return require('assets/' + lang + '.png')
@@ -214,6 +221,21 @@ export default {
             email: this.email,
             password: this.password
           }
+        })
+        .then(data => {
+          this.$q.notify({
+            message: this.$t('signuped'),
+            color: 'positive',
+            icon: 'done'
+          })
+          this.signup = false
+        })
+        .catch(error => {
+          this.$q.notify({
+            message: error.message,
+            color: 'negative',
+            icon: 'error'
+          })
         })
     },
     signIp () {
@@ -245,7 +267,7 @@ export default {
         if (this.$refs[el] !== undefined) { this.$refs[el].validate() }
       })
 
-      if (!this.register) {
+      if (!this.signup) {
         if (!this.$refs.username.hasError && (!this.$refs.password.hasError)) {
           this.$q.notify({
             icon: 'done',
