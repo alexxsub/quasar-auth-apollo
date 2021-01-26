@@ -17,9 +17,9 @@ module.exports = {
   Query: {
 
     getData: async (_, args, { Data }) => {
-      const users = await Data.find({}).sort({ createdDate: 'desc' })
+      const res = await Data.find({}).sort({ createdDate: 'desc' })
 
-      return users
+      return res
     }
   },
   Mutation: {

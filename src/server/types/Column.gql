@@ -1,8 +1,18 @@
 type Column {
-    name: String            
-    }
-
-type Query {
-    getColumns(table:String):[Column]
+  name: String!
+  type: String!
+  required: Boolean ,
+  label: String,
+  align: String,
+  field: String,
+  format:String,
+  sortable: Boolean,
+  classes: String,
+  style: String,
+  headerClasses: String
 }
 
+
+type Query {
+  getColumns(model:String!): [Column]
+}

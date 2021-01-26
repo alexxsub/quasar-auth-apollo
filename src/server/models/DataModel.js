@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
   director: {
     type: String
   },
-  manger: {
+  manager: {
     type: String
   },
   createdDate: {

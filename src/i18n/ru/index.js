@@ -1,6 +1,9 @@
 export default {
   username: 'Имя пользователя',
   email: 'Email',
+  addrecord: 'Добавить пользователя',
+  updaterecord: 'Править пользователя',
+  save: 'Сохранить',
   auth: {
     forgotpass: 'Забыли пароль?',
     signin: 'ВХОД',

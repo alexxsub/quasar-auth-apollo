@@ -87,7 +87,7 @@ const linksData = [
     link: '/director'
   },
   {
-    title: 'For manager',
+    title: '$t(menu.manager.title)',
     caption: 'Context for manager role',
     icon: 'mdi-account-hard-hat',
     link: '/manager'

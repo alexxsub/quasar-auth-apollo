@@ -4,6 +4,11 @@ export default {
   addrecord: 'Add new user',
   updaterecord: 'Update user',
   save: 'Save',
+  menu:{
+manager:{
+  title:'For manager'
+}
+  },
   auth: {
     forgotpass: 'Forgot password?',
     signin: 'SIGN IN',

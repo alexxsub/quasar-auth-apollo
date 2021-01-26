@@ -21,7 +21,8 @@ mongoose
       useCreateIndex: true,
       useNewUrlParser: true,
       retryWrites: true,
-      useFindAndModify: false
+      useFindAndModify: false,
+      useUnifiedTopology: true
     }
   )
   .then(() => console.log(`🎉  Mongo connected ${process.env.MONGO_URI}`))
