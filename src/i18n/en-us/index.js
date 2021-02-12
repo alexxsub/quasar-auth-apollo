@@ -1,14 +1,36 @@
 export default {
+  title: 'SPA authentication and authorization demo',
   username: 'User name',
   email: 'Email',
   addrecord: 'Add new user',
   updaterecord: 'Update user',
   save: 'Save',
   menu: {
+    users: {
+      title: 'Users',
+      caption: 'List of users and roles'
+    },
     manager: {
       title: 'For manager',
       caption: 'Context for manager role'
+    },
+    director: {
+      title: 'For director',
+      caption: 'Context for director role'
+    },
+    upload: {
+      title: 'Upload file',
+      caption: 'Example of uploud file'
+    },
+    data: {
+      title: 'Data table',
+      caption: 'Data table for roles'
     }
+
+  },
+  messages: {
+    uploaded: 'File uploaded sucsess!',
+    notuploaded: 'File uploaded failed!'
   },
   auth: {
     forgotpass: 'Forgot password?',

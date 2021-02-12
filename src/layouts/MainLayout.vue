@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          SPA authentication and authorization demo
+          {{title}}
         </q-toolbar-title>
 
         <div><q-select
@@ -145,23 +145,26 @@ export default {
   },
   apollo: {},
   computed: {
+    title () {
+      return this.$t('title')
+    },
     menuData () {
       return [
         {
-          title: 'Upload',
-          caption: 'Upload files demo',
+          title: this.$t('menu.upload.title'),
+          caption: this.$t('menu.upload.caption'),
           icon: 'cloud_upload',
           link: '/upload'
         },
         {
-          title: 'Users',
-          caption: 'List of users',
+          title: this.$t('menu.users.title'),
+          caption: this.$t('menu.users.caption'),
           icon: 'people',
           link: '/users'
         },
         {
-          title: 'For director',
-          caption: 'Context for director role',
+          title: this.$t('menu.director.title'),
+          caption: this.$t('menu.director.caption'),
           icon: 'mdi-account-cowboy-hat',
           link: '/director'
         },
@@ -172,8 +175,8 @@ export default {
           link: '/manager'
         },
         {
-          title: 'Data table',
-          caption: 'Data table for roles',
+          title: this.$t('menu.data.title'),
+          caption: this.$t('menu.data.caption'),
           icon: 'mdi-table-eye',
           link: '/table'
         }
