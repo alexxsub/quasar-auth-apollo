@@ -4,6 +4,12 @@ export default {
   addrecord: 'Добавить пользователя',
   updaterecord: 'Править пользователя',
   save: 'Сохранить',
+  menu: {
+    manager: {
+      title: 'Для менджера',
+      caption: 'Контекст для роли менеджера'
+    }
+  },
   auth: {
     forgotpass: 'Забыли пароль?',
     signin: 'ВХОД',

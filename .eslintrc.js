@@ -11,15 +11,13 @@ module.exports = {
   },
 
   env: {
-    browser: true,
-    'es6': true,
-    'node': true
+    browser: true
   },
 
   // Rules order is important, please avoid shuffling them
   extends: [
     // Base ESLint recommended rules
-    'eslint:recommended'
+    // 'eslint:recommended',
 
 
     // Uncomment any of the lines below to choose desired strictness,
@@ -46,9 +44,7 @@ module.exports = {
     __statics: true,
     process: true,
     Capacitor: true,
-    chrome: true,
-    'Atomics': 'readonly',
-    'SharedArrayBuffer': 'readonly'
+    chrome: true
   },
 
   // add your custom rules here

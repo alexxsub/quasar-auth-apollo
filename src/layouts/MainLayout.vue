@@ -67,39 +67,6 @@
 import MyMenu from 'components/MyMenu.vue'
 import bus from '../event-bus'
 import EditUser from 'components/EditUser.vue'
-const linksData = [
-  {
-    title: 'Upload',
-    caption: 'Upload files demo',
-    icon: 'cloud_upload',
-    link: '/upload'
-  },
-  {
-    title: 'Users',
-    caption: 'List of users',
-    icon: 'people',
-    link: '/users'
-  },
-  {
-    title: 'For director',
-    caption: 'Context for director role',
-    icon: 'mdi-account-cowboy-hat',
-    link: '/director'
-  },
-  {
-    title: '$t(menu.manager.title)',
-    caption: 'Context for manager role',
-    icon: 'mdi-account-hard-hat',
-    link: '/manager'
-  },
-  {
-    title: 'Data table',
-    caption: 'Data table for roles',
-    icon: 'mdi-table-eye',
-    link: '/table'
-  }
-
-]
 
 export default {
   name: 'MainLayout',
@@ -108,7 +75,6 @@ export default {
     return {
       lang: this.$i18n.locale,
       leftDrawerOpen: true,
-      menuData: linksData,
       drawerOpen: true,
       langs: [
         {
@@ -179,8 +145,42 @@ export default {
   },
   apollo: {},
   computed: {
+    menuData () {
+      return [
+        {
+          title: 'Upload',
+          caption: 'Upload files demo',
+          icon: 'cloud_upload',
+          link: '/upload'
+        },
+        {
+          title: 'Users',
+          caption: 'List of users',
+          icon: 'people',
+          link: '/users'
+        },
+        {
+          title: 'For director',
+          caption: 'Context for director role',
+          icon: 'mdi-account-cowboy-hat',
+          link: '/director'
+        },
+        {
+          title: this.$t('menu.manager.title'),
+          caption: this.$t('menu.manager.caption'),
+          icon: 'mdi-account-hard-hat',
+          link: '/manager'
+        },
+        {
+          title: 'Data table',
+          caption: 'Data table for roles',
+          icon: 'mdi-table-eye',
+          link: '/table'
+        }
+
+      ]
+    },
     i18ncolumns () {
-      // ш18
       const columns = [
         // description columns
         {

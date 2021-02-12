@@ -4,10 +4,11 @@ export default {
   addrecord: 'Add new user',
   updaterecord: 'Update user',
   save: 'Save',
-  menu:{
-manager:{
-  title:'For manager'
-}
+  menu: {
+    manager: {
+      title: 'For manager',
+      caption: 'Context for manager role'
+    }
   },
   auth: {
     forgotpass: 'Forgot password?',
