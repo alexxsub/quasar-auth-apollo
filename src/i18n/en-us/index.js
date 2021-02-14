@@ -2,9 +2,14 @@ export default {
   title: 'SPA authentication and authorization demo',
   username: 'User name',
   email: 'Email',
+  enabled: 'Enabled',
+  roles: 'Roles',
   addrecord: 'Add new user',
   updaterecord: 'Update user',
   save: 'Save',
+  admin: 'Administrator',
+  director: 'Director',
+  manager: 'Manager',
   menu: {
     users: {
       title: 'Users',

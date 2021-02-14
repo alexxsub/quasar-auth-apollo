@@ -25,8 +25,6 @@ export default {
         actions: [{ icon: 'close', color: 'white' }],
         type: 'negative'
       })
-
-      console.log(el.innerText)
     },
     onUploaded (info) {
       this.$q.notify({

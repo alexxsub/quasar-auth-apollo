@@ -2,9 +2,14 @@ export default {
   title: 'Одностраничное приложение с примером аутентификации и авторизации',
   username: 'Имя пользователя',
   email: 'Email',
+  enabled: 'Доступен',
+  roles: 'Роли',
   addrecord: 'Добавить пользователя',
   updaterecord: 'Править пользователя',
   save: 'Сохранить',
+  admin: 'Администратор',
+  director: 'Директор',
+  manager: 'Менеджер',
   menu: {
     users: {
       title: 'Пользователи',

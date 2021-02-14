@@ -47,6 +47,13 @@
       content-class="bg-grey-1"
     >
      <q-toolbar class="bg-grey-2">
+        <q-btn dense
+      color="red"
+      size="md"
+      flat
+      icon="close"
+      class="q-mr-sm text-white"
+      @click="btnClose"/>
       <q-toolbar-title>{{formTitle}}</q-toolbar-title>
       <q-btn dense
       color="secondary"
@@ -109,8 +116,11 @@ export default {
         icon: 'error'
       })
     },
+    btnClose () {
+      this.drawerOpen = false
+    },
     btnSave () {
-
+      this.drawerOpen = false
     },
     resetEditedItem () {
       this.editedItem = Object.assign({}, this.defaultItem)
