@@ -1,6 +1,8 @@
 export default {
+  copyright: 'Copyright',
   title: 'SPA authentication and authorization demo',
   username: 'User name',
+  name: 'Name',
   email: 'Email',
   enabled: 'Enabled',
   roles: 'Roles',
@@ -10,10 +12,17 @@ export default {
   admin: 'Administrator',
   director: 'Director',
   manager: 'Manager',
+  managerctx: 'Manager\'s content',
+  directorctx: 'Director\'s content',
+  datatable: 'Data table',
+  userstable: 'Table of users',
+  cantloadimg: 'Cant\' load avatar ',
+  norole: 'No roles',
+  add: 'ADD',
   menu: {
     users: {
       title: 'Users',
-      caption: 'List of users and roles'
+      caption: 'Table of users and roles'
     },
     manager: {
       title: 'For manager',
@@ -24,8 +33,12 @@ export default {
       caption: 'Context for director role'
     },
     upload: {
-      title: 'Upload file',
-      caption: 'Example of uploud file'
+      title: 'Quasar upload',
+      caption: 'Example of Quasar uploud image'
+    },
+    upload2: {
+      title: 'JS upload image ',
+      caption: 'JS example of uploud image'
     },
     data: {
       title: 'Data table',

@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    Director's content
+    {{$t('directorctx')}}
   </q-page>
 </template>
 

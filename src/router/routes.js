@@ -22,6 +22,13 @@ const routes = [
     ]
   },
   {
+    path: '/upload2',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/upload2.vue') }
+    ]
+  },
+  {
     path: '/director',
     component: () => import('layouts/MainLayout.vue'),
     children: [

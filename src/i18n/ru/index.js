@@ -1,6 +1,8 @@
 export default {
+  copyright: 'Все права защищены',
   title: 'Одностраничное приложение с примером аутентификации и авторизации',
   username: 'Имя пользователя',
+  name: 'Название',
   email: 'Email',
   enabled: 'Доступен',
   roles: 'Роли',
@@ -10,6 +12,13 @@ export default {
   admin: 'Администратор',
   director: 'Директор',
   manager: 'Менеджер',
+  managerctx: 'Контекст для менеджера',
+  directorctx: 'Контекст для директора',
+  datatable: 'Таблица с данными',
+  userstable: 'Таблица пользователей',
+  cantloadimg: 'Ошибка загрузки аватара',
+  add: 'Добавить',
+  norole: 'Нет роли',
   menu: {
     users: {
       title: 'Пользователи',

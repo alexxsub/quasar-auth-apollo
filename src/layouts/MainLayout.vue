@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header elevated class="bg-cyan-8">
       <q-toolbar>
         <q-btn
           flat
@@ -15,13 +15,13 @@
           {{title}}
         </q-toolbar-title>
 
-        <div><q-select
+        <q-select
         borderless
         dark
         v-model="lang"
         map-options
         :options="langs"
-        /></div>
+        />
       </q-toolbar>
     </q-header>
 
@@ -30,6 +30,7 @@
       class="text-white"
       elevated
     >
+    <q-scroll-area style="height: calc(100% - 120px); margin-top: 120px; ">
       <q-list>
         <my-menu
           v-for="link in menuData"
@@ -37,6 +38,22 @@
           v-bind="link"
         />
       </q-list>
+       </q-scroll-area>
+       <q-img class="absolute-top" src="~assets/material2.png" style="height: 120px">
+          <div class="absolute-top bg-transparent">
+            <q-avatar class="q-mb-sm">
+              <img :src="user.avatar">
+            </q-avatar>
+            </div>
+            <div class="absolute-bottom bg-transparent">
+            <div class="text-weight-bold">{{user.username}}</div>
+            <div>{{user.email}}</div>
+            </div>
+            <div class="absolute-bottom-right bg-transparent">
+             <q-btn round color="secondary" icon="logout" />
+             </div>
+
+        </q-img>
     </q-drawer>
 <q-drawer
       v-model="drawerOpen"
@@ -67,7 +84,18 @@
     <q-page-container>
       <router-view />
     </q-page-container>
-  </q-layout>
+
+   <q-footer elevated class="bg-cyan-8">
+      <q-toolbar class="text-white">
+        <q-toolbar-title class="text-center text-caption">
+          &copy; 2020-{{ new Date().getFullYear() }} —
+          {{$t('copyright')}}&nbsp;&nbsp;Alexx Sub&nbsp;&nbsp;
+          <q-icon name="mdi-github" style="color: white;font-size: 1em;" />&nbsp;
+          <a class="text-caption text-white" href="https://github.com/alexxsub/quasar-auth-apollo.git" target="_blank">github</a>
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-footer>
+    </q-layout>
 </template>
 
 <script>
@@ -80,6 +108,11 @@ export default {
   components: { MyMenu, EditUser },
   data () {
     return {
+      user: {
+        avatar: 'https://randomuser.me/api/portraits/men/85.jpg',
+        username: 'Johm Smit',
+        email: 'john@mail.ru'
+      },
       lang: this.$i18n.locale,
       leftDrawerOpen: true,
       drawerOpen: true,
@@ -112,7 +145,7 @@ export default {
     showError (message) {
       this.$q.notify({
         message,
-        color: 'red',
+        type: 'negative',
         icon: 'error'
       })
     },
@@ -153,6 +186,7 @@ export default {
       }
     })
   },
+  // apollo backend data
   apollo: {},
   computed: {
     title () {
@@ -161,10 +195,22 @@ export default {
     menuData () {
       return [
         {
+          title: this.$t('menu.home.title'),
+          caption: this.$t('menu.home.caption'),
+          icon: 'home',
+          link: '/#'
+        },
+        {
           title: this.$t('menu.upload.title'),
           caption: this.$t('menu.upload.caption'),
           icon: 'cloud_upload',
           link: '/upload'
+        },
+        {
+          title: this.$t('menu.upload2.title'),
+          caption: this.$t('menu.upload2.caption'),
+          icon: 'file_upload',
+          link: '/upload2'
         },
         {
           title: this.$t('menu.users.title'),
@@ -192,35 +238,6 @@ export default {
         }
 
       ]
-    },
-    i18ncolumns () {
-      const columns = [
-        // description columns
-        {
-          name: 'phone', // key
-          label: this.$t('phone'), // head label of column
-          align: 'left',
-          field: row => row.phone, // field in DB, simple like <field: 'phone'>
-          format: val => `${val}`, // change value
-          sortable: true, // sortable
-          style: 'width: 40%'
-        },
-        {
-          label: this.$t('name'),
-          align: 'left',
-          sortable: true,
-          field: 'name',
-          name: 'name',
-          style: 'width: 40%'
-        },
-        {
-          name: 'actions',
-          label: '',
-          field: 'actions',
-          style: 'width: 20%'
-        }
-      ]
-      return columns
     },
     formTitle () {
       return this.editedItem.id === ''

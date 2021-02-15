@@ -2,9 +2,9 @@
   <q-page padding>
     <div class="q-pa-md">
     <q-table
-      title="Treats"
+      :title="$t('datatable')"
       :data="data"
-      :columns="columns"
+      :columns="i18ncolumns"
       row-key="name"
     />
   </div>
@@ -14,37 +14,47 @@
 <script>
 export default {
   name: 'Table',
-  columns: [
-    {
-      name: 'name',
-      required: true,
-      label: 'Dessert (100g serving)',
-      align: 'left',
-      field: row => row.name,
-      format: val => `${val}`,
-      sortable: true
-    },
-    { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-    { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-    { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-    { name: 'protein', label: 'Protein (g)', field: 'protein' },
-    { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-    { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-    { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
-  ],
-  data: function () {
-    return [
-      {
-        name: 'Frozen Yogurt',
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        sodium: 87,
-        calcium: '14%',
-        iron: '1%'
-      }
-    ]
+  data () {
+    return {
+      data: [
+        {
+          name: 'Строка 1',
+          admin: 159,
+          director: 6.0,
+          manager: 24
+        },
+        {
+          name: 'Строка 2',
+          admin: 159,
+          director: 6.0,
+          manager: 24
+        },
+        {
+          name: 'Строка 3',
+          admin: 159,
+          director: 6.0,
+          manager: 24
+        }
+      ]
+    }
+  },
+  computed: {
+    i18ncolumns () {
+      const columns = [
+        {
+          name: 'name',
+          required: true,
+          label: this.$t('name'),
+          align: 'left',
+          field: 'name',
+          sortable: true
+        },
+        { name: 'admin', label: this.$t('admin'), field: 'admin' },
+        { name: 'director', label: this.$t('director'), field: 'director' },
+        { name: 'manager', label: this.$t('manager'), field: 'manager' }
+      ]
+      return columns
+    }
   }
 
 }

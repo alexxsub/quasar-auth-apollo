@@ -1,6 +1,27 @@
 <template>
  <div class="q-pa-md" style="max-width: 500px">
-   {{editedItem}}
+  <div>
+  <q-img style="height: 150px; width: 150px;border-radius: 5%"  :src="editedItem.avatar">
+  <template v-slot:error>
+    <div class="absolute-full flex flex-center bg-negative text-white">
+      <a style="color:white;" target="blank" :href="editedItem.avatar" >{{ $t('cantloadimg') }}</a>
+      <q-icon class="absolute all-pointer-events" size="xl" name="error" color="white" style="top: 8px; left: 8px" />
+      <div class="absolute-bottom-right transparent">
+          <q-btn size="xs" round color="primary" icon="mdi-image" @click="uploadAvatar" />
+      </div>
+      <div class="absolute-top-right transparent">
+          <q-btn size="xs" round color="negative" icon="delete" @click="deleteAvatar" />
+      </div>
+    </div>
+  </template>
+      <div class="absolute-bottom-right transparent">
+        <q-btn size="xs" round color="primary" icon="mdi-image" @click="uploadAvatar" />
+      </div>
+      <div class="absolute-top-right transparent">
+        <q-btn size="xs" round color="negative" icon="delete" @click="deleteAvatar" />
+      </div>
+  </q-img>
+  </div>
               <q-input
                        square
                        clearable
@@ -35,7 +56,6 @@
       emit-value
       map-options
       multiple
-      input-debounce="0"
       :options="filterOptions"
       @filter="onFilter">
       <template v-slot:prepend>
@@ -86,6 +106,7 @@ export default {
       filterOptions: this.stringOptions,
       editedItem: {
         id: '',
+        avatar: 'https://randomuser.me/api/portraits/men/85.jpg',
         username: '',
         email: '',
         enabled: false,
@@ -112,6 +133,15 @@ export default {
     }
   },
   methods: {
+    uploadAvatar () {
+      const num = Math.floor(Math.random() * Math.floor(100))
+      this.editedItem.avatar = `https://randomuser.me/api/portraits/men/${num}.jpg`
+    },
+    // удаляем аватарку с карточки пользователя
+    deleteAvatar () {
+      this.editedItem.avatar = require('assets/no-avatar.jpg')
+    },
+    // фильтрация записей при выборе ролей на карточке пользователя
     onFilter (val, update) {
       update(() => {
         if (val === '') {

@@ -18,31 +18,31 @@ const middlewareLink = new ApolloLink((operation, forward) => {
       token: localStorage.getItem('token') || null
     }
   })
-  // console.log(operation)
   return forward(operation)
 })
 
 httpLink = middlewareLink.concat(httpLink)
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-  let login = false
+  let logined = false
   if (graphQLErrors) {
     graphQLErrors.forEach(err => {
       bus.$emit('Error', err.message)
       if (err.extensions.code === 'UNAUTHENTICATED') {
-        login = true
+        logined = true
         bus.$emit('Login')
       }
     }
     )
   }
-  if ((networkError) && (!login)) {
+  if ((networkError) && (!logined)) {
     bus.$emit('Error', networkError.message)
   }
 }
 )
 
 httpLink = errorLink.concat(httpLink)
+// support websocket
 /* const wsLink = new WebSocketLink({
   uri: 'ws://localhost:4002/api',
   options: {
@@ -53,7 +53,7 @@ httpLink = errorLink.concat(httpLink)
 // using the ability to split links, you can send data to each link
 // depending on what kind of operation is being sent
 const link = split(
-  // split based on operation type
+// split based on operation type
   ({
     query
   }) => {

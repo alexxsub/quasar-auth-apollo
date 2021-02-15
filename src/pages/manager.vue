@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    Manager's content
+    {{$t('managerctx')}}
   </q-page>
 </template>
 
