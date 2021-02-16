@@ -115,7 +115,7 @@ export default {
       },
       lang: this.$i18n.locale,
       leftDrawerOpen: true,
-      drawerOpen: true,
+      drawerOpen: false,
       langs: [
         {
           label: 'Русский',

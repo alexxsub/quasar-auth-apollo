@@ -121,7 +121,7 @@ app.use(morgan(function (tokens, req, res) {
     tokens['response-time'](req, res), 'ms'
   ].join(' ')
 }))
-app.post('/upload1', async (req, res) => {
+app.post('/upload', async (req, res) => {
   try {
     if (!req.files) {
       res.send({
@@ -147,6 +147,30 @@ app.post('/upload1', async (req, res) => {
   }
 })
 
+app.post('/upload2', async (req, res, next) => {
+  if (!req.files) {
+    res.status(500).send('No file uploaded')
+
+    console.log(1)
+  } else {
+    const uploadfile = req.files,
+      fileID = `${(+new Date()).toString(16)}`,
+      ext = uploadfile.file.name.split('.').pop(),
+      filename = fileID + '.' + ext,
+      dst = path.join(__dirname, 'uploads/', filename)
+
+    uploadfile.file.mv(dst, err => console.log(err))
+
+    // send response
+    res.send({
+      status: true,
+      file: filename
+    })
+  }
+})
+app.get('*', function (req, res) {
+  res.status(404).send('what???')
+})
 // start app
 server.applyMiddleware({ app, path: '/api' })
 app.listen(port, () =>

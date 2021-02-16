@@ -20,6 +20,10 @@ export default {
   norole: 'No roles',
   add: 'ADD',
   menu: {
+    home: {
+      title: 'Home',
+      caption: 'Start page'
+    },
     users: {
       title: 'Users',
       caption: 'Table of users and roles'

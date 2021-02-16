@@ -20,6 +20,10 @@ export default {
   add: 'Добавить',
   norole: 'Нет роли',
   menu: {
+    home: {
+      title: 'В начало',
+      caption: 'Стартовая страница'
+    },
     users: {
       title: 'Пользователи',
       caption: 'Список пользователей и ролей'
