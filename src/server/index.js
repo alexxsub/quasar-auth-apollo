@@ -150,8 +150,6 @@ app.post('/upload', async (req, res) => {
 app.post('/upload2', async (req, res, next) => {
   if (!req.files) {
     res.status(500).send('No file uploaded')
-
-    console.log(1)
   } else {
     const uploadfile = req.files,
       fileID = `${(+new Date()).toString(16)}`,

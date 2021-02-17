@@ -20,7 +20,7 @@
         </q-input>
     </template> -->
     <template v-slot:top-right>
-        <q-btn color="secondary" icon="add" @click="newItem" :label="$t('add')" />
+        <q-btn color="secondary" icon="add" @click="newRecord" :label="$t('add')" />
     </template>
     <template v-slot:body="props">
         <q-tr :props="props">
@@ -81,6 +81,7 @@
 </template>
 
 <script>
+import bus from '../event-bus'
 export default {
   name: 'Users',
   data () {
@@ -125,8 +126,8 @@ export default {
     }
   },
   methods: {
-    newItem () {
-
+    newRecord () {
+      bus.$emit('newRecord')
     },
     deleteItem () {
 

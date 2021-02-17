@@ -50,7 +50,7 @@
             <div>{{user.email}}</div>
             </div>
             <div class="absolute-bottom-right bg-transparent">
-             <q-btn round color="secondary" icon="logout" />
+             <q-btn round color="secondary" icon="logout" @click="logIn" />
              </div>
 
         </q-img>
@@ -165,6 +165,9 @@ export default {
     editRecord (row) {
       this.editedItem = Object.assign({}, row)
       this.drawerOpen = true
+    },
+    newRecord (row) {
+      this.drawerOpen = true
     }
   },
   watch: {
@@ -246,6 +249,7 @@ export default {
     }
   },
   created () {
+    bus.$on('newRecord', this.newRecord)
     bus.$on('editRecord', this.editRecord)
     bus.$on('deleteRecord', this.deleteRecord)
     bus.$on('Error', this.showError)

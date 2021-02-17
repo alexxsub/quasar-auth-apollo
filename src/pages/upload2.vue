@@ -22,7 +22,7 @@
 
       <q-btn round color="primary" icon="file_upload" @click="uploadFile" />
 
-  <input style="visibility: hidden;overflow: hidden"  ref="fileInput" type="file"  @change="previewFile()" />
+  <input style="visibility: hidden;"  ref="fileInput" type="file"  @change="previewFile()" />
 
   </q-page>
 </template>
@@ -56,20 +56,21 @@ export default {
     uploadFile () {
       var file = this.$refs.fileInput.files[0]
       var formData = new FormData()
-      /*  this.fileID = `${(+new Date()).toString(16)}`
-      const ext = file.name.split('.').pop()
-      file.name = this.fileID + '.' + ext */
       formData.append('file', file)
       fetch('http://localhost:4001/upload2', { method: 'POST', body: formData })
         .then((response) => {
-          console.log(response)
+          // console.log(response)
           if (response.status >= 200 && response.status <= 299) {
             return response.json()
           } else {
             throw Error(`${response.url} ${response.status} (${response.statusText})`)
           }
         })
-        .then(data => console.log(data))
+        .then(data => {
+          if (data.status) {
+            this.onUploaded(data.file)
+          }
+        })
         .catch((error) => {
           this.onError(error.toString())
         })
@@ -95,7 +96,7 @@ export default {
     onUploaded (info) {
       this.$q.notify({
         message: this.$t('messages.uploaded'),
-        caption: info.files[0].name,
+        caption: info,
         timeout: 2500,
         actions: [{ icon: 'close', color: 'white' }],
         type: 'positive'
