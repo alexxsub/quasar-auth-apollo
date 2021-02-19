@@ -25,7 +25,7 @@
     <template v-slot:body="props">
         <q-tr :props="props">
           <q-td >
-<q-avatar>
+      <q-avatar>
       <q-img v-if="!props.row.avatar" src="~assets/no-avatar.jpg" />
       <q-img v-else-if="props.row.avatar" :src="props.row.avatar" />
       <q-badge v-if="props.row.roles.includes('admin')" dense round color="orange" floating transparent>
@@ -36,33 +36,16 @@
       </q-avatar>
           </q-td>
           <q-td>
-            <a href='javascript'>{{props.row.username}}</a>
+            <a href='#' @click="editRecord(props.row)">{{props.row.username}}</a>
           </q-td>
           <q-td>
             {{props.row.email}}
           </q-td>
           <q-td>
-            <q-chip
-            v-if="props.row.roles.includes('admin')"
-            color="orange"
-            text-color="white"
-            dense
-            icon="mdi-crown">{{$t('admin')}}</q-chip>
-            <q-chip
-            v-if="props.row.roles.includes('director')"
-            color="blue"
-            text-color="white"
-            dense
-            icon="mdi-account-cowboy-hat">{{$t('director')}}</q-chip>
-            <q-chip
-            v-if="props.row.roles.includes('manager')"
-            color="green"
-            text-color="white"
-            dense
-            icon="mdi-account-hard-hat">{{$t('manager')}}</q-chip>
-            <q-chip
-            v-if="props.row.roles.length==0"
-            dense>{{$t('norole')}}</q-chip>
+            <role-chips
+            :scope="props"
+            :roles="props.row.roles"
+            />
           </q-td>
           <q-td>
             <q-icon v-if="props.row.enabled" name="mdi-account-check" style="color: green;font-size: 2em;" />
@@ -81,9 +64,11 @@
 </template>
 
 <script>
+import RoleChips from 'components/RoleChips.vue'
 import bus from '../event-bus'
 export default {
   name: 'Users',
+  components: { RoleChips },
   data () {
     return {
       data: [
@@ -128,6 +113,9 @@ export default {
   methods: {
     newRecord () {
       bus.$emit('newRecord')
+    },
+    editRecord (row) {
+      bus.$emit('editRecord', row)
     },
     deleteItem () {
 

@@ -102,7 +102,6 @@
 import MyMenu from 'components/MyMenu.vue'
 import bus from '../event-bus'
 import EditUser from 'components/EditUser.vue'
-
 export default {
   name: 'MainLayout',
   components: { MyMenu, EditUser },
@@ -128,13 +127,19 @@ export default {
       ],
       editedItem: {
         id: '',
+        avatar: '',
         username: '',
-        email: ''
+        email: '',
+        enabled: null,
+        roles: []
       },
       defaultItem: {
         id: '',
+        avatar: '',
         username: '',
-        email: ''
+        email: '',
+        enabled: null,
+        roles: []
       }
     }
   },

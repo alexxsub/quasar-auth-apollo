@@ -19,6 +19,8 @@ export default {
   cantloadimg: 'Cant\' load avatar ',
   norole: 'No roles',
   add: 'ADD',
+  upload: 'Upload',
+  custom: 'Custom component',
   menu: {
     home: {
       title: 'Home',
@@ -37,12 +39,12 @@ export default {
       caption: 'Context for director role'
     },
     upload: {
-      title: 'Quasar upload',
-      caption: 'Example of Quasar uploud image'
+      title: 'Image upload',
+      caption: 'Quasar&custom components uploud'
     },
     upload2: {
-      title: 'JS upload image ',
-      caption: 'JS example of uploud image'
+      title: 'Image upload 2 ',
+      caption: 'example of upload without components'
     },
     data: {
       title: 'Data table',

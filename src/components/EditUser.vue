@@ -1,27 +1,10 @@
 <template>
  <div class="q-pa-md" style="max-width: 500px">
-  <div>
-  <q-img style="height: 150px; width: 150px;border-radius: 5%"  :src="editedItem.avatar">
-  <template v-slot:error>
-    <div class="absolute-full flex flex-center bg-negative text-white">
-      <a style="color:white;" target="blank" :href="editedItem.avatar" >{{ $t('cantloadimg') }}</a>
-      <q-icon class="absolute all-pointer-events" size="xl" name="error" color="white" style="top: 8px; left: 8px" />
-      <div class="absolute-bottom-right transparent">
-          <q-btn size="xs" round color="primary" icon="mdi-image" @click="uploadAvatar" />
-      </div>
-      <div class="absolute-top-right transparent">
-          <q-btn size="xs" round color="negative" icon="delete" @click="deleteAvatar" />
-      </div>
-    </div>
-  </template>
-      <div class="absolute-bottom-right transparent">
-        <q-btn size="xs" round color="primary" icon="mdi-image" @click="uploadAvatar" />
-      </div>
-      <div class="absolute-top-right transparent">
-        <q-btn size="xs" round color="negative" icon="delete" @click="deleteAvatar" />
-      </div>
-  </q-img>
-  </div>
+   {{stringOptions}}
+      <upload-img ref="Uploader"
+       :src="editedItem.avatar"
+       url="http://localhost:4001/upload2"
+       />
               <q-input
                        square
                        clearable
@@ -30,7 +13,7 @@
                        :rules="[]"
                        @change = "onChange"
                        :label="$t('username')">
-                <template v-slot:prepend>
+                  <template v-slot:prepend>
                   <q-icon name="person" />
                 </template>
               </q-input>
@@ -57,23 +40,29 @@
       map-options
       multiple
       :options="filterOptions"
+      @change = "onChange"
       @filter="onFilter">
       <template v-slot:prepend>
         <q-icon name="mdi-account-key" />
       </template>
           <template v-slot:selected-item="scope">
-          <q-chip
+          <!--<q-chip
             removable
             dense
+            color="orange"
             @remove="scope.removeAtIndex(scope.index)"
             :tabindex="scope.tabindex"
-            color="white"
             text-color="primary"
             class="q-ma-none"
           >
             <q-avatar color="primary" text-color="white" :icon="scope.opt.icon"/>
-            {{ $t(scope.opt.value) }}
-          </q-chip>
+            {{ scope.opt.label }}
+          </q-chip>-->
+          <role-chips
+            :removable=true
+            :scope = "scope"
+            :roles = "scope.opt"
+          />
         </template>
         <template v-slot:option="scope">
             <q-item
@@ -98,9 +87,11 @@
 
 <script>
 import bus from '../event-bus'
-
+import UploadImg from 'components/UploadImg.vue'
+import RoleChips from 'components/RoleChips.vue'
 export default {
   name: 'EditUser',
+  components: { UploadImg, RoleChips },
   data () {
     return {
       filterOptions: this.stringOptions,
@@ -118,29 +109,19 @@ export default {
     stringOptions () {
       return [
         {
-          value: 'admin',
-          icon: 'mdi-crown'
+          value: 'admin'
         },
         {
-          value: 'manager',
-          icon: 'mdi-account-hard-hat'
+          value: 'manager'
         },
         {
-          value: 'director',
-          icon: 'mdi-account-cowboy-hat'
+          value: 'director'
         }
       ]
     }
   },
   methods: {
-    uploadAvatar () {
-      const num = Math.floor(Math.random() * Math.floor(100))
-      this.editedItem.avatar = `https://randomuser.me/api/portraits/men/${num}.jpg`
-    },
-    // удаляем аватарку с карточки пользователя
-    deleteAvatar () {
-      this.editedItem.avatar = require('assets/no-avatar.jpg')
-    },
+
     // фильтрация записей при выборе ролей на карточке пользователя
     onFilter (val, update) {
       update(() => {
