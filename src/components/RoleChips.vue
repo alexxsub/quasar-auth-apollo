@@ -1,53 +1,40 @@
 <template>
 <div>
 <div v-if="roles.length > 0" >
-    <q-chip v-for="role in roles" :key="role"
-
-            :removable="removable"
-            class="q-ma-none"
-            @remove="scope.removeAtIndex(scope.index)"
-            :tabindex="scope.tabindex"
-            :color="colors[role]"
-            text-color="white"
+    <q-chip v-for="rol in roles" :key="rol"
             dense
-            :icon="icons[role]">{{$t(role)}}</q-chip>
+            text-color="white"
+            :color="role(rol).color"
+            :icon="role(rol).icon">
+            {{$t(rol)}}
+    </q-chip>
 </div>
-       <q-chip
+    <q-chip
             v-else-if="roles.length==0"
-            dense>{{$t('norole')}}</q-chip>
+            dense>
+            {{$t('norole')}}
+    </q-chip>
 
 </div>
 </template>
 <script>
+import TypeRoles from 'components/TypeRoles'
 export default {
   name: 'RoleChips',
   props: {
-    scope: {
-      type: Object,
-      default: () => {}
-    },
     roles:
     {
       type: Array,
       default: () => []
-    },
-    removable: {
-      type: Boolean,
-      default: false
     }
   },
   data () {
     return {
-      colors: {
-        admin: 'orange',
-        manager: 'green',
-        director: 'blue'
-      },
-      icons: {
-        admin: 'mdi-crown',
-        manager: 'mdi-account-hard-hat',
-        director: 'mdi-account-cowboy-hat'
-      }
+    }
+  },
+  methods: {
+    role (key) {
+      return TypeRoles.filter(i => i.value === key)[0]
     }
   }
 }

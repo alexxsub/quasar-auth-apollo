@@ -1,6 +1,5 @@
 <template>
  <div class="q-pa-md" style="max-width: 500px">
-   {{stringOptions}}
       <upload-img ref="Uploader"
        :src="editedItem.avatar"
        url="http://localhost:4001/upload2"
@@ -36,8 +35,7 @@
       :label="$t('roles')"
       v-model="editedItem.roles"
       use-chips
-      emit-value
-      map-options
+
       multiple
       :options="filterOptions"
       @change = "onChange"
@@ -46,23 +44,18 @@
         <q-icon name="mdi-account-key" />
       </template>
           <template v-slot:selected-item="scope">
-          <!--<q-chip
+         <q-chip
             removable
             dense
-            color="orange"
+            :color="role(scope.opt).color"
             @remove="scope.removeAtIndex(scope.index)"
             :tabindex="scope.tabindex"
-            text-color="primary"
-            class="q-ma-none"
+            text-color="white"
+            :icon="role(scope.opt).icon"
           >
-            <q-avatar color="primary" text-color="white" :icon="scope.opt.icon"/>
-            {{ scope.opt.label }}
-          </q-chip>-->
-          <role-chips
-            :removable=true
-            :scope = "scope"
-            :roles = "scope.opt"
-          />
+            {{ $t(scope.opt)}}
+          </q-chip>
+
         </template>
         <template v-slot:option="scope">
             <q-item
@@ -70,10 +63,10 @@
               v-on="scope.itemEvents"
             >
              <q-item-section avatar>
-                <q-icon :name="scope.opt.icon" />
+                <q-icon :name="role(scope.opt).icon" />
              </q-item-section>
               <q-item-section>
-                <q-item-label v-html="$t(scope.opt.value)" ></q-item-label>
+                <q-item-label v-html="$t(scope.opt)" ></q-item-label>
               </q-item-section>
             </q-item>
           </template>
@@ -88,13 +81,16 @@
 <script>
 import bus from '../event-bus'
 import UploadImg from 'components/UploadImg.vue'
-import RoleChips from 'components/RoleChips.vue'
+
+import TypeRoles from 'components/TypeRoles'
 export default {
   name: 'EditUser',
-  components: { UploadImg, RoleChips },
+  // eslint-disable-next-line vue/no-unused-components
+  components: { UploadImg },
   data () {
     return {
       filterOptions: this.stringOptions,
+
       editedItem: {
         id: '',
         avatar: 'https://randomuser.me/api/portraits/men/85.jpg',
@@ -107,21 +103,14 @@ export default {
   },
   computed: {
     stringOptions () {
-      return [
-        {
-          value: 'admin'
-        },
-        {
-          value: 'manager'
-        },
-        {
-          value: 'director'
-        }
-      ]
+      return TypeRoles.map(i => i.value)
     }
   },
   methods: {
-
+    role (key) {
+      // eslint-disable-next-line no-return-assign
+      return TypeRoles.filter(i => i.value === key)[0]
+    },
     // фильтрация записей при выборе ролей на карточке пользователя
     onFilter (val, update) {
       update(() => {

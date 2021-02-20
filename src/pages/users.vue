@@ -43,7 +43,6 @@
           </q-td>
           <q-td>
             <role-chips
-            :scope="props"
             :roles="props.row.roles"
             />
           </q-td>
@@ -56,6 +55,11 @@
               <q-btn size="sm" color="red"   round icon="delete" @click="deleteItem(props.row)"/>
             </q-td>
               </q-td>
+        </q-tr>
+        <q-tr v-show="props.expand" :props="props">
+          <q-td colspan="100%">
+            <div class="text-left">тест</div>
+          </q-td>
         </q-tr>
       </template>
     </q-table>
