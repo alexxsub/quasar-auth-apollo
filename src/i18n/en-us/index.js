@@ -33,6 +33,7 @@ export default {
   havetoauth: 'UNAUTHENTICATED! You have to authenticate!',
   checkfields: 'Check correct values of fields',
   signuped: 'You haev been signed up! You may login',
+  disabled: 'Disabled',
   menu: {
     home: {
       title: 'Home',

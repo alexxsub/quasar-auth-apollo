@@ -1,5 +1,6 @@
 <template>
   <q-page>
+
      <div class="q-pa-md">
     <div class="q-gutter-y-md" style="width: 400px">
     <q-tabs
@@ -19,6 +20,7 @@
         @failed="onFailed"
       />
      </q-tab-panel>
+     <!-- //TODO заменить URL -->
      <q-tab-panel name="custom" style="overflow:hidden">
        <upload-img ref="Uploader"
        url="http://localhost:4001/upload2"
@@ -41,6 +43,12 @@ export default {
     return {
       tab: 'quasar'
     }
+  },
+  computed: {
+
+  },
+  mount () {
+
   },
   methods: {
     uploadFile () {

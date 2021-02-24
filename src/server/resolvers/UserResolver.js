@@ -62,12 +62,14 @@ module.exports = {
           invalidArgs: username
         })
       }
+      const defaultRoles = ['manager']
       // add new user
       const newUser = await new User({
         avatar,
         username,
         email,
-        password
+        password,
+        roles: defaultRoles
       }).save()
 
       return newUser
@@ -77,7 +79,6 @@ module.exports = {
         const res = await new User({
           avatar: input.avatar,
           username: input.username,
-          password: input.password,
           email: input.email,
           roles: input.roles
         }).save()
@@ -90,7 +91,6 @@ module.exports = {
           $set: {
             avatar: input.avatar,
             username: input.username,
-            password: input.password,
             email: input.email,
             roles: input.roles
           }

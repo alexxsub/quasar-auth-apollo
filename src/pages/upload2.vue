@@ -57,7 +57,7 @@ export default {
       var file = this.$refs.fileInput.files[0]
       var formData = new FormData()
       formData.append('file', file)
-      fetch('http://localhost:4001/upload2', { method: 'POST', body: formData })
+      fetch(process.env.GRAPHQL_URI, { method: 'POST', body: formData })
         .then((response) => {
           // console.log(response)
           if (response.status >= 200 && response.status <= 299) {

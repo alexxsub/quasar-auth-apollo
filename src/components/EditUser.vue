@@ -40,8 +40,8 @@
       <template v-slot:prepend>
         <q-icon name="mdi-account-key" />
       </template>
-          <template v-slot:selected-item="scope">
-         <q-chip
+        <template v-slot:selected-item="scope">
+          <q-chip
             removable
             dense
             :color="role(scope.opt).color"
@@ -121,7 +121,12 @@ export default {
       })
     },
     setEditedItem (item) {
-      this.editedItem = Object.assign({}, item)
+      // need only default structure
+      this.editedItem = Object.assign({}, this.defaultItem)
+      // i use 'id' but in database '_id'
+      for (var key in this.editedItem) {
+        if (key === 'id') { this.editedItem[key] = item[`_${key}`] } else { this.editedItem[key] = item[key] }
+      }
     },
     setDefaultItem () {
       this.editedItem = Object.assign({}, this.defaultItem)
@@ -137,20 +142,22 @@ export default {
           refetchQueries: [{ query: USERS }]
         })
         .then(data => {
-          console.log(data)
           this.drawerOpen = false
           const message = this.editedItem.id === ''
             ? this.$t('recordadded')
             : this.$t('recordupdated')
           showMsg(message)
+          return true
         })
-        .catch(error => showError(error.message))
+        .catch(error => {
+          showError(error.message)
+          return false
+        })
     }
   },
   created () {
     bus.$on('editRecord', this.setEditedItem)
     bus.$on('newRecord', this.setDefaultItem)
-    // bus.$on('resetRecord', this.setEditedItem)
   }
 }
 </script>

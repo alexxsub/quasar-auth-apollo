@@ -1,15 +1,13 @@
 <template>
   <q-page padding>
-{{globalprops.expand}}
-    <div class="q-pa-md">
 
+    <div class="q-pa-md">
     <q-table
        virtual-scroll
       :title="$t('userstable')"
-      :data="data"
+      :data="getUsers"
       :columns="i18ncolumns"
-      row-key="id"
-      class="my-table"
+      row-key="_id"
     >
     <!--
     <template v-slot:top-left>
@@ -25,10 +23,10 @@
     <template v-slot:body="props">
         <q-tr   @click="expand(props)" :props="props">
           <q-td >
-      <q-avatar>
-      <q-img v-if="!props.row.avatar" src="~assets/no-avatar.jpg" />
-      <q-img v-else-if="props.row.avatar" :src="props.row.avatar" />
-      <q-badge v-if="props.row.roles.includes('admin')" dense round color="orange" floating transparent>
+          <q-avatar>
+          <q-img v-if="!props.row.avatar" src="~assets/no-avatar.jpg" />
+          <q-img v-else-if="props.row.avatar" :src="props.row.avatar" />
+          <q-badge v-if="props.row.roles.includes('admin')" dense round color="orange" floating transparent>
           <q-icon
             name="mdi-crown"
           />
@@ -55,8 +53,28 @@
         <q-tr v-show="props.expand" :props="props">
           <q-td colspan="100%">
             <div class="full-width row">
-              <q-btn class="offset-1" key="xl-1" rounded size="xs" color="positive" icon="edit" @click="editRecord(props.row)" :label="$t('edit')" />
-              <q-btn class="offset-1" key="xl-2" rounded size="xs" color="negative" icon="delete" :label="$t('delete')" @click="deleteRecord(props.row.id)" />
+              <q-btn
+
+                class="offset-1"
+                key="xl-1"
+                size="xs"
+                flat
+                rounded
+                color="positive"
+                icon="edit"
+                @click="editRecord(props.row)"
+                :label="$t('edit')" />
+              <q-btn
+
+                class="offset-1"
+                key="xl-2"
+                size="xs"
+                rounded
+                flat
+                color="negative"
+                icon="delete"
+                :label="$t('delete')"
+                @click="deleteRecord(props.row.id)" />
               <q-toggle
                 size="xs"
                 class="offset-1"
@@ -64,7 +82,7 @@
                 checked-icon="mdi-account-check"
                 unchecked-icon="mdi-account-cancel"
                 color="red"
-                :label="$t('enabled')"
+                :label="enabled?$t('enabled'):$t('disabled')"
              />
             </div>
           </q-td>
@@ -78,55 +96,19 @@
 <script>
 import RoleChips from 'components/RoleChips.vue'
 import bus from '../event-bus'
+import { USERS } from 'src/queries'
 export default {
   name: 'Users',
   components: { RoleChips },
   data () {
     return {
       globalprops: {},
-      enabled: false,
-      data: [
-        {
-          id: 1,
-          avatar: 'https://randomuser.me/api/portraits/men/85.jpg',
-          username: 'John Smith',
-          email: 'john@mail.ru',
-          enabled: true,
-          roles: ['admin']
-        },
-        {
-          id: 2,
-          avatar: 'https://randomuser.me/api/portraits/men/86.jpg',
-          username: 'Big Boss',
-          email: 'boss@mail.ru',
-          enabled: 'true',
-          roles: ['director', 'manager']
-        },
-        {
-          id: 3,
-          avatar: 'https://randomuser.me/api/portraits/men/87.jpg',
-          username: 'Black Manager',
-          email: 'manager@mail.ru',
-          enabled: true,
-          roles: ['manager']
-        },
-        {
-          id: 4,
-          avatar: 'https://randomuser.me/api/portraits/men/88.jpg',
-          username: 'Looser Manager',
-          email: 'looser@mail.ru',
-          enabled: false,
-          roles: []
-        },
-        {
-          id: 5,
-          avatar: 'https://randomuser.me/api/portraits/men/88.jpg',
-          username: 'Looser Manager',
-          email: 'looser@mail.ru',
-          enabled: false,
-          roles: []
-        }
-      ]
+      enabled: false
+    }
+  },
+  apollo: {
+    getUsers: {
+      query: USERS
     }
   },
   methods: {

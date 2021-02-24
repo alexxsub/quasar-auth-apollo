@@ -106,7 +106,6 @@ import MyMenu from 'components/MyMenu.vue'
 import bus from '../event-bus'
 import { showError, showMsg } from '../front-lib'
 import EditUser from 'components/EditUser.vue'
-
 import {
   USERS,
   DELETE_USER,
@@ -172,7 +171,7 @@ export default {
       this.drawerOpen = false
     },
     btnSave () {
-      this.$refs.editUser.saveRecord()
+      this.drawerOpen = this.$refs.editUser.saveRecord()
     },
     editRecord (row) {
       this.title = 'updaterecord'
@@ -272,10 +271,10 @@ export default {
   },
   created () {
     bus.$on('newRecord', this.newRecord)
-    bus.$on('closeDrawer', this.closeDrawer)
     bus.$on('editRecord', this.editRecord)
     bus.$on('deleteRecord', this.deleteRecord)
     bus.$on('Error', this.showErrorProxy)
+    bus.$on('closeDrawer', this.closeDrawer)
     bus.$on('Login', this.logIn)
   }
 }

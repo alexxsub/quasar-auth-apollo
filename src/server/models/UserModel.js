@@ -6,7 +6,6 @@ const UserSchema = new mongoose.Schema({
   avatar: {
     type: String,
     index: true,
-    unique: true,
     trim: true
   },
   username: {
@@ -24,18 +23,20 @@ const UserSchema = new mongoose.Schema({
     trim: true
   },
   password: {
-    type: String,
-    required: true,
-    trim: true
+    type: String
   },
   roles: [String],
+  enabled: {
+    type: Boolean,
+    default: false
+  },
   createdDate: {
     type: Date,
     default: Date.now
   }
 
 })
-// crypt wassword before save in database
+// crypt password before save in database
 UserSchema.pre('save', function (next) {
   if (!this.isModified('password')) {
     return next()

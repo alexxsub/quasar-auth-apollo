@@ -8,15 +8,19 @@ type User {
   avatar: String
   username: String! 
   email: String
-  password: String! 
+  password: String
   roles:[Role] 
+  enabled: Boolean
   createdDate: String
 
 }
 input inputUser {
+  id:ID
   avatar: String
   username: String
   email: String
+  roles: [Role]
+  enabled: Boolean
 }
 type Token {
   token: String!
