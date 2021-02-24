@@ -104,13 +104,9 @@
 <script>
 import MyMenu from 'components/MyMenu.vue'
 import bus from '../event-bus'
-import { showError, showMsg } from '../front-lib'
+import { showError } from '../front-lib'
 import EditUser from 'components/EditUser.vue'
-import {
-  USERS,
-  DELETE_USER,
-  CURRENT_USER
-} from 'src/queries'
+import { CURRENT_USER } from 'src/queries'
 export default {
   name: 'MainLayout',
   components: { MyMenu, EditUser },
@@ -180,26 +176,6 @@ export default {
     newRecord (row) {
       this.title = 'addrecord'
       this.drawerOpen = true
-    },
-    closeDrawer () {
-      this.drawerOpen = false
-    },
-    deleteRecord (id) {
-      this.$q.dialog({
-        title: this.$t('warning'),
-        message: this.$t('deleterecord'),
-        focus: 'cancel',
-        ok: this.$t('yes'),
-        cancel: this.$t('no')
-      }).onOk(() => {
-        this.$apollo.mutate({
-          mutation: DELETE_USER,
-          variables: { id },
-          refetchQueries: [{ query: USERS }]
-        })
-          .then(data => showMsg(this.$t('recorddeleted')))
-          .catch(error => showError(error.message))
-      })
     }
   },
   watch: {
@@ -272,9 +248,7 @@ export default {
   created () {
     bus.$on('newRecord', this.newRecord)
     bus.$on('editRecord', this.editRecord)
-    bus.$on('deleteRecord', this.deleteRecord)
     bus.$on('Error', this.showErrorProxy)
-    bus.$on('closeDrawer', this.closeDrawer)
     bus.$on('Login', this.logIn)
   }
 }

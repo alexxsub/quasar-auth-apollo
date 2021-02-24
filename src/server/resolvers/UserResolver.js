@@ -80,7 +80,8 @@ module.exports = {
           avatar: input.avatar,
           username: input.username,
           email: input.email,
-          roles: input.roles
+          roles: input.roles,
+          enabled: input.enabled
         }).save()
 
         return res
@@ -92,7 +93,8 @@ module.exports = {
             avatar: input.avatar,
             username: input.username,
             email: input.email,
-            roles: input.roles
+            roles: input.roles,
+            enabled: input.enabled
           }
         }, {
           new: true
@@ -100,6 +102,19 @@ module.exports = {
         )
         return res
       }
+    },
+    enabledUser: async (_, { id, enabled }, { User }) => {
+      const res = await User.findOneAndUpdate({
+        _id: id
+      }, {
+        $set: {
+          enabled
+        }
+      }, {
+        new: true
+      }
+      )
+      return res
     },
     deleteUser: async (_, { id }, { User }) => {
       const res = await User.findByIdAndRemove({

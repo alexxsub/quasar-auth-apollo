@@ -7,6 +7,7 @@ export const fragment = gql`
     username
     email
     roles
+    enabled
     createdDate
   }
 `
@@ -30,6 +31,14 @@ export const MODIFY_USER = gql`
   mutation modifyUser($input: inputUser!) {
     modifyUser(input: $input) {
       ...User
+    }
+  }
+  ${fragment}
+`
+export const ENABLED_USER = gql`
+  mutation enabledUser($id: ID!,$enabled: Boolean!) {
+    enabledUser(id: $id, enabled: $enabled) {
+    ...User
     }
   }
   ${fragment}

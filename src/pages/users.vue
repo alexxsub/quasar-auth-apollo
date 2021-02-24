@@ -54,7 +54,6 @@
           <q-td colspan="100%">
             <div class="full-width row">
               <q-btn
-
                 class="offset-1"
                 key="xl-1"
                 size="xs"
@@ -65,7 +64,6 @@
                 @click="editRecord(props.row)"
                 :label="$t('edit')" />
               <q-btn
-
                 class="offset-1"
                 key="xl-2"
                 size="xs"
@@ -74,7 +72,7 @@
                 color="negative"
                 icon="delete"
                 :label="$t('delete')"
-                @click="deleteRecord(props.row.id)" />
+                @click="deleteRecord(props.row._id)" />
               <q-toggle
                 size="xs"
                 class="offset-1"
@@ -82,6 +80,7 @@
                 checked-icon="mdi-account-check"
                 unchecked-icon="mdi-account-cancel"
                 color="red"
+                @input="enabledUser"
                 :label="enabled?$t('enabled'):$t('disabled')"
              />
             </div>
@@ -96,14 +95,16 @@
 <script>
 import RoleChips from 'components/RoleChips.vue'
 import bus from '../event-bus'
-import { USERS } from 'src/queries'
+import { USERS, DELETE_USER, ENABLED_USER } from 'src/queries'
+import { showError, showMsg } from '../front-lib'
 export default {
   name: 'Users',
   components: { RoleChips },
   data () {
     return {
       globalprops: {},
-      enabled: false
+      enabled: false,
+      row_id: ''
     }
   },
   apollo: {
@@ -113,6 +114,7 @@ export default {
   },
   methods: {
     expand (p) {
+      this.row_id = p.row._id
       this.globalprops.expand = (p.expand && this.globalprops.expand)
       p.expand = !p.expand
       this.globalprops = p
@@ -125,7 +127,33 @@ export default {
       bus.$emit('editRecord', row)
     },
     deleteRecord (id) {
-      bus.$emit('deleteRecord', id)
+      this.$q.dialog({
+        title: this.$t('warning'),
+        message: this.$t('deleterecord'),
+        focus: 'cancel',
+        ok: this.$t('yes'),
+        cancel: this.$t('no')
+      }).onOk(() => {
+        this.$apollo.mutate({
+          mutation: DELETE_USER,
+          variables: { id },
+          refetchQueries: [{ query: USERS }]
+        })
+          .then(data => showMsg(this.$t('recorddeleted')))
+          .catch(error => showError(error.message))
+      })
+    },
+    enabledUser (enabled) {
+      this.$apollo.mutate({
+        mutation: ENABLED_USER,
+        variables: { id: this.row_id, enabled },
+        refetchQueries: [{ query: USERS }]
+      })
+        .then(data => showMsg(enabled ? this.$t('userenabled') : this.$t('userdisabled')))
+        .catch(error => {
+          showError(error.message)
+          this.enabled = !enabled
+        })
     }
   },
   computed: {
