@@ -228,7 +228,7 @@ export default {
         })
         .catch(error => showError(error.message))
     },
-    signIp () {
+    signIn () {
       this.$apollo
         .mutate({
           mutation: SIGNIN,
@@ -236,7 +236,10 @@ export default {
             username: this.form.username,
             password: this.form.password
           }
-        })
+        }).then(data => {
+          localStorage.setItem('token', data.data.signIn.token)
+          this.$router.push('/')
+        }).catch(error => showError(error.message))
     },
     required (val) {
       return ((val && (val.length > 0)) || this.$t('validate.required'))
@@ -253,15 +256,17 @@ export default {
       return (emailPattern.test(val) || this.$t('validate.isemail'))
     },
     submit () {
+      if (this.signup) {
       // fire validate each field
-      Object.keys(this.form).forEach(el => {
-        if (this.$refs[el] !== undefined) { this.$refs[el].validate() }
-      })
-      // check error of validation
+        Object.keys(this.form).forEach(el => {
+          if (this.$refs[el] !== undefined) { this.$refs[el].validate() }
+        })
+        // check error of validation
 
-      if (this.$refs.email.hasError || this.$refs.username.hasError || this.$refs.password.hasError) {
-        showError(this.$t('checkfields'))
-      } else { this.signUp() }
+        if (this.$refs.email.hasError || this.$refs.username.hasError || this.$refs.password.hasError) {
+          showError(this.$t('checkfields'))
+        } else this.signUp()
+      } else this.signIn()
     },
     switchVisibility () {
       this.visibility = !this.visibility

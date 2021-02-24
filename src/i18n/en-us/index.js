@@ -32,6 +32,7 @@ export default {
   recordadded: 'Record have been added',
   havetoauth: 'UNAUTHENTICATED! You have to authenticate!',
   checkfields: 'Check correct values of fields',
+  signuped: 'You haev been signed up! You may login',
   menu: {
     home: {
       title: 'Home',

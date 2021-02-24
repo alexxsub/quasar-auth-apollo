@@ -8,9 +8,6 @@ let link = new HttpLink({
 })
 
 const middlewareLink = new ApolloLink((operation, forward) => {
-  if (!localStorage.token) {
-    localStorage.setItem('token', '')
-  }
   operation.setContext({
     headers: {
       token: localStorage.getItem('token') || null

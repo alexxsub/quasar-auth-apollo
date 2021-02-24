@@ -45,7 +45,7 @@ export const DELETE_USER = gql`
 export const SIGNIN = gql`
   mutation signIn($username: String!, $password: String!) {
     signIn(username: $username, password: $password) {
-      Token
+      token
     }
   }
 `
