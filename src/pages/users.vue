@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-
+{{globalprops.expand}}
     <div class="q-pa-md">
 
     <q-table
@@ -8,7 +8,7 @@
       :title="$t('userstable')"
       :data="data"
       :columns="i18ncolumns"
-      row-key="name"
+      row-key="id"
       class="my-table"
     >
     <!--
@@ -23,7 +23,7 @@
         <q-btn color="secondary" icon="add" @click="newRecord" :label="$t('add')" />
     </template>
     <template v-slot:body="props">
-        <q-tr :props="props">
+        <q-tr   @click="expand(props)" :props="props">
           <q-td >
       <q-avatar>
       <q-img v-if="!props.row.avatar" src="~assets/no-avatar.jpg" />
@@ -50,15 +50,23 @@
             <q-icon v-if="props.row.enabled" name="mdi-account-check" style="color: green;font-size: 2em;" />
             <q-icon v-else-if="!props.row.enabled" name="mdi-account-cancel" style="color: red;font-size: 2em;" />
             </q-td>
-            <q-td>
-            <q-td >
-              <q-btn size="sm" color="red"   round icon="delete" @click="deleteItem(props.row)"/>
-            </q-td>
-              </q-td>
+
         </q-tr>
         <q-tr v-show="props.expand" :props="props">
           <q-td colspan="100%">
-            <div class="text-left">тест</div>
+            <div class="full-width row">
+              <q-btn class="offset-1" key="xl-1" rounded size="xs" color="positive" icon="edit" @click="editRecord(props.row)" :label="$t('edit')" />
+              <q-btn class="offset-1" key="xl-2" rounded size="xs" color="negative" icon="delete" :label="$t('delete')" @click="deleteRecord(props.row.id)" />
+              <q-toggle
+                size="xs"
+                class="offset-1"
+                v-model="enabled"
+                checked-icon="mdi-account-check"
+                unchecked-icon="mdi-account-cancel"
+                color="red"
+                :label="$t('enabled')"
+             />
+            </div>
           </q-td>
         </q-tr>
       </template>
@@ -75,8 +83,11 @@ export default {
   components: { RoleChips },
   data () {
     return {
+      globalprops: {},
+      enabled: false,
       data: [
         {
+          id: 1,
           avatar: 'https://randomuser.me/api/portraits/men/85.jpg',
           username: 'John Smith',
           email: 'john@mail.ru',
@@ -84,6 +95,7 @@ export default {
           roles: ['admin']
         },
         {
+          id: 2,
           avatar: 'https://randomuser.me/api/portraits/men/86.jpg',
           username: 'Big Boss',
           email: 'boss@mail.ru',
@@ -91,6 +103,7 @@ export default {
           roles: ['director', 'manager']
         },
         {
+          id: 3,
           avatar: 'https://randomuser.me/api/portraits/men/87.jpg',
           username: 'Black Manager',
           email: 'manager@mail.ru',
@@ -98,6 +111,7 @@ export default {
           roles: ['manager']
         },
         {
+          id: 4,
           avatar: 'https://randomuser.me/api/portraits/men/88.jpg',
           username: 'Looser Manager',
           email: 'looser@mail.ru',
@@ -105,6 +119,7 @@ export default {
           roles: []
         },
         {
+          id: 5,
           avatar: 'https://randomuser.me/api/portraits/men/88.jpg',
           username: 'Looser Manager',
           email: 'looser@mail.ru',
@@ -115,14 +130,20 @@ export default {
     }
   },
   methods: {
+    expand (p) {
+      this.globalprops.expand = (p.expand && this.globalprops.expand)
+      p.expand = !p.expand
+      this.globalprops = p
+    },
     newRecord () {
       bus.$emit('newRecord')
     },
     editRecord (row) {
+      event.stopPropagation()
       bus.$emit('editRecord', row)
     },
-    deleteItem () {
-
+    deleteRecord (id) {
+      bus.$emit('deleteRecord', id)
     }
   },
   computed: {
@@ -135,8 +156,8 @@ export default {
         { name: 'username', align: 'left', label: this.$t('username') },
         { name: 'email', align: 'left', label: this.$t('email') },
         { name: 'roles', align: 'left', label: this.$t('roles') },
-        { name: 'enabled', align: 'left' },
-        { name: 'actions', label: '' }
+        { name: 'enabled', align: 'left' }
+
       ]
       return columns
     }

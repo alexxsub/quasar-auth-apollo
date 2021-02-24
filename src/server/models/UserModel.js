@@ -3,7 +3,12 @@ const mongoose = require('mongoose'),
   bcrypt = require('bcrypt')
 
 const UserSchema = new mongoose.Schema({
-
+  avatar: {
+    type: String,
+    index: true,
+    unique: true,
+    trim: true
+  },
   username: {
     type: String,
     required: true,
@@ -30,7 +35,7 @@ const UserSchema = new mongoose.Schema({
   }
 
 })
-
+// crypt wassword before save in database
 UserSchema.pre('save', function (next) {
   if (!this.isModified('password')) {
     return next()

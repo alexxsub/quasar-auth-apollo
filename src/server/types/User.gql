@@ -5,6 +5,7 @@ enum Role {
 }
 type User {
   _id: ID  
+  avatar: String
   username: String! 
   email: String
   password: String! 
@@ -13,6 +14,7 @@ type User {
 
 }
 input inputUser {
+  avatar: String
   username: String
   email: String
 }

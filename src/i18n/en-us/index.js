@@ -21,6 +21,17 @@ export default {
   add: 'ADD',
   upload: 'Upload',
   custom: 'Custom component',
+  edit: 'Edit',
+  delete: 'Delete',
+  warning: 'WARNING!',
+  deleterecord: 'Are you sure to want to DELETE RECORD?',
+  yes: 'Yes, i\'m sure',
+  no: 'No',
+  recorddeleted: 'Record have been deleted',
+  recordupdated: 'Record have been updated',
+  recordadded: 'Record have been added',
+  havetoauth: 'UNAUTHENTICATED! You have to authenticate!',
+  checkfields: 'Check correct values of fields',
   menu: {
     home: {
       title: 'Home',

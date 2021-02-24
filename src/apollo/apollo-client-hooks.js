@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import { link } from './my-apollo-client'
 export function apolloClientBeforeCreate ({ apolloClientConfigObj }) {
   // { apolloClientConfigObj, app, router, store, ssrContext, urlPath, redirect } */

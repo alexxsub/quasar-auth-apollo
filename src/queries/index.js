@@ -2,14 +2,15 @@ import gql from 'graphql-tag'
 
 export const fragment = gql`
   fragment User on User {
-    id
+    _id
+    avatar
     username
     email
     roles
     createdDate
   }
 `
-export const CURRENT_USERS = gql`
+export const CURRENT_USER = gql`
   query getCurrentUser {
     getCurrentUser {
       ...User
@@ -49,8 +50,8 @@ export const SIGNIN = gql`
   }
 `
 export const SIGNUP = gql`
-  mutation signIn($username: String!,$email: String!, $ypassword: String!) {
-    signIn(username: $username, email: $email, password: $password) {
+  mutation signUp($username: String!,$email: String!, $password: String!) {
+    signUp(username: $username, email: $email, password: $password) {
       ...User
     }
   }

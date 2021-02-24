@@ -2,10 +2,10 @@
 <template>
   <q-layout view="hHh lpR fFf">
 <div class="cloud">
-    <img src="~assets/cloud-01.png" alt="" class="cloud1">
-    <img src="~assets/cloud-02.png" alt="" class="cloud2">
-    <img src="~assets/cloud-03.png" alt="" class="cloud3">
-    <img src="~assets/cloud-04.png" alt="" class="cloud4">
+    <img src="~assets/cloud-01.png" alt="cloud" class="cloud1">
+    <img src="~assets/cloud-02.png" alt="cloud" class="cloud2">
+    <img src="~assets/cloud-03.png" alt="cloud" class="cloud3">
+    <img src="~assets/cloud-04.png" alt="cloud" class="cloud4">
     </div>
     <q-page-container>
       <router-view />

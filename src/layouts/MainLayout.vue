@@ -10,9 +10,8 @@
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
-
         <q-toolbar-title>
-          {{title}}
+          {{$t('title')}}
         </q-toolbar-title>
 
         <q-select
@@ -42,12 +41,12 @@
        <q-img class="absolute-top" src="~assets/material2.png" style="height: 120px">
           <div class="absolute-top bg-transparent">
             <q-avatar class="q-mb-sm">
-              <img :src="user.avatar">
+              <img :src="curentUser.avatar">
             </q-avatar>
             </div>
             <div class="absolute-bottom bg-transparent">
-            <div class="text-weight-bold">{{user.username}}</div>
-            <div>{{user.email}}</div>
+            <div class="text-weight-bold">{{curentUser.username}}</div>
+            <div>{{curentUser.email}}</div>
             </div>
             <div class="absolute-bottom-right bg-transparent">
              <q-btn round color="secondary" icon="logout" @click="logIn" />
@@ -71,7 +70,7 @@
       icon="close"
       class="q-mr-sm text-white"
       @click="btnClose"/>
-      <q-toolbar-title>{{formTitle}}</q-toolbar-title>
+      <q-toolbar-title>{{$t(this.title)}}</q-toolbar-title>
       <q-btn dense
       color="secondary"
       :label="$t('save')"
@@ -79,7 +78,7 @@
       class="q-mr-sm text-white"
       @click="btnSave"/>
     </q-toolbar>
-    <edit-user @edited="onEdited"></edit-user>
+    <edit-user ref="editUser" ></edit-user>
     </q-drawer>
     <q-page-container>
       <router-view />
@@ -101,13 +100,20 @@
 <script>
 import MyMenu from 'components/MyMenu.vue'
 import bus from '../event-bus'
+import { showError, showMsg } from '../front-lib'
 import EditUser from 'components/EditUser.vue'
+
+import {
+  USERS,
+  DELETE_USER
+
+} from 'src/queries'
 export default {
   name: 'MainLayout',
   components: { MyMenu, EditUser },
   data () {
     return {
-      user: {
+      curentUser: {
         avatar: 'https://randomuser.me/api/portraits/men/85.jpg',
         username: 'Johm Smit',
         email: 'john@mail.ru'
@@ -115,6 +121,7 @@ export default {
       lang: this.$i18n.locale,
       leftDrawerOpen: true,
       drawerOpen: false,
+      title: 'addrecord',
       langs: [
         {
           label: 'Русский',
@@ -124,61 +131,57 @@ export default {
           label: 'English',
           value: 'en-us'
         }
-      ],
-      editedItem: {
-        id: '',
-        avatar: '',
-        username: '',
-        email: '',
-        enabled: null,
-        roles: []
-      },
-      defaultItem: {
-        id: '',
-        avatar: '',
-        username: '',
-        email: '',
-        enabled: null,
-        roles: []
-      }
+      ]
     }
   },
   methods: {
+    showErrorProxy (msg) {
+      if (msg[0] === '_') {
+        const m = msg.split('_')
+        msg = this.$t(m[1])
+      }
+      showError(msg)
+    },
     logIn () {
       this.$router.push('/login')
     },
-    showError (message) {
-      this.$q.notify({
-        message,
-        type: 'negative',
-        icon: 'error'
-      })
-    },
+
     btnClose () {
       this.drawerOpen = false
     },
     btnSave () {
-      this.drawerOpen = false
-    },
-    resetEditedItem () {
-      this.editedItem = Object.assign({}, this.defaultItem)
-      bus.$emit('resetRecord', this.defaultItem)
-    },
-    onEdited (item) {
-      this.editedItem = Object.assign({}, item)
+      this.$refs.editUser.saveRecord()
     },
     editRecord (row) {
-      this.editedItem = Object.assign({}, row)
+      this.title = 'updaterecord'
       this.drawerOpen = true
     },
     newRecord (row) {
+      this.title = 'addrecord'
       this.drawerOpen = true
+    },
+    closeDrawer () {
+      this.drawerOpen = false
+    },
+    deleteRecord (id) {
+      this.$q.dialog({
+        title: this.$t('warning'),
+        message: this.$t('deleterecord'),
+        focus: 'cancel',
+        ok: this.$t('yes'),
+        cancel: this.$t('no')
+      }).onOk(() => {
+        this.$apollo.mutate({
+          mutation: DELETE_USER,
+          variables: { id },
+          refetchQueries: [{ query: USERS }]
+        })
+          .then(data => showMsg(this.$t('recorddeleted')))
+          .catch(error => showError(error.message))
+      })
     }
   },
   watch: {
-    drawerOpen (val) {
-      if (!val) this.resetEditedItem()
-    },
     lang (lang) {
       this.$i18n.locale = lang.value
       import('quasar/lang/' + lang.value).then(language => {
@@ -197,9 +200,6 @@ export default {
   // apollo backend data
   apollo: {},
   computed: {
-    title () {
-      return this.$t('title')
-    },
     menuData () {
       return [
         {
@@ -246,18 +246,15 @@ export default {
         }
 
       ]
-    },
-    formTitle () {
-      return this.editedItem.id === ''
-        ? this.$t('addrecord')
-        : this.$t('updaterecord')
     }
+
   },
   created () {
     bus.$on('newRecord', this.newRecord)
+    bus.$on('closeDrawer', this.closeDrawer)
     bus.$on('editRecord', this.editRecord)
     bus.$on('deleteRecord', this.deleteRecord)
-    bus.$on('Error', this.showError)
+    bus.$on('Error', this.showErrorProxy)
     bus.$on('Login', this.logIn)
   }
 }

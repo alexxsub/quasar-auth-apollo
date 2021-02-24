@@ -166,9 +166,6 @@ app.post('/upload2', async (req, res, next) => {
     })
   }
 })
-app.get('*', function (req, res) {
-  res.status(404).send('what???')
-})
 // start app
 server.applyMiddleware({ app, path: '/api' })
 app.listen(port, () =>

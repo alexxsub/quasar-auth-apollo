@@ -53,17 +53,20 @@ module.exports = {
       return { token: createToken(user, process.env.SECRET, '24hr') }
     },
 
-    signUp: async (_, { username, password, avatar }, { User }) => {
+    signUp: async (_, { email, username, password, avatar }, { User }) => {
+      // check user in database
       const user = await User.findOne({ username })
-
+      // fire error event if user exists
       if (user) {
         throw new UserInputError(`This user '${username}' already exists`, {
           invalidArgs: username
         })
       }
-
+      // add new user
       const newUser = await new User({
+        avatar,
         username,
+        email,
         password
       }).save()
 
@@ -72,6 +75,7 @@ module.exports = {
     modifyUser: async (_, { input }, { User }) => {
       if (input.id === '') {
         const res = await new User({
+          avatar: input.avatar,
           username: input.username,
           password: input.password,
           email: input.email,
@@ -84,6 +88,7 @@ module.exports = {
           _id: input.id
         }, {
           $set: {
+            avatar: input.avatar,
             username: input.username,
             password: input.password,
             email: input.email,

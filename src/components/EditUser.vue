@@ -10,7 +10,6 @@
                        v-model="editedItem.username"
                        lazy-rules
                        :rules="[]"
-                       @change = "onChange"
                        :label="$t('username')">
                   <template v-slot:prepend>
                   <q-icon name="person" />
@@ -22,7 +21,6 @@
                        v-model="editedItem.email"
                        lazy-rules
                        :rules="[]"
-                       @change = "onChange"
                        type="text"
                        autogrow
                        :label="$t('email')">
@@ -38,7 +36,6 @@
 
       multiple
       :options="filterOptions"
-      @change = "onChange"
       @filter="onFilter">
       <template v-slot:prepend>
         <q-icon name="mdi-account-key" />
@@ -80,20 +77,20 @@
 
 <script>
 import bus from '../event-bus'
+import { showError, showMsg } from '../front-lib'
 import UploadImg from 'components/UploadImg.vue'
-
 import TypeRoles from 'components/TypeRoles'
+import { MODIFY_USER, USERS } from 'src/queries'
 export default {
   name: 'EditUser',
-  // eslint-disable-next-line vue/no-unused-components
   components: { UploadImg },
   data () {
     return {
       filterOptions: this.stringOptions,
-
-      editedItem: {
+      editedItem: {},
+      defaultItem: {
         id: '',
-        avatar: 'https://randomuser.me/api/portraits/men/85.jpg',
+        avatar: '',
         username: '',
         email: '',
         enabled: false,
@@ -108,7 +105,6 @@ export default {
   },
   methods: {
     role (key) {
-      // eslint-disable-next-line no-return-assign
       return TypeRoles.filter(i => i.value === key)[0]
     },
     // фильтрация записей при выборе ролей на карточке пользователя
@@ -124,17 +120,37 @@ export default {
         }
       })
     },
-    onChange () {
-      this.$emit('edited', this.editedItem)
-    },
     setEditedItem (item) {
       this.editedItem = Object.assign({}, item)
+    },
+    setDefaultItem () {
+      this.editedItem = Object.assign({}, this.defaultItem)
+    },
+    saveRecord () {
+      const input = {
+        input: this.editedItem
+      }
+      this.$apollo
+        .mutate({
+          mutation: MODIFY_USER,
+          variables: input,
+          refetchQueries: [{ query: USERS }]
+        })
+        .then(data => {
+          console.log(data)
+          this.drawerOpen = false
+          const message = this.editedItem.id === ''
+            ? this.$t('recordadded')
+            : this.$t('recordupdated')
+          showMsg(message)
+        })
+        .catch(error => showError(error.message))
     }
   },
   created () {
-    // fire onClick record of table
     bus.$on('editRecord', this.setEditedItem)
-    bus.$on('resetRecord', this.setEditedItem)
+    bus.$on('newRecord', this.setDefaultItem)
+    // bus.$on('resetRecord', this.setEditedItem)
   }
 }
 </script>

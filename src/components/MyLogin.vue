@@ -150,10 +150,10 @@
 </template>
 
 <script>
-import {
-  SIGNIN,
-  SIGNUP
-} from 'src/queries'
+import { SIGNIN, SIGNUP } from 'src/queries'
+
+// eslint-disable-next-line no-unused-vars
+import { showError, showMsg } from '../front-lib'
 export default {
   name: 'MyLogin',
   data: function () {
@@ -217,34 +217,24 @@ export default {
         .mutate({
           mutation: SIGNUP,
           variables: {
-            username: this.username,
-            email: this.email,
-            password: this.password
+            username: this.form.username,
+            email: this.form.email,
+            password: this.form.password
           }
         })
         .then(data => {
-          this.$q.notify({
-            message: this.$t('signuped'),
-            color: 'positive',
-            icon: 'done'
-          })
+          showMsg(this.$t('signuped'))
           this.signup = false
         })
-        .catch(error => {
-          this.$q.notify({
-            message: error.message,
-            color: 'negative',
-            icon: 'error'
-          })
-        })
+        .catch(error => showError(error.message))
     },
     signIp () {
       this.$apollo
         .mutate({
           mutation: SIGNIN,
           variables: {
-            username: this.username,
-            password: this.password
+            username: this.form.username,
+            password: this.form.password
           }
         })
     },
@@ -263,19 +253,15 @@ export default {
       return (emailPattern.test(val) || this.$t('validate.isemail'))
     },
     submit () {
+      // fire validate each field
       Object.keys(this.form).forEach(el => {
         if (this.$refs[el] !== undefined) { this.$refs[el].validate() }
       })
+      // check error of validation
 
-      if (!this.signup) {
-        if (!this.$refs.username.hasError && (!this.$refs.password.hasError)) {
-          this.$q.notify({
-            icon: 'done',
-            color: 'positive',
-            message: 'Авторизация'
-          })
-        }
-      }
+      if (this.$refs.email.hasError || this.$refs.username.hasError || this.$refs.password.hasError) {
+        showError(this.$t('checkfields'))
+      } else { this.signUp() }
     },
     switchVisibility () {
       this.visibility = !this.visibility
