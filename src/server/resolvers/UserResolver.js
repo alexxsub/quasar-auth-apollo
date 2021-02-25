@@ -62,7 +62,9 @@ module.exports = {
           invalidArgs: username
         })
       }
-      const defaultRoles = ['manager']
+      const count = await User.find().count()
+
+      const defaultRoles = count === 0 ? ['admin'] : ['manager']
       // add new user
       const newUser = await new User({
         avatar,

@@ -3,7 +3,8 @@
 
     <div class="q-pa-md">
     <q-table
-       virtual-scroll
+      v-if="render"
+      virtual-scroll
       :title="$t('userstable')"
       :data="getUsers"
       :columns="i18ncolumns"
@@ -88,6 +89,7 @@
         </q-tr>
       </template>
     </q-table>
+    {{getColumns}}
   </div>
   </q-page>
 </template>
@@ -95,7 +97,7 @@
 <script>
 import RoleChips from 'components/RoleChips.vue'
 import bus from '../event-bus'
-import { USERS, DELETE_USER, ENABLED_USER } from 'src/queries'
+import { USERS, DELETE_USER, ENABLED_USER, GET_COLUMNS } from 'src/queries'
 import { showError, showMsg } from '../front-lib'
 export default {
   name: 'Users',
@@ -104,12 +106,32 @@ export default {
     return {
       globalprops: {},
       enabled: false,
-      row_id: ''
+      row_id: '',
+      render: false,
+      Columns: [],
+      hidden: ['avatar', 'enabled']
     }
   },
   apollo: {
     getUsers: {
       query: USERS
+    },
+    getColumns: {
+      query: GET_COLUMNS,
+      variables: {
+        model: 'User'
+      },
+      update: function (data) {
+        const cols = data.getColumns
+        if (cols !== undefined) {
+          this.Columns = cols.map(el => {
+            el.field = el.name
+            el.align = 'left'
+            return el
+          })
+        }
+        this.render = true
+      }
     }
   },
   methods: {
@@ -158,7 +180,11 @@ export default {
   },
   computed: {
     i18ncolumns () {
-      const columns = [
+      return this.Columns.map(el => {
+        if (!this.hidden.includes(el.name)) { el.label = this.$t(el.name) }
+        return el
+      })
+      /* const columns = [
         {
           name: 'avatar',
           align: 'left'
@@ -168,8 +194,8 @@ export default {
         { name: 'roles', align: 'left', label: this.$t('roles') },
         { name: 'enabled', align: 'left' }
 
-      ]
-      return columns
+      ] */
+      // return columns
     }
   }
 }

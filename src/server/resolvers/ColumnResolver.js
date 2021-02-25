@@ -1,9 +1,15 @@
+const { UserInputError } = require('apollo-server-express')
 const hiddenFields = ['_id', '__v',
   'password', 'createdDate'
 ]
 module.exports = {
   Query: {
     getColumns: async (_, { model }, ctx) => {
+      if (ctx[model] === undefined) {
+        throw new UserInputError('Model name is invalid', {
+          invalidArgs: model
+        })
+      }
       const myschema = ctx[model].schema
       var res = []
       myschema.eachPath((path) => {
