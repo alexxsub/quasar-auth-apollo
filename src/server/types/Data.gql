@@ -1,0 +1,9 @@
+type Data {
+  name: String
+  admin: String
+  director: String
+  manager: String
+}
+type Query {
+  getData: [Data]
+}

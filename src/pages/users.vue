@@ -184,18 +184,6 @@ export default {
         if (!this.hidden.includes(el.name)) { el.label = this.$t(el.name) }
         return el
       })
-      /* const columns = [
-        {
-          name: 'avatar',
-          align: 'left'
-        },
-        { name: 'username', align: 'left', label: this.$t('username') },
-        { name: 'email', align: 'left', label: this.$t('email') },
-        { name: 'roles', align: 'left', label: this.$t('roles') },
-        { name: 'enabled', align: 'left' }
-
-      ] */
-      // return columns
     }
   }
 }

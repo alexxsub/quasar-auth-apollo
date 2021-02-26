@@ -3,7 +3,7 @@
     <div class="q-pa-md">
     <q-table
       :title="$t('datatable')"
-      :data="data"
+      :data="getData"
       :columns="i18ncolumns"
       row-key="name"
     />
@@ -12,10 +12,18 @@
 </template>
 
 <script>
+import { DATA } from 'src/queries'
 export default {
   name: 'Table',
   data () {
     return {
+      columns: [
+        { name: 'name' },
+        { name: 'admin' },
+        { name: 'director' },
+        { name: 'manager' }
+      ],
+
       data: [
         {
           name: 'Строка 1',
@@ -38,22 +46,18 @@ export default {
       ]
     }
   },
+  apollo: {
+    getData: {
+      query: DATA
+    }
+  },
   computed: {
     i18ncolumns () {
-      const columns = [
-        {
-          name: 'name',
-          required: true,
-          label: this.$t('name'),
-          align: 'left',
-          field: 'name',
-          sortable: true
-        },
-        { name: 'admin', label: this.$t('admin'), field: 'admin' },
-        { name: 'director', label: this.$t('director'), field: 'director' },
-        { name: 'manager', label: this.$t('manager'), field: 'manager' }
-      ]
-      return columns
+      return this.columns.map(el => {
+        el.label = this.$t(el.name)
+        el.field = el.name
+        return el
+      })
     }
   }
 

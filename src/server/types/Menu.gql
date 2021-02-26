@@ -1,0 +1,8 @@
+type Menu {
+  name: String!
+  icon: String
+  link: String
+}
+type Query {
+  getMenu: [Menu]
+}

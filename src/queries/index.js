@@ -73,3 +73,13 @@ export const GET_COLUMNS = gql`
     }
   }
 `
+export const DATA = gql`
+  query getData{
+    getData {
+      name
+      admin
+      director
+      manager
+    }
+  }
+`

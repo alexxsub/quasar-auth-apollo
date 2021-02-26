@@ -49,7 +49,6 @@ const getUser = async (token, signin) => {
 app.use(fileUpload({
   createParentPath: true
 }))
-
 // Create Apollo/GraphQL Server using typeDefs, resolvers
 const server = new ApolloServer({
   typeDefs,

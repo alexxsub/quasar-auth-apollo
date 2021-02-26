@@ -187,7 +187,7 @@ export default {
     }
   },
   mounted () {
-    // close dialog pressing 'esc'
+    // close edit drawer dialog pressing 'esc' key
     document.addEventListener('keydown', e => {
       if (e.keyCode === 27) {
         this.drawerOpen = false
