@@ -73,6 +73,15 @@ export const GET_COLUMNS = gql`
     }
   }
 `
+export const MENU = gql`
+  query getMenu{
+    getMenu {
+      name
+      icon
+      link
+    }
+  }
+`
 export const DATA = gql`
   query getData{
     getData {

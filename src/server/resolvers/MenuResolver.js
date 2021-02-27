@@ -1,13 +1,14 @@
 
 module.exports = {
   Query: {
-    getMenu: async (_, args, { currentUser }) => {
-      console.log(currentUser)
-      const rights = [
-        { admin: ['*'] },
-        { director: ['home', 'upload', 'upload2', 'director', 'manager', 'profile'] },
-        { manager: ['home', 'upload', 'upload2', 'manager', 'profile'] }
-      ]
+    getMenu: async (_, args, { User, currentUser }) => {
+      const roles = await User.findOne({ _id: currentUser._id })
+        .then(res => res.roles)
+      const rights = {
+        admin: ['*'],
+        director: ['home', 'data', 'upload', 'upload2', 'director', 'manager', 'profile'],
+        manager: ['home', 'data', 'upload', 'upload2', 'manager', 'profile']
+      }
       const menu = [
         {
           name: 'home',
@@ -45,9 +46,19 @@ module.exports = {
           link: '/table'
         }
       ]
-      var res = []
-
-      return menu
+      if (roles) {
+        roles.forEach(role => {
+          menu.map(el => {
+            el.enabled = rights[role].includes(el.name) || rights[role].includes('*')
+            return el
+          })
+        })
+        var res = []
+        menu.map(el => {
+          if (el.enabled) res.push(el)
+        })
+      } else res = []
+      return res
     }
   },
   Mutation: {}

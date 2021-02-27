@@ -32,7 +32,7 @@
     <q-scroll-area style="height: calc(100% - 120px); margin-top: 120px; ">
       <q-list>
         <my-menu
-          v-for="link in menuData"
+          v-for="link in i18nMenu"
           :key="link.title"
           v-bind="link"
         />
@@ -106,7 +106,7 @@ import MyMenu from 'components/MyMenu.vue'
 import bus from '../event-bus'
 import { showError } from '../front-lib'
 import EditUser from 'components/EditUser.vue'
-import { CURRENT_USER } from 'src/queries'
+import { CURRENT_USER, MENU } from 'src/queries'
 export default {
   name: 'MainLayout',
   components: { MyMenu, EditUser },
@@ -136,6 +136,10 @@ export default {
   },
   // apollo graphql backend data
   apollo: {
+    getMenu: {
+      query: MENU
+
+    },
     getUser: {
       query: CURRENT_USER,
       update: function (data) {
@@ -196,54 +200,14 @@ export default {
   },
 
   computed: {
-    menuData () {
-      return [
-        {
-          title: this.$t('menu.home.title'),
-          caption: this.$t('menu.home.caption'),
-          icon: 'home',
-          link: '/#'
-        },
-        {
-          title: this.$t('menu.upload.title'),
-          caption: this.$t('menu.upload.caption'),
-          icon: 'cloud_upload',
-          link: '/upload'
-        },
-        {
-          title: this.$t('menu.upload2.title'),
-          caption: this.$t('menu.upload2.caption'),
-          icon: 'file_upload',
-          link: '/upload2'
-        },
-        {
-          title: this.$t('menu.users.title'),
-          caption: this.$t('menu.users.caption'),
-          icon: 'people',
-          link: '/users'
-        },
-        {
-          title: this.$t('menu.director.title'),
-          caption: this.$t('menu.director.caption'),
-          icon: 'mdi-account-cowboy-hat',
-          link: '/director'
-        },
-        {
-          title: this.$t('menu.manager.title'),
-          caption: this.$t('menu.manager.caption'),
-          icon: 'mdi-account-hard-hat',
-          link: '/manager'
-        },
-        {
-          title: this.$t('menu.data.title'),
-          caption: this.$t('menu.data.caption'),
-          icon: 'mdi-table-eye',
-          link: '/table'
-        }
-
-      ]
+    i18nMenu () {
+      return this.getMenu
+        ? this.getMenu.map(el => {
+          el.title = this.$t(`menu.${el.name}.title`)
+          el.caption = this.$t(`menu.${el.name}.caption`)
+          return el
+        }) : []
     }
-
   },
   created () {
     bus.$on('newRecord', this.newRecord)
