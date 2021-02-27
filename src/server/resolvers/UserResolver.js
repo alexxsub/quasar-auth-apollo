@@ -9,14 +9,7 @@ const createToken = (user, secret, expiresIn) => {
 
 module.exports = {
   User: {
-    // sample authorization. Only user with username 'Bond' can see field password
-    password: (rec, _, { currentUser }) => {
-      if (currentUser.username === 'Bond') {
-        return rec.password
-      } else {
-        return '*censored*'
-      }
-    },
+
     createdDate: (rec) => {
       const d = new Date(String(rec.createdDate))
       return d.toLocaleString()
@@ -45,9 +38,11 @@ module.exports = {
     signIn: async (_, { username, password }, { User }) => {
       const user = await User.findOne({ username })
       if (!user) throw new Error('Incorrect username or password')
-
-      const isValidPassword = await bcrypt.compare(password, user.password)
-      if (!isValidPassword) throw new Error('Incorrect username or password')
+      if (!user.enabled) throw new Error('Access denied! Your authorization disabled.')
+      if (user.password !== undefined) {
+        const isValidPassword = await bcrypt.compare(password, user.password)
+        if (!isValidPassword) throw new Error('Incorrect username or password')
+      } else { throw new Error('The user doest\' set password') }
 
       // token's lifetime 1 day
       return { token: createToken(user, process.env.SECRET, '24hr') }
@@ -62,16 +57,17 @@ module.exports = {
           invalidArgs: username
         })
       }
-      const count = await User.find().count()
-
-      const defaultRoles = count === 0 ? ['admin'] : ['manager']
+      const count = await User.find().count(),
+        defaultRoles = count === 0 ? ['admin'] : ['manager'],
+        defaultEnabled = (count === 0)
       // add new user
       const newUser = await new User({
         avatar,
         username,
         email,
         password,
-        roles: defaultRoles
+        roles: defaultRoles,
+        enabled: defaultEnabled
       }).save()
 
       return newUser
@@ -83,6 +79,7 @@ module.exports = {
           username: input.username,
           email: input.email,
           roles: input.roles,
+          password: '12345',
           enabled: input.enabled
         }).save()
 
