@@ -1,7 +1,8 @@
 <template>
 <q-card
-:style="computeStyle">
-<img ref="previewImg2021" :src="computeSrc"/>
+:style="computedStyle">
+<img ref="previewImg2021" :src="computedSrc"/>
+
     <q-btn
           class="absolute"
           style="top: 5px; right: 5px;"
@@ -22,6 +23,7 @@
 </q-card>
 </template>
 <script>
+const defaultnoimg = require('assets/no-avatar.jpg')
 export default {
   name: 'UploadImg',
   props: {
@@ -45,7 +47,7 @@ export default {
     },
     noimg: {
       type: String,
-      default: '~assets/no-avatar.jpg'
+      default: ''
     },
     notuploaded: {
       type: String,
@@ -58,14 +60,16 @@ export default {
   },
   data () {
     return {
-
     }
   },
   computed: {
-    computeSrc () {
-      return this.src === '' ? require('../assets/no-avatar.jpg') : this.src
+    computedNoImg () {
+      return this.noimg === '' ? defaultnoimg : this.noimg
     },
-    computeStyle () {
+    computedSrc () {
+      return this.src === '' ? this.computedNoImg : this.src
+    },
+    computedStyle () {
       return `width:${this.width}px;height:${this.height}px;border-radius: 5%`
     }
   },
@@ -83,7 +87,7 @@ export default {
       if (file) {
         reader.readAsDataURL(file)
       } else {
-        preview.src = require('../assets/no-avatar.jpg')
+        preview.src = defaultnoimg
       }
     },
     uploadFile () {
@@ -115,7 +119,7 @@ export default {
 
     deleteFile () {
       const preview = this.$refs.previewImg2021
-      preview.src = require(this.noimg)
+      preview.src = this.computedNoImg
     },
     onError (info) {
       this.$q.notify({

@@ -164,6 +164,9 @@ export default {
     logOut () {
       // clear token in localstorage
       localStorage.setItem('token', '')
+      // clear cash of apollo client
+      this.$root.$apolloProvider.defaultClient.cache.data.clear()
+      // console.log(this.$root.$apolloProvider.defaultClient.cache)
       this.$router.push('/login')
     },
 

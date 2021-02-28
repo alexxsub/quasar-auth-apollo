@@ -1,0 +1,4 @@
+
+type Query {
+  checkAccess(res:String!): Boolean
+}

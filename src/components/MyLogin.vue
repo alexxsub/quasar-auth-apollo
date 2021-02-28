@@ -85,7 +85,7 @@
                 v-model="form.password"
                 :type="passwordFieldType"
                 lazy-rules
-                :rules="[this.required,this.short]"
+                :rules="signup?[this.required,this.short]:null"
                 :label="$t('auth.password')"
               >
                 <template v-slot:prepend>

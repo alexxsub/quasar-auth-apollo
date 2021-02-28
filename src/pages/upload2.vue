@@ -59,7 +59,6 @@ export default {
       formData.append('file', file)
       fetch(process.env.GRAPHQL_URI, { method: 'POST', body: formData })
         .then((response) => {
-          // console.log(response)
           if (response.status >= 200 && response.status <= 299) {
             return response.json()
           } else {

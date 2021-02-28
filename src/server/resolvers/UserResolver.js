@@ -79,7 +79,7 @@ module.exports = {
           username: input.username,
           email: input.email,
           roles: input.roles,
-          password: '12345',
+          password: '',
           enabled: input.enabled
         }).save()
 

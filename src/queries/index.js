@@ -92,3 +92,8 @@ export const DATA = gql`
     }
   }
 `
+export const CHECK_ACCESS = gql`
+  query checkAccess($res: String!){
+    checkAccess(res: $res)
+  }
+`

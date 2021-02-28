@@ -137,6 +137,7 @@ export default {
   methods: {
     expand (p) {
       this.row_id = p.row._id
+      this.enabled = p.row.enabled
       this.globalprops.expand = (p.expand && this.globalprops.expand)
       p.expand = !p.expand
       this.globalprops = p

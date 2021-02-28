@@ -22,27 +22,6 @@ export default {
         { name: 'admin' },
         { name: 'director' },
         { name: 'manager' }
-      ],
-
-      data: [
-        {
-          name: 'Строка 1',
-          admin: 159,
-          director: 6.0,
-          manager: 24
-        },
-        {
-          name: 'Строка 2',
-          admin: 159,
-          director: 6.0,
-          manager: 24
-        },
-        {
-          name: 'Строка 3',
-          admin: 159,
-          director: 6.0,
-          manager: 24
-        }
       ]
     }
   },
