@@ -1,5 +1,5 @@
 <template>
-  <q-page v-if="render" padding>
+  <q-page  padding>
     {{$t('directorctx')}}
   </q-page>
 </template>
@@ -10,7 +10,7 @@ export default {
   name: 'Director',
   data () {
     return {
-      render: true
+
     }
   },
   apollo: {
