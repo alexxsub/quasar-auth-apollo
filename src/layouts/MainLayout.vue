@@ -40,11 +40,8 @@
        </q-scroll-area>
        <q-img class="absolute-top" src="~assets/material2.png" style="height: 120px">
           <div class="absolute-top bg-transparent">
-             <q-avatar v-if="noavatar" class="q-mb-sm">
-              <img src="~assets/no-avatar.jpg">
-            </q-avatar>
-            <q-avatar v-else class="q-mb-sm">
-              <img :src="curentUser.avatar">
+            <q-avatar  class="q-mb-sm">
+              <img :src="computedUrl(curentUser.avatar)">
             </q-avatar>
 
             </div>
@@ -107,12 +104,12 @@ import bus from '../event-bus'
 import { showError } from '../front-lib'
 import EditUser from 'components/EditUser.vue'
 import { CURRENT_USER, MENU } from 'src/queries'
+const noimg = require('assets/no-avatar.jpg')
 export default {
   name: 'MainLayout',
   components: { MyMenu, EditUser },
   data () {
     return {
-      noavatar: true,
       curentUser: {
         avatar: '',
         username: '',
@@ -151,6 +148,9 @@ export default {
     }
   },
   methods: {
+    computedUrl (url) {
+      return url === '' ? noimg : `${process.env.BASE_URL}${url}`
+    },
     showErrorProxy (msg) {
       if (msg[0] === '_') {
         const m = msg.split('_')
@@ -166,7 +166,6 @@ export default {
       localStorage.setItem('token', '')
       // clear cash of apollo client
       this.$root.$apolloProvider.defaultClient.cache.data.clear()
-      // console.log(this.$root.$apolloProvider.defaultClient.cache)
       this.$router.push('/login')
     },
 

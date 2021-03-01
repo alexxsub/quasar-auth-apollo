@@ -34,7 +34,11 @@
                 square
                 :label="$t('roles')"
                 v-model="editedItem.roles"
-                use-chips/>
+                use-chips>
+                 <template v-slot:after>
+          <q-btn round dense flat icon="info" />
+        </template>
+                </q-select>
     </div>
   </q-page>
 </template>

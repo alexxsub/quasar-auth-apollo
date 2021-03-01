@@ -26,7 +26,7 @@
           <q-td >
           <q-avatar>
           <q-img v-if="!props.row.avatar" src="~assets/no-avatar.jpg" />
-          <q-img v-else-if="props.row.avatar" :src="props.row.avatar" />
+          <q-img v-else-if="props.row.avatar" :src="computedUrl(props.row.avatar)" />
           <q-badge v-if="props.row.roles.includes('admin')" dense round color="orange" floating transparent>
           <q-icon
             name="mdi-crown"
@@ -49,7 +49,6 @@
             <q-icon v-if="props.row.enabled" name="mdi-account-check" style="color: green;font-size: 2em;" />
             <q-icon v-else-if="!props.row.enabled" name="mdi-account-cancel" style="color: red;font-size: 2em;" />
             </q-td>
-
         </q-tr>
         <q-tr v-show="props.expand" :props="props">
           <q-td colspan="100%">
@@ -104,12 +103,12 @@ export default {
   components: { RoleChips },
   data () {
     return {
-      globalprops: {},
-      enabled: false,
-      row_id: '',
-      render: false,
-      Columns: [],
-      hidden: ['avatar', 'enabled']
+      globalprops: {}, // previos expanded tr of table
+      enabled: false, // value of enabled field expanded record
+      row_id: '', // id of current expanded record
+      render: false, // flag of render page
+      Columns: [], // list of columns
+      hiddenTitle: ['avatar', 'enabled']// hidden  title of columns
     }
   },
   apollo: {
@@ -135,6 +134,9 @@ export default {
     }
   },
   methods: {
+    computedUrl (url) {
+      return `${process.env.BASE_URL}${url}`
+    },
     expand (p) {
       this.row_id = p.row._id
       this.enabled = p.row.enabled
@@ -179,10 +181,14 @@ export default {
         })
     }
   },
+  mounted () {
+
+  },
   computed: {
+
     i18ncolumns () {
       return this.Columns.map(el => {
-        if (!this.hidden.includes(el.name)) { el.label = this.$t(el.name) }
+        if (!this.hiddenTitle.includes(el.name)) { el.label = this.$t(el.name) }
         return el
       })
     }

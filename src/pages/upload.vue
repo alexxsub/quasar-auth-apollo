@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     uploadFile () {
-      this.$refs.Uploader.uploadFile()
+      this.$refs.Uploader.uploadFile(true)
     },
     onFailed (info) {
       var el = document.createElement('html')

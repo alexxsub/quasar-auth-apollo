@@ -2,7 +2,7 @@
  <div class="q-pa-md" style="max-width: 500px">
       <upload-img ref="Uploader"
        :src="editedItem.avatar"
-       url="http://localhost:4001/upload2"
+       :url="upload_url"
        />
               <q-input
                        square
@@ -33,7 +33,6 @@
       :label="$t('roles')"
       v-model="editedItem.roles"
       use-chips
-
       multiple
       :options="filterOptions"
       @filter="onFilter">
@@ -86,6 +85,7 @@ export default {
   components: { UploadImg },
   data () {
     return {
+      upload_url: process.env.UPLOAD_URI,
       filterOptions: this.stringOptions,
       editedItem: {},
       defaultItem: {
@@ -132,26 +132,32 @@ export default {
       this.editedItem = Object.assign({}, this.defaultItem)
     },
     saveRecord () {
-      const input = {
-        input: this.editedItem
-      }
-      this.$apollo
-        .mutate({
-          mutation: MODIFY_USER,
-          variables: input,
-          refetchQueries: [{ query: USERS }]
-        })
-        .then(data => {
-          this.drawerOpen = false
-          const message = this.editedItem.id === ''
-            ? this.$t('recordadded')
-            : this.$t('recordupdated')
-          showMsg(message)
-          return true
-        })
-        .catch(error => {
-          showError(error.message)
-          return false
+      this.$refs.Uploader.uploadFile(false)
+        .then(file => {
+          const input = {
+            input: this.editedItem
+          }
+          console.log(file)
+          input.input.avatar = file
+          console.log(input)
+          this.$apollo
+            .mutate({
+              mutation: MODIFY_USER,
+              variables: input,
+              refetchQueries: [{ query: USERS }]
+            })
+            .then(data => {
+              this.drawerOpen = false
+              const message = this.editedItem.id === ''
+                ? this.$t('recordadded')
+                : this.$t('recordupdated')
+              showMsg(message)
+              return true
+            })
+            .catch(error => {
+              showError(error.message)
+              return false
+            })
         })
     }
   },

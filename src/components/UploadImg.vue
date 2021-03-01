@@ -67,7 +67,7 @@ export default {
       return this.noimg === '' ? defaultnoimg : this.noimg
     },
     computedSrc () {
-      return this.src === '' ? this.computedNoImg : this.src
+      return this.src === '' ? this.computedNoImg : `${process.env.PREFIX_URL}${this.src}`
     },
     computedStyle () {
       return `width:${this.width}px;height:${this.height}px;border-radius: 5%`
@@ -90,27 +90,29 @@ export default {
         preview.src = defaultnoimg
       }
     },
-    uploadFile () {
-      var file = this.$refs.fileInput2021.files[0]
-      var formData = new FormData()
-      formData.append('file', file)
-      fetch(this.url, { method: 'POST', body: formData })
-        .then((response) => {
-          // console.log(response)
-          if (response.status >= 200 && response.status <= 299) {
-            return response.json()
-          } else {
-            throw Error(`${response.url} ${response.status} (${response.statusText})`)
-          }
-        })
-        .then(data => {
-          if (data.status) {
-            this.onUploaded(data.file)
-          }
-        })
-        .catch((error) => {
-          this.onError(error.toString())
-        })
+    uploadFile (notify) {
+      return new Promise((resolve, reject) => {
+        var file = this.$refs.fileInput2021.files[0]
+        var formData = new FormData()
+        formData.append('file', file)
+        fetch(this.url, { method: 'POST', body: formData })
+          .then((response) => {
+            if (response.status >= 200 && response.status <= 299) {
+              return response.json()
+            } else {
+              throw Error(`${response.url} ${response.status} (${response.statusText})`)
+            }
+          })
+          .then(data => {
+            if (data.status) {
+              if (notify) this.onUploaded(data.file)
+              resolve(data.file)
+            }
+          })
+          .catch((error) =>
+            reject(error)
+          )
+      })
     },
     inputFile () {
       const f = this.$refs.fileInput2021
