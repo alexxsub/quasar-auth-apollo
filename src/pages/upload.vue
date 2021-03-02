@@ -14,16 +14,15 @@
    <q-tab-panel name="quasar">
       <q-uploader
         multiple
-        url="http://localhost:4001/upload"
+        :url="computedUrl(upload)"
         style="max-width: 300px"
         @uploaded="onUploaded"
         @failed="onFailed"
       />
      </q-tab-panel>
-     <!-- //TODO заменить URL -->
      <q-tab-panel name="custom" style="overflow:hidden">
        <upload-img ref="Uploader"
-       url="http://localhost:4001/upload2"
+       :url="computedUrl(upload2)"
        />
        <q-btn style="width:150px" :label="$t('upload')" color="primary" icon="file_upload" @click="uploadFile" />
        </q-tab-panel>
@@ -44,13 +43,10 @@ export default {
       tab: 'quasar'
     }
   },
-  computed: {
-
-  },
-  mount () {
-
-  },
   methods: {
+    computedUrl (url) {
+      return `${process.env.BASE_URL}${url}`
+    },
     uploadFile () {
       this.$refs.Uploader.uploadFile(true)
     },

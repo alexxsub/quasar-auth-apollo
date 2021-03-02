@@ -25,11 +25,14 @@
                 self="top left"
               >
           <q-list style="min-width: 100px">
-            <q-item v-for="{id,name} in langs" :key="id" clickable v-close-popup>
+            <q-item v-for="{id,name} in languages"
+            :key="id"
+            clickable
+             @click="lang = id"
+            v-close-popup>
                <q-item-section avatar>
                   <img
                     width="32px"
-                    @click="lang = id"
                     :src="langImg(id)"/>
                 </q-item-section>
               <q-item-section>{{name}}</q-item-section>
@@ -151,13 +154,13 @@
 
 <script>
 import { SIGNIN, SIGNUP } from 'src/queries'
-
-// eslint-disable-next-line no-unused-vars
 import { showError, showMsg } from '../front-lib'
+import { langs } from '../i18n'
 export default {
   name: 'MyLogin',
   data: function () {
     return {
+      languages: langs,
       overlay: true,
       form: {
         username: '',
@@ -179,21 +182,15 @@ export default {
       })
       // have to revalidate to change lang
       Object.keys(this.form).forEach(el => {
-        if (this.$refs[el] !== undefined) { if (this.$refs[el].hasError) { this.$refs[el].validate() } }
+        if (this.$refs[el] !== undefined) {
+          if (this.$refs[el].hasError) {
+            this.$refs[el].validate()
+          }
+        }
       })
     }
   },
   computed: {
-    langs () {
-      // load lang's native names from quasar
-      var la = []
-      for (var key in this.$i18n.messages) {
-        const lang = require('quasar/lang/' + key)
-        la.push({ id: key, name: lang.default.nativeName })
-      }
-      // return require('src/i18n').langs // this is short
-      return la
-    },
     visibilityIcon () {
       return this.visibility ? 'visibility_off' : 'visibility'
     },

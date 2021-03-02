@@ -13,13 +13,12 @@
         <q-toolbar-title>
           {{$t('title')}}
         </q-toolbar-title>
-
         <q-select
         borderless
         dark
         v-model="lang"
         map-options
-        :options="langs"
+        :options="languages"
         />
       </q-toolbar>
     </q-header>
@@ -43,7 +42,6 @@
             <q-avatar  class="q-mb-sm">
               <img :src="computedUrl(curentUser.avatar)">
             </q-avatar>
-
             </div>
             <div class="absolute-bottom bg-transparent">
             <router-link class="routerlink"  to="profile"><div class="text-weight-bold">{{curentUser.username}}</div></router-link>
@@ -105,6 +103,7 @@ import { showError } from '../front-lib'
 import EditUser from 'components/EditUser.vue'
 import { CURRENT_USER, MENU } from 'src/queries'
 const noimg = require('assets/no-avatar.jpg')
+import { langs } from '../i18n'
 export default {
   name: 'MainLayout',
   components: { MyMenu, EditUser },
@@ -118,29 +117,17 @@ export default {
       lang: this.$i18n.locale,
       leftDrawerOpen: true,
       drawerOpen: false,
-      title: 'addrecord',
-      langs: [
-        {
-          label: 'Русский',
-          value: 'ru'
-        },
-        {
-          label: 'English',
-          value: 'en-us'
-        }
-      ]
+      title: 'addrecord'
     }
   },
   // apollo graphql backend data
   apollo: {
     getMenu: {
       query: MENU
-
     },
     getUser: {
       query: CURRENT_USER,
       update: function (data) {
-        this.noavatr = (data.getCurrentUser.avatar === null)
         this.curentUser.avatar = data.getCurrentUser.avatar
         this.curentUser.username = data.getCurrentUser.username
         this.curentUser.email = data.getCurrentUser.email
@@ -202,6 +189,14 @@ export default {
   },
 
   computed: {
+    languages () {
+      return langs.map(el => {
+        return {
+          value: el.id,
+          label: el.name
+        }
+      })
+    },
     i18nMenu () {
       return this.getMenu
         ? this.getMenu.map(el => {

@@ -2,7 +2,7 @@
  <div class="q-pa-md" style="max-width: 500px">
       <upload-img ref="Uploader"
        :src="editedItem.avatar"
-       :url="upload_url"
+       :url="computedUrl(Upload2)"
        />
               <q-input
                        square
@@ -85,7 +85,6 @@ export default {
   components: { UploadImg },
   data () {
     return {
-      upload_url: process.env.UPLOAD_URI,
       filterOptions: this.stringOptions,
       editedItem: {},
       defaultItem: {
@@ -104,6 +103,9 @@ export default {
     }
   },
   methods: {
+    computedUrl (url) {
+      return `${process.env.BASE_URL}${url}`
+    },
     role (key) {
       return TypeRoles.filter(i => i.value === key)[0]
     },

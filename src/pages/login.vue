@@ -8,17 +8,6 @@ export default {
   name: 'Login',
   components: {
     MyLogin
-  },
-  data () {
-    return {
-
-    }
-  },
-  methods: {
-
-  },
-  created () {
-
   }
 }
 </script>

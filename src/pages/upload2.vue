@@ -57,7 +57,7 @@ export default {
       var file = this.$refs.fileInput.files[0]
       var formData = new FormData()
       formData.append('file', file)
-      fetch(process.env.GRAPHQL_URI, { method: 'POST', body: formData })
+      fetch(process.env.BASE_URL + 'Upload2', { method: 'POST', body: formData })
         .then((response) => {
           if (response.status >= 200 && response.status <= 299) {
             return response.json()
