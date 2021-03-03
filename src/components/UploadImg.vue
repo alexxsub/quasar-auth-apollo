@@ -1,9 +1,9 @@
 <template>
 <q-card
 :style="computedStyle">
-<img ref="previewImg2021" :src="computedSrc"/>
-
+<img ref="previewImg2021" :src="computedSrc()"/>
     <q-btn
+          v-if="newImg"
           class="absolute"
           style="top: 5px; right: 5px;"
           size="xs"
@@ -12,6 +12,7 @@
           icon="add"
           @click="inputFile" />
          <q-btn
+         v-if="!newImg"
           class="absolute"
           style="top: 120px; right: 5px;"
           size="xs"
@@ -19,10 +20,16 @@
           color="negative"
           icon="delete"
           @click="deleteFile" />
-          <input style="visibility: hidden;"  ref="fileInput2021" type="file"  @change="previewFile()" />
+          <input
+           style="visibility: hidden;"
+           ref="fileInput2021"
+           type="file"
+           @change="previewFile()" />
 </q-card>
 </template>
 <script>
+
+import { showError, showMsg } from 'src/front-lib'
 const defaultnoimg = require('assets/no-avatar.jpg')
 export default {
   name: 'UploadImg',
@@ -60,21 +67,31 @@ export default {
   },
   data () {
     return {
+      newImg: true,
+      imgSrc: this.src
+    }
+  },
+
+  watch: {
+    src (val) {
+      this.imgSrc = val
     }
   },
   computed: {
     computedNoImg () {
       return this.noimg === '' ? defaultnoimg : this.noimg
     },
-    computedSrc () {
-      return this.src === '' ? this.computedNoImg : `${process.env.PREFIX_URL}${this.src}`
-    },
+
     computedStyle () {
       return `width:${this.width}px;height:${this.height}px;border-radius: 5%`
     }
   },
 
   methods: {
+    computedSrc () {
+      this.newImg = (this.imgSrc === '')
+      return this.imgSrc === '' ? this.computedNoImg : `${process.env.BASE_URL}${this.src}`
+    },
     previewFile () {
       const preview = this.$refs.previewImg2021,
         file = this.$refs.fileInput2021.files[0],
@@ -86,32 +103,35 @@ export default {
 
       if (file) {
         reader.readAsDataURL(file)
+        this.newImg = false
       } else {
         preview.src = defaultnoimg
+        this.newImg = true
       }
     },
     uploadFile (notify) {
       return new Promise((resolve, reject) => {
         var file = this.$refs.fileInput2021.files[0]
-        var formData = new FormData()
-        formData.append('file', file)
-        fetch(this.url, { method: 'POST', body: formData })
-          .then((response) => {
-            if (response.status >= 200 && response.status <= 299) {
-              return response.json()
-            } else {
-              throw Error(`${response.url} ${response.status} (${response.statusText})`)
-            }
-          })
-          .then(data => {
-            if (data.status) {
-              if (notify) this.onUploaded(data.file)
-              resolve(data.file)
-            }
-          })
-          .catch((error) =>
-            reject(error)
-          )
+        if (!file) resolve('')
+        else {
+          var formData = new FormData()
+          formData.append('file', file)
+          fetch(this.url, { method: 'POST', body: formData })
+            .then((response) => {
+              if (response.status >= 200 && response.status <= 299) {
+                return response.json()
+              } else {
+                throw Error(`${response.url} ${response.status} (${response.statusText})`)
+              }
+            })
+            .then(data => {
+              if (data.status) {
+                if (notify) this.onUploaded(data.file)
+                resolve(data.file)
+              }
+            })
+            .catch((error) => reject(error))
+        }
       })
     },
     inputFile () {
@@ -120,26 +140,15 @@ export default {
     },
 
     deleteFile () {
+      this.imgSrc = ''
       const preview = this.$refs.previewImg2021
       preview.src = this.computedNoImg
     },
     onError (info) {
-      this.$q.notify({
-        message: this.$t(this.notuploaded),
-        caption: info,
-        timeout: 2500,
-        actions: [{ icon: 'close', color: 'white' }],
-        type: 'negative'
-      })
+      showError(this.$t(this.notuploaded), info)
     },
     onUploaded (info) {
-      this.$q.notify({
-        message: this.$t(this.uploaded),
-        caption: info,
-        timeout: 2500,
-        actions: [{ icon: 'close', color: 'white' }],
-        type: 'positive'
-      })
+      showMsg(this.$t(this.uploaded), info)
     }
   }
 }

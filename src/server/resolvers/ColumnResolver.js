@@ -15,11 +15,10 @@ module.exports = {
       myschema.eachPath((path) => {
         // do not show all fields
         if (!hiddenFields.includes(path)) {
-          const f = {
+          res.push({
             name: path,
             type: myschema.paths[path].instance
-          }
-          res.push(f)
+          })
         }
       })
 

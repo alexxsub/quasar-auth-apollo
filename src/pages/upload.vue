@@ -14,7 +14,7 @@
    <q-tab-panel name="quasar">
       <q-uploader
         multiple
-        :url="computedUrl(upload)"
+        :url="computedUrl('upload')"
         style="max-width: 300px"
         @uploaded="onUploaded"
         @failed="onFailed"
@@ -22,7 +22,7 @@
      </q-tab-panel>
      <q-tab-panel name="custom" style="overflow:hidden">
        <upload-img ref="Uploader"
-       :url="computedUrl(upload2)"
+       :url="computedUrl('upload2')"
        />
        <q-btn style="width:150px" :label="$t('upload')" color="primary" icon="file_upload" @click="uploadFile" />
        </q-tab-panel>
@@ -33,7 +33,7 @@
 </template>
 import MyMenu from 'components/MyMenu.vue'
 <script>
-
+import { showError, showMsg } from 'src/front-lib'
 import UploadImg from 'components/UploadImg.vue'
 export default {
   name: 'Upload',
@@ -54,22 +54,10 @@ export default {
       var el = document.createElement('html')
       el.innerHTML = info.xhr.response
       el.getElementsByTagName('body')
-      this.$q.notify({
-        message: this.$t('messages.notuploaded'),
-        caption: el.innerText,
-        timeout: 2500,
-        actions: [{ icon: 'close', color: 'white' }],
-        type: 'negative'
-      })
+      showError(this.$t('messages.notuploaded'), el.innerText)
     },
     onUploaded (info) {
-      this.$q.notify({
-        message: this.$t('messages.uploaded'),
-        caption: info.files[0].name,
-        timeout: 2500,
-        actions: [{ icon: 'close', color: 'white' }],
-        type: 'positive'
-      })
+      showMsg(this.$t('messages.uploaded'), info)
     }
   }
 }

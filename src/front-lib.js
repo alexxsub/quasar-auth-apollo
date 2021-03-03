@@ -7,10 +7,11 @@ function showError (message) {
     icon: 'error'
   })
 }
-function showMsg (message) {
+function showMsg (message, caption) {
   Notify.create({
     message,
     position: 'top',
+    caption,
     color: 'positive',
     icon: 'done'
   })

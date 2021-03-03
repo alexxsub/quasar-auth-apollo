@@ -2,7 +2,7 @@
  <div class="q-pa-md" style="max-width: 500px">
       <upload-img ref="Uploader"
        :src="editedItem.avatar"
-       :url="computedUrl(Upload2)"
+       :url="computedUrl('upload2')"
        />
               <q-input
                        square
@@ -79,7 +79,7 @@ import bus from '../event-bus'
 import { showError, showMsg } from '../front-lib'
 import UploadImg from 'components/UploadImg.vue'
 import TypeRoles from 'components/TypeRoles'
-import { MODIFY_USER, USERS } from 'src/queries'
+import { MODIFY_USER } from 'src/queries'
 export default {
   name: 'EditUser',
   components: { UploadImg },
@@ -103,6 +103,7 @@ export default {
     }
   },
   methods: {
+
     computedUrl (url) {
       return `${process.env.BASE_URL}${url}`
     },
@@ -139,14 +140,11 @@ export default {
           const input = {
             input: this.editedItem
           }
-          console.log(file)
-          input.input.avatar = file
-          console.log(input)
+          if (file !== '')input.input.avatar = file
           this.$apollo
             .mutate({
               mutation: MODIFY_USER,
-              variables: input,
-              refetchQueries: [{ query: USERS }]
+              variables: input
             })
             .then(data => {
               this.drawerOpen = false

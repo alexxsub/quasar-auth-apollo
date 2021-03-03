@@ -54,6 +54,7 @@ app.use(fileUpload({
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  tracing: true,
   formatError: (error) => {
     const rep = new Map([
       ['GraphQL error:', ''],

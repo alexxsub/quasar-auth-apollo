@@ -1,6 +1,6 @@
 {
   "@quasar/apollo": {
-    "graphql_uri": "http://localhost:4001"
+    
   },
   "@quasar/dotenv": {
     "env_development": ".env",

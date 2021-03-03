@@ -13,8 +13,8 @@ module.exports = {
           })
         })
         var res = []
-        menu.map(el => {
-          if (el.enabled) res.push(el)
+        res = menu.map(el => {
+          if (el.enabled) return el
         })
       } else res = []
       return res

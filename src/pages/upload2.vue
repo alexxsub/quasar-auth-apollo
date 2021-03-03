@@ -28,12 +28,11 @@
 </template>
 
 <script>
-
+import { showError, showMsg } from 'src/front-lib'
 export default {
   name: 'Upload2',
   data () {
     return {
-
     }
   },
 
@@ -78,28 +77,15 @@ export default {
       const f = this.$refs.fileInput
       f.click()
     },
-
     deleteFile () {
       const preview = this.$refs.previewImg
       preview.src = require('assets/no-avatar.jpg')
     },
     onError (info) {
-      this.$q.notify({
-        message: this.$t('messages.notuploaded'),
-        caption: info,
-        timeout: 2500,
-        actions: [{ icon: 'close', color: 'white' }],
-        type: 'negative'
-      })
+      showError(this.$t('messages.notuploaded'), info)
     },
     onUploaded (info) {
-      this.$q.notify({
-        message: this.$t('messages.uploaded'),
-        caption: info,
-        timeout: 2500,
-        actions: [{ icon: 'close', color: 'white' }],
-        type: 'positive'
-      })
+      showMsg(this.$t('messages.uploaded'), info)
     }
   }
 }
