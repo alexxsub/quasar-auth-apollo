@@ -235,7 +235,7 @@ export default {
           }
         }).then(data => {
           localStorage.setItem('token', data.data.signIn.token)
-          this.$router.push('/')
+          this.$router.push('/home')
         }).catch(error => showError(error.message))
     },
     required (val) {

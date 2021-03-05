@@ -23,49 +23,49 @@ const routes = [
   },
   {
     path: '/upload',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/HomeLayout.vue'),
     children: [
       { path: '', component: () => import('pages/upload.vue') }
     ]
   },
   {
     path: '/upload2',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/HomeLayout.vue'),
     children: [
       { path: '', component: () => import('pages/upload2.vue') }
     ]
   },
   {
     path: '/profile',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/HomeLayout.vue'),
     children: [
       { path: '', component: () => import('pages/profile.vue') }
     ]
   },
   {
     path: '/director',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/HomeLayout.vue'),
     children: [
       { path: '', component: () => import('pages/director.vue') }
     ]
   },
   {
     path: '/manager',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/HomeLayout.vue'),
     children: [
       { path: '', component: () => import('pages/manager.vue') }
     ]
   },
   {
     path: '/users',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/HomeLayout.vue'),
     children: [
       { path: '', component: () => import('pages/users.vue') }
     ]
   },
   {
     path: '/table',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/HomeLayout.vue'),
     children: [
       { path: '', component: () => import('pages/table.vue') }
     ]
