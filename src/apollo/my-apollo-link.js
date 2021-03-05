@@ -31,6 +31,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     )
   }
   if ((networkError) && (!logined)) {
+    if (networkError.message === 'Failed to fetch') { bus.$emit('Login') }
     bus.$emit('Error', networkError.message)
   }
 }

@@ -2,7 +2,7 @@ const menu = [
   {
     name: 'home',
     icon: 'home',
-    link: '/#'
+    link: '/home'
   },
   {
     name: 'upload',
