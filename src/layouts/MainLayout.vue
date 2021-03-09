@@ -31,7 +31,7 @@ export default {
       query: CURRENT_USER,
       update: function (data) {
         this.$q.loading.hide()
-        this.$router.push('/')
+        this.$router.push('/home')
       }
     }
   },

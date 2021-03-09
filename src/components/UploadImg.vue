@@ -1,7 +1,20 @@
 <template>
 <q-card
 :style="computedStyle">
-<img ref="previewImg2021" :src="computedSrc()"/>
+<q-img
+ref="previewImg2021"
+v-if="src!==null"
+:src="src"
+placeholder-src="~assets/no-avatar.jpg"
+:ratio="1"
+style="border-radius: 8px"
+>
+<template v-slot:error>
+        <div class="absolute-full flex flex-center bg-negative text-white">
+          Cannot load image
+        </div>
+</template>
+</q-img>
     <q-btn
           v-if="newImg"
           class="absolute"
@@ -30,7 +43,7 @@
 <script>
 
 import { showError, showMsg } from 'src/front-lib'
-const defaultnoimg = require('assets/no-avatar.jpg')
+
 export default {
   name: 'UploadImg',
   props: {
@@ -67,31 +80,21 @@ export default {
   },
   data () {
     return {
-      newImg: true,
-      imgSrc: this.src
+      newImg: true
     }
   },
 
   watch: {
-    src (val) {
-      this.imgSrc = val
-    }
+
   },
   computed: {
-    computedNoImg () {
-      return this.noimg === '' ? defaultnoimg : this.noimg
-    },
-
     computedStyle () {
-      return `width:${this.width}px;height:${this.height}px;border-radius: 5%`
+      return `width:${this.width}px;height:${this.height}px;border-radius: 8px`
     }
   },
 
   methods: {
-    computedSrc () {
-      this.newImg = (this.imgSrc === '')
-      return this.imgSrc === '' ? this.computedNoImg : `${process.env.BASE_URL}${this.src}`
-    },
+
     previewFile () {
       const preview = this.$refs.previewImg2021,
         file = this.$refs.fileInput2021.files[0],
@@ -105,7 +108,7 @@ export default {
         reader.readAsDataURL(file)
         this.newImg = false
       } else {
-        preview.src = defaultnoimg
+        preview.src = ''
         this.newImg = true
       }
     },
@@ -140,9 +143,9 @@ export default {
     },
 
     deleteFile () {
-      this.imgSrc = ''
+      this.newImg = true
       const preview = this.$refs.previewImg2021
-      preview.src = this.computedNoImg
+      preview.src = ''
     },
     onError (info) {
       showError(this.$t(this.notuploaded), info)
