@@ -2,7 +2,7 @@
  <div class="q-pa-md" style="max-width: 500px">
       <upload-img ref="Uploader"
        :src="editedItem.avatar"
-       :url="computedUrl('upload2')"
+       url="upload2"
        />
               <q-input
                        square
@@ -104,9 +104,6 @@ export default {
   },
   methods: {
 
-    computedUrl (url) {
-      return `${process.env.BASE_URL}${url}`
-    },
     role (key) {
       return TypeRoles.filter(i => i.value === key)[0]
     },

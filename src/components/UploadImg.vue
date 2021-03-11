@@ -3,8 +3,7 @@
 :style="computedStyle">
 <q-img
 ref="previewImg2021"
-v-if="src!==null"
-:src="src"
+:src="previewSrc"
 placeholder-src="~assets/no-avatar.jpg"
 :ratio="1"
 style="border-radius: 8px"
@@ -16,7 +15,7 @@ style="border-radius: 8px"
 </template>
 </q-img>
     <q-btn
-          v-if="newImg"
+          v-if="previewSrc===''"
           class="absolute"
           style="top: 5px; right: 5px;"
           size="xs"
@@ -25,7 +24,7 @@ style="border-radius: 8px"
           icon="add"
           @click="inputFile" />
          <q-btn
-         v-if="!newImg"
+         v-if="previewSrc!==''"
           class="absolute"
           style="top: 120px; right: 5px;"
           size="xs"
@@ -46,6 +45,7 @@ import { showError, showMsg } from 'src/front-lib'
 
 export default {
   name: 'UploadImg',
+
   props: {
     url: {
       type: String,
@@ -80,12 +80,14 @@ export default {
   },
   data () {
     return {
-      newImg: true
+      previewSrc: ''
     }
   },
 
   watch: {
-
+    src (val) {
+      this.previewSrc = this.computedUrl(val === undefined ? '' : val)
+    }
   },
   computed: {
     computedStyle () {
@@ -94,22 +96,16 @@ export default {
   },
 
   methods: {
-
+    computedUrl (url) {
+      return `${url === '' ? '' : process.env.BASE_URL + url}`
+    },
     previewFile () {
-      const preview = this.$refs.previewImg2021,
-        file = this.$refs.fileInput2021.files[0],
-        reader = new FileReader()
-
-      reader.onloadend = function () {
-        preview.src = reader.result
-      }
+      const file = this.$refs.fileInput2021.files[0]
 
       if (file) {
-        reader.readAsDataURL(file)
-        this.newImg = false
+        this.previewSrc = window.URL.createObjectURL(file)
       } else {
-        preview.src = ''
-        this.newImg = true
+        this.previewSrc = ''
       }
     },
     uploadFile (notify) {
@@ -119,7 +115,7 @@ export default {
         else {
           var formData = new FormData()
           formData.append('file', file)
-          fetch(this.url, { method: 'POST', body: formData })
+          fetch(this.computedUrl(this.url), { method: 'POST', body: formData })
             .then((response) => {
               if (response.status >= 200 && response.status <= 299) {
                 return response.json()
@@ -143,9 +139,8 @@ export default {
     },
 
     deleteFile () {
-      this.newImg = true
-      const preview = this.$refs.previewImg2021
-      preview.src = ''
+      window.URL.revokeObjectURL(this.previewSrc)
+      this.previewSrc = ''
     },
     onError (info) {
       showError(this.$t(this.notuploaded), info)
