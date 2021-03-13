@@ -2,9 +2,14 @@
 
 A Quasar Framework app and Apollo with GraphQL
 
+## copy local src of app
+```bash
+git clone https://github.com/alexxsub/quasar-auth-apollo.git
+```
+
 ## Install the dependencies
 ```bash
-npm install
+npm i
 ```
 ### Start the backend app in development mode (hot-code reloading, error reporting, etc.)
 ```bash
@@ -12,7 +17,7 @@ npm run server
 ```
 ### Start the frontend app in development mode (hot-code reloading, error reporting, etc.)
 ```bash
-quasar d
+npm run client
 ```
 
 ### Lint the files
