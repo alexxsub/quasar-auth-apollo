@@ -1,6 +1,6 @@
-# Quasar App (quasar-auth-apollo)
+# Quasar, Vue,Apollo,GraphQL,MongoDB App (quasar-auth-apollo)
 
-A Quasar Framework app
+A Quasar Framework app and Apollo with GraphQL
 
 ## Install the dependencies
 ```bash
