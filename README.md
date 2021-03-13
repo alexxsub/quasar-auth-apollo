@@ -6,10 +6,13 @@ A Quasar Framework app
 ```bash
 npm install
 ```
-
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+### Start the backend app in development mode (hot-code reloading, error reporting, etc.)
 ```bash
-quasar dev
+npm run server
+```
+### Start the frontend app in development mode (hot-code reloading, error reporting, etc.)
+```bash
+quasar d
 ```
 
 ### Lint the files
