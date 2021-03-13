@@ -1,3 +1,4 @@
+// © 2021 Alexx Sub, https://github.com/alexxsub/
 const { UserInputError } = require('apollo-server-express')
 const hiddenFields = ['_id', '__v',
   'password', 'createdDate'

@@ -1,3 +1,4 @@
+// © 2021 Alexx Sub, https://github.com/alexxsub/
 const app = require('express')(),
   express = require('express'),
   fileUpload = require('express-fileupload'),

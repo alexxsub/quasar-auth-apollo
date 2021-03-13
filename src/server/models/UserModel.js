@@ -1,4 +1,5 @@
 
+// © 2021 Alexx Sub, https://github.com/alexxsub/
 const mongoose = require('mongoose'),
   bcrypt = require('bcrypt')
 

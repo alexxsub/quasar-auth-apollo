@@ -1,3 +1,4 @@
+// © 2021 Alexx Sub, https://github.com/alexxsub/
 import gql from 'graphql-tag'
 
 export const fragment = gql`

@@ -1,3 +1,4 @@
+<!--© 2021 Alexx Sub, https://github.com/alexxsub/-->
 <template>
   <div class="fullscreen row justify-evenly items-center"
        style="z-index: 5000; background-color: rgba(0, 0, 255, 0.35); padding: 0px; margin: 0px;"

@@ -1,4 +1,4 @@
-
+// © 2021 Alexx Sub, https://github.com/alexxsub/
 module.exports = {
   Query: {
     getData: async (_, args, { User, currentUser }) => {

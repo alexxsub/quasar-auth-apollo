@@ -1,3 +1,4 @@
+// © 2021 Alexx Sub, https://github.com/alexxsub/
 const bcrypt = require('bcrypt'),
   jwt = require('jsonwebtoken'),
   { UserInputError } = require('apollo-server-express')

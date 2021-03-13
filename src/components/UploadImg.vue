@@ -1,8 +1,8 @@
+<!--© 2021 Alexx Sub, https://github.com/alexxsub/-->
 <template>
 <q-card
 :style="computedStyle">
 <q-img
-ref="previewImg2021"
 :src="previewSrc"
 placeholder-src="~assets/no-avatar.jpg"
 :ratio="1"
@@ -10,7 +10,7 @@ style="border-radius: 8px"
 >
 <template v-slot:error>
         <div class="absolute-full flex flex-center bg-negative text-white">
-          Cannot load image
+          {{this.$t('cantloadimg')}}
         </div>
 </template>
 </q-img>
@@ -32,15 +32,16 @@ style="border-radius: 8px"
           color="negative"
           icon="delete"
           @click="deleteFile" />
-          <input
-           style="visibility: hidden;"
-           ref="fileInput2021"
-           type="file"
-           @change="previewFile()" />
 </q-card>
 </template>
 <script>
 
+function fileDialogChanged () {
+  [...this.files].forEach(file => {
+    const event = new CustomEvent('previewFile', { detail: file })
+    window.dispatchEvent(event)
+  })
+}
 import { showError, showMsg } from 'src/front-lib'
 
 export default {
@@ -99,11 +100,10 @@ export default {
     computedUrl (url) {
       return `${url === '' ? '' : process.env.BASE_URL + url}`
     },
-    previewFile () {
-      const file = this.$refs.fileInput2021.files[0]
-
-      if (file) {
-        this.previewSrc = window.URL.createObjectURL(file)
+    previewFile (info) {
+      if (info) {
+        this.previewSrc = window.URL.createObjectURL(info.detail)
+        window.removeEventListener('previewFile', this.previewFile, false)
       } else {
         this.previewSrc = ''
       }
@@ -134,8 +134,13 @@ export default {
       })
     },
     inputFile () {
-      const f = this.$refs.fileInput2021
-      f.click()
+      var inputElement = document.createElement('input')
+      inputElement.type = 'file'
+      inputElement.accept = 'image/jpg,image/jpeg, image/png, image/gif'
+      inputElement.multiple = false
+      window.addEventListener('previewFile', this.previewFile)
+      inputElement.addEventListener('change', fileDialogChanged)
+      inputElement.dispatchEvent(new MouseEvent('click'))
     },
 
     deleteFile () {

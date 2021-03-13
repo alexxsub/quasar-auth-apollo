@@ -1,3 +1,4 @@
+<!--© 2021 Alexx Sub, https://github.com/alexxsub/-->
 <template>
   <q-page padding>
     <div class="q-pa-md">

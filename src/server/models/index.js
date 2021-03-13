@@ -1,3 +1,4 @@
+// © 2021 Alexx Sub, https://github.com/alexxsub/
 const fs = require('fs'),
   path = require('path')
 var Models = {}

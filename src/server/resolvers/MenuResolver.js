@@ -1,3 +1,4 @@
+// © 2021 Alexx Sub, https://github.com/alexxsub/
 const { rights } = require('../data/rights')
 const { menu } = require('../data/menu')
 module.exports = {

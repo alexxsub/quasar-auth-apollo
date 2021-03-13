@@ -1,4 +1,5 @@
 
+// © 2021 Alexx Sub, https://github.com/alexxsub/
 const { AuthenticationError } = require('apollo-server-express')
 const { rights } = require('../data/rights')
 module.exports = {
