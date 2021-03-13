@@ -9,6 +9,7 @@ git clone https://github.com/alexxsub/quasar-auth-apollo.git
 
 ## Install the dependencies
 ```bash
+cd quasar-auth-apollo
 npm i
 ```
 ### Start the backend app in development mode (hot-code reloading, error reporting, etc.)
