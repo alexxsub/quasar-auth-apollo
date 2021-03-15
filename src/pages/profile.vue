@@ -35,51 +35,42 @@
           v-model="changepassword"
           label="Change password"
         />
-        <q-input
-                ref="password"
-                autocomplete="on"
-                square
-                clearable
-                v-model="form.password"
-                :type="passwordFieldType"
-                lazy-rules
-                :rules="signup?[this.required,this.short]:null"
-                :label="$t('auth.password')"
-              >
-                <template v-slot:prepend>
-                  <q-icon name="lock" />
-                </template>
-                <template v-slot:append>
-                  <q-icon
-                    :name="visibilityIcon"
-                    @click="switchVisibility"
-                    class="cursor-pointer"
-                  />
-                </template>
-              </q-input>
-              <q-input
-                ref="repassword"
-                autocomplete="on"
-                v-if="signup"
-                square
-                clearable
-                v-model="form.repassword"
-                :type="passwordFieldType"
-                lazy-rules
-                :rules="[this.required,this.short,this.match]"
-                :label="$t('auth.repassword')"
-              >
-                <template v-slot:prepend>
-                  <q-icon name="lock" />
-                </template>
-                <template v-slot:append>
-                  <q-icon
-                    :name="visibilityIcon"
-                    @click="switchVisibility"
-                    class="cursor-pointer"
-                  />
-                </template>
-              </q-input>
+      <my-password v-if="changepassword"/>
+       <div class="row">
+      <div class="col">
+       <q-btn
+              unelevated
+              size="md"
+              color="white"
+              @click="cancel"
+              class="text-red"
+              :label="$t('cancel')"
+            />
+      </div>
+        <div class="col">
+        <q-btn
+
+              unelevated
+              size="md"
+              color="primary"
+              @click="reset"
+              class="text-white"
+              :label="$t('reset')"
+            />
+      </div>
+      <div class="col">
+        <q-btn
+
+              unelevated
+              size="md"
+              color="secondary"
+              @click="save"
+              class="full-width text-white"
+              :label="$t('save')"
+            />
+      </div>
+    </div>
+
     </div>
   </q-page>
 </template>
@@ -87,14 +78,15 @@
 <script>
 import UploadImg from 'components/UploadImg.vue'
 import RoleSelect from 'components/RoleSelect.vue'
+import MyPassword from 'components/MyPassword.vue'
 import { CURRENT_USER } from 'src/queries'
 export default {
   name: 'Profile',
-  components: { UploadImg, RoleSelect },
+  components: { UploadImg, RoleSelect, MyPassword },
   data () {
     return {
-      basicinput: 'test',
       changepassword: false,
+      currentUser: {},
       editedItem: {
         avatar: '',
         username: '',
@@ -108,11 +100,20 @@ export default {
       query: CURRENT_USER,
       update: function (data) {
         this.editedItem = Object.assign({}, data.getCurrentUser)
+        this.currentUser = Object.assign({}, data.getCurrentUser)
       }
     }
   },
   methods: {
+    save () {
 
+    },
+    cancel () {
+      this.$router.go(-1)
+    },
+    reset () {
+      this.editedItem = Object.assign({}, this.currentUser)
+    }
   },
   created () {
 

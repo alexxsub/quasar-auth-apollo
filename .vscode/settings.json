@@ -6,5 +6,6 @@
   "vetur.experimental.templateInterpolationService": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
-  }
+  },
+  "files.trimTrailingWhitespace": true
 }

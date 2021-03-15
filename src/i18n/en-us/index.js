@@ -16,7 +16,7 @@ export default {
   directorctx: 'Director\'s content',
   datatable: 'Data table',
   userstable: 'Table of users',
-  cantloadimg: 'Cant\' load avatar ',
+  cantloadimg: 'Cant\' load image ',
   norole: 'No roles',
   add: 'ADD',
   upload: 'Upload',

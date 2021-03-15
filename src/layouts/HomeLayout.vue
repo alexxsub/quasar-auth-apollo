@@ -133,7 +133,7 @@ export default {
   methods: {
 
     computedUrl (url) {
-      return url === '' ? noimg : `${process.env.BASE_URL}${url}`
+      return url === '' || url === null ? noimg : `${process.env.BASE_URL}${url}`
     },
     showErrorProxy (msg) {
       if (msg[0] === '_') {

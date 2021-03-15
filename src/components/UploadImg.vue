@@ -10,7 +10,7 @@ style="border-radius: 8px"
 >
 <template v-slot:error>
         <div class="absolute-full flex flex-center bg-negative text-white">
-          {{this.$t('cantloadimg')}}
+          {{$t('cantloadimg')}}
         </div>
 </template>
 </q-img>
@@ -87,7 +87,7 @@ export default {
 
   watch: {
     src (val) {
-      this.previewSrc = this.computedUrl(val === undefined ? '' : val)
+      this.previewSrc = this.computedUrl(val === undefined || val === null ? '' : val)
     }
   },
   computed: {
