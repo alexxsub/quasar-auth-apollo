@@ -1,9 +1,9 @@
 <template>
   <q-page padding>
     <div class="q-pa-md" style="max-width: 500px">
-         <upload-img ref="Uploader"
+    <upload-img ref="Uploader"
        :src="editedItem.avatar"
-       url="http://localhost:4001/upload2"
+       url="upload2"
        />
         <q-input
                        square
@@ -29,35 +29,93 @@
                   <q-icon name="email" />
                 </template>
               </q-input>
-                <q-select
-                readonly
+              <role-select  v-model="editedItem.roles" >
+        </role-select>
+         <q-checkbox
+          v-model="changepassword"
+          label="Change password"
+        />
+        <q-input
+                ref="password"
+                autocomplete="on"
                 square
-                :label="$t('roles')"
-                v-model="editedItem.roles"
-                use-chips>
-                 <template v-slot:after>
-          <q-btn round dense flat icon="info" />
-        </template>
-                </q-select>
+                clearable
+                v-model="form.password"
+                :type="passwordFieldType"
+                lazy-rules
+                :rules="signup?[this.required,this.short]:null"
+                :label="$t('auth.password')"
+              >
+                <template v-slot:prepend>
+                  <q-icon name="lock" />
+                </template>
+                <template v-slot:append>
+                  <q-icon
+                    :name="visibilityIcon"
+                    @click="switchVisibility"
+                    class="cursor-pointer"
+                  />
+                </template>
+              </q-input>
+              <q-input
+                ref="repassword"
+                autocomplete="on"
+                v-if="signup"
+                square
+                clearable
+                v-model="form.repassword"
+                :type="passwordFieldType"
+                lazy-rules
+                :rules="[this.required,this.short,this.match]"
+                :label="$t('auth.repassword')"
+              >
+                <template v-slot:prepend>
+                  <q-icon name="lock" />
+                </template>
+                <template v-slot:append>
+                  <q-icon
+                    :name="visibilityIcon"
+                    @click="switchVisibility"
+                    class="cursor-pointer"
+                  />
+                </template>
+              </q-input>
     </div>
   </q-page>
 </template>
 
 <script>
 import UploadImg from 'components/UploadImg.vue'
+import RoleSelect from 'components/RoleSelect.vue'
+import { CURRENT_USER } from 'src/queries'
 export default {
   name: 'Profile',
-  components: { UploadImg },
+  components: { UploadImg, RoleSelect },
   data () {
     return {
+      basicinput: 'test',
+      changepassword: false,
       editedItem: {
-        id: '',
         avatar: '',
         username: '',
         email: '',
         roles: []
       }
     }
+  },
+  apollo: {
+    getUser: {
+      query: CURRENT_USER,
+      update: function (data) {
+        this.editedItem = Object.assign({}, data.getCurrentUser)
+      }
+    }
+  },
+  methods: {
+
+  },
+  created () {
+
   }
 }
 </script>

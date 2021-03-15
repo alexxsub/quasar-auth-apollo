@@ -40,12 +40,12 @@
        <q-img class="absolute-top" src="~assets/material2.png" style="height: 120px">
           <div class="absolute-top bg-transparent">
             <q-avatar  class="q-mb-sm">
-              <img :src="computedUrl(curentUser.avatar)">
+              <img :src="computedUrl(currentUser.avatar)">
             </q-avatar>
             </div>
             <div class="absolute-bottom bg-transparent">
-            <router-link class="routerlink"  to="profile"><div class="text-weight-bold">{{curentUser.username}}</div></router-link>
-            <div>{{curentUser.email}}</div>
+            <router-link class="routerlink"  to="profile"><div class="text-weight-bold">{{currentUser.username}}</div></router-link>
+            <div>{{currentUser.email}}</div>
             </div>
             <div class="absolute-bottom-right bg-transparent">
              <q-btn round color="secondary" icon="logout" @click="logOut" />
@@ -110,11 +110,7 @@ export default {
   components: { MyMenu, EditUser },
   data () {
     return {
-      curentUser: {
-        avatar: '',
-        username: '',
-        email: ''
-      },
+      currentUser: {},
       lang: this.$i18n.locale,
       leftDrawerOpen: true,
       drawerOpen: false,
@@ -130,14 +126,12 @@ export default {
     getUser: {
       query: CURRENT_USER,
       update: function (data) {
-        this.curentUser.avatar = data.getCurrentUser.avatar
-        this.curentUser.username = data.getCurrentUser.username
-        this.curentUser.email = data.getCurrentUser.email
-        // this.$q.loading.hide()
+        this.currentUser = Object.assign({}, data.getCurrentUser)
       }
     }
   },
   methods: {
+
     computedUrl (url) {
       return url === '' ? noimg : `${process.env.BASE_URL}${url}`
     },
