@@ -36,6 +36,11 @@ export default {
   disabled: 'Недоступен',
   userenabled: 'Пользователь активирован!',
   userdisabled: 'Пользователь заблокирован!',
+  cancel: 'Отмена',
+  reset: 'Сбросить',
+  oldpassword: 'Старый пароль',
+  newpassword: 'Новый пароль',
+  changepassword: 'Сменить пароль',
   menu: {
     home: {
       title: 'В начало',

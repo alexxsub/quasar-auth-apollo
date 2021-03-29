@@ -73,6 +73,25 @@ module.exports = {
 
       return newUser
     },
+    modifyProfile: async (_, { input }, { User }) => {
+      const set = {
+        avatar: input.avatar,
+        username: input.username,
+        email: input.email
+      }
+      const user = await User.findOne({ _id: input._id })
+      if (!user) throw new Error('Cant\' find user!')
+      else {
+        if (!user.enabled) throw new Error('Access denied! Your authorization disabled.')
+        if (input.changepassword) {
+          const isValidPassword = await bcrypt.compare(input.oldpassword, user.password)
+          if (!isValidPassword) throw new Error('Incorrect old password')
+          set.password = input.newpassword
+        }
+      }
+      const res = await User.findOneAndUpdate({ _id: input._id }, { $set: set }, { new: true })
+      return res
+    },
     modifyUser: async (_, { input }, { User }) => {
       if (input.id === '') {
         const res = await new User({

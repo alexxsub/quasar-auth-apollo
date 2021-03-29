@@ -2,11 +2,12 @@
 <template>
 <q-card
 :style="computedStyle">
+{{src}}
 <q-img
-:src="previewSrc"
-placeholder-src="~assets/no-avatar.jpg"
-:ratio="1"
-style="border-radius: 8px"
+  :src="previewSrc"
+  placeholder-src="~assets/no-avatar.jpg"
+  :ratio="1"
+  style="border-radius: 8px"
 >
 <template v-slot:error>
         <div class="absolute-full flex flex-center bg-negative text-white">
@@ -35,7 +36,7 @@ style="border-radius: 8px"
 </q-card>
 </template>
 <script>
-
+var inputElement
 function fileDialogChanged () {
   [...this.files].forEach(file => {
     const event = new CustomEvent('previewFile', { detail: file })
@@ -46,15 +47,14 @@ import { showError, showMsg } from 'src/front-lib'
 
 export default {
   name: 'UploadImg',
-
   props: {
-    url: {
-      type: String,
-      required: true
-    },
     src: {
       type: String,
       default: ''
+    },
+    url: {
+      type: String,
+      required: true
     },
     width: {
       type: String,
@@ -85,19 +85,19 @@ export default {
     }
   },
 
-  watch: {
-    src (val) {
-      this.previewSrc = this.computedUrl(val === undefined || val === null ? '' : val)
-    }
-  },
   computed: {
     computedStyle () {
       return `width:${this.width}px;height:${this.height}px;border-radius: 8px`
     }
   },
-
+  mounted () {
+    console.log(1)
+    console.log(this)
+    this.previewSrc = this.computedUrl(this.src)
+  },
   methods: {
     computedUrl (url) {
+      url = ((url === undefined) || (url === null)) ? '' : url
       return `${url === '' ? '' : process.env.BASE_URL + url}`
     },
     previewFile (info) {
@@ -110,7 +110,9 @@ export default {
     },
     uploadFile (notify) {
       return new Promise((resolve, reject) => {
-        var file = this.$refs.fileInput2021.files[0]
+        if (inputElement !== undefined) {
+          var file = inputElement.files[0]
+        }
         if (!file) resolve('')
         else {
           var formData = new FormData()
@@ -134,7 +136,7 @@ export default {
       })
     },
     inputFile () {
-      var inputElement = document.createElement('input')
+      inputElement = document.createElement('input')
       inputElement.type = 'file'
       inputElement.accept = 'image/jpg,image/jpeg, image/png, image/gif'
       inputElement.multiple = false

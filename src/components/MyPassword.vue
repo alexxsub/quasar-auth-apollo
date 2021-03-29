@@ -9,8 +9,9 @@
                 v-model="password"
                 :type="passwordFieldType"
                 lazy-rules
-                :rules="repassword_enabled?[this.required,this.short]:null"
-                :label="$t('auth.password')"
+                :rules="!single?[this.required,this.short]:null"
+                :label="computedLabel"
+                @input="handleInput"
               >
                 <template v-slot:prepend>
                   <q-icon name="lock" />
@@ -26,7 +27,7 @@
               <q-input
                 ref="repassword"
                 autocomplete="on"
-                v-if="repassword_enabled"
+                v-if="!single"
                 square
                 clearable
                 v-model="repassword"
@@ -53,17 +54,35 @@
 
 export default {
   name: 'MyPassword',
-  props: ['value'],
+  props: {
+    value:
+    {
+      type: String,
+      default: ''
+    },
+    single:
+    {
+      type: Boolean,
+      default: false
+    },
+    password_label:
+    {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
-      repassword_enabled: true,
       visibility: false,
-      password: '',
+      password: this.value,
       repassword: ''
     }
   },
 
   methods: {
+    handleInput (e) {
+      this.$emit('input', this.password)
+    },
     switchVisibility () {
       this.visibility = !this.visibility
     },
@@ -80,6 +99,9 @@ export default {
 
   },
   computed: {
+    computedLabel () {
+      return this.password_label === '' ? this.$t('auth.password') : this.password_label
+    },
     visibilityIcon () {
       return this.visibility ? 'visibility_off' : 'visibility'
     },

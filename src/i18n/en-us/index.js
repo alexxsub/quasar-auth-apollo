@@ -36,6 +36,11 @@ export default {
   disabled: 'Disabled',
   userenabled: 'User has been enabled!',
   userdisabled: 'User has been disabled!',
+  cancel: 'Cancel',
+  reset: 'Reset',
+  oldpassword: 'Old password',
+  newpassword: 'New password',
+  changepassword: 'Change password',
   menu: {
     home: {
       title: 'Home',

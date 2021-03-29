@@ -4,12 +4,12 @@ enum Role {
   manager
 }
 type User {
-  _id: ID  
+  _id: ID
   avatar: String
-  username: String! 
+  username: String!
   email: String
   password: String
-  roles:[Role] 
+  roles:[Role]
   enabled: Boolean
   createdDate: String
 
@@ -22,6 +22,15 @@ input inputUser {
   roles: [Role]
   enabled: Boolean
 }
+input inputProfile {
+  _id:ID
+  avatar: String
+  username: String
+  email: String
+  changepassword:Boolean
+  oldpassword:String
+  newpassword:String
+}
 type Token {
   token: String!
 }
@@ -31,10 +40,11 @@ type Query {
   getUsers: [User]
 }
 
-type Mutation {  
+type Mutation {
+  modifyProfile(input:inputProfile!):User
   modifyUser(input: inputUser!):User
   deleteUser(id: ID!):User
   enabledUser(id: ID!, enabled: Boolean!):User
   signIn(username: String!, password: String!): Token
-  signUp(username: String!,email: String!, password: String!): User  
+  signUp(username: String!,email: String!, password: String!): User
 }

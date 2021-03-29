@@ -36,6 +36,14 @@ export const MODIFY_USER = gql`
   }
   ${fragment}
 `
+export const MODIFY_PROFILE = gql`
+  mutation modifyProfile($input: inputProfile!) {
+    modifyProfile(input: $input) {
+      ...User
+    }
+  }
+  ${fragment}
+`
 export const ENABLED_USER = gql`
   mutation enabledUser($id: ID!,$enabled: Boolean!) {
     enabledUser(id: $id, enabled: $enabled) {

@@ -1,21 +1,22 @@
 <template>
   <q-page padding>
+    {{editedItem.avatar}}
     <div class="q-pa-md" style="max-width: 500px">
     <upload-img ref="Uploader"
        :src="editedItem.avatar"
-       url="upload2"
+       :url="url"
        />
         <q-input
-                       square
-                       clearable
-                       v-model="editedItem.username"
-                       lazy-rules
-                       :rules="[]"
-                       :label="$t('username')">
-                  <template v-slot:prepend>
-                  <q-icon name="person" />
-                </template>
-              </q-input>
+          square
+          clearable
+          v-model="editedItem.username"
+          lazy-rules
+          :rules="[]"
+          :label="$t('username')">
+          <template v-slot:prepend>
+          <q-icon name="person" />
+          </template>
+        </q-input>
               <q-input
                        square
                        clearable
@@ -29,13 +30,26 @@
                   <q-icon name="email" />
                 </template>
               </q-input>
-              <role-select  v-model="editedItem.roles" >
+              <role-select readonly v-model="editedItem.roles" >
         </role-select>
          <q-checkbox
-          v-model="changepassword"
-          label="Change password"
+          v-model="editedItem.changepassword"
+          :label="$t('changepassword')"
         />
-      <my-password v-if="changepassword"/>
+        <div v-if="editedItem.changepassword">
+        <my-password
+        :password_label="$t('oldpassword')"
+        single="true"
+        v-model="editedItem.oldpassword"
+        />
+      <my-password
+      :password_label="$t('newpassword')"
+      v-model="editedItem.newpassword"
+      />
+        <p class="text-grey-6">
+              {{this.$t('auth.forgotpass')}}
+            </p>
+             </div>
        <div class="row">
       <div class="col">
        <q-btn
@@ -52,15 +66,14 @@
 
               unelevated
               size="md"
-              color="primary"
+              color="white"
               @click="reset"
-              class="text-white"
+              class="text-blue"
               :label="$t('reset')"
             />
       </div>
       <div class="col">
         <q-btn
-
               unelevated
               size="md"
               color="secondary"
@@ -79,19 +92,24 @@
 import UploadImg from 'components/UploadImg.vue'
 import RoleSelect from 'components/RoleSelect.vue'
 import MyPassword from 'components/MyPassword.vue'
-import { CURRENT_USER } from 'src/queries'
+import { showError, showMsg } from '../front-lib'
+import { CURRENT_USER, MODIFY_PROFILE } from 'src/queries'
 export default {
   name: 'Profile',
   components: { UploadImg, RoleSelect, MyPassword },
   data () {
     return {
-      changepassword: false,
+      url: 'upload2',
       currentUser: {},
       editedItem: {
+        _id: '',
         avatar: '',
         username: '',
         email: '',
-        roles: []
+        roles: [],
+        changepassword: false,
+        oldpassword: '',
+        newpassword: ''
       }
     }
   },
@@ -99,14 +117,36 @@ export default {
     getUser: {
       query: CURRENT_USER,
       update: function (data) {
-        this.editedItem = Object.assign({}, data.getCurrentUser)
-        this.currentUser = Object.assign({}, data.getCurrentUser)
+        Object.keys(this.editedItem).forEach(key => {
+          if (key in data.getCurrentUser) this.editedItem[key] = data.getCurrentUser[key]
+        })
+        this.currentUser = Object.assign({}, this.editedItem)
       }
     }
   },
   methods: {
     save () {
-
+      this.$refs.Uploader.uploadFile(false)
+        .then(file => {
+          const input = {
+            input: this.editedItem
+          }
+          delete input.input.roles
+          if (file !== '')input.input.avatar = file
+          this.$apollo
+            .mutate({
+              mutation: MODIFY_PROFILE,
+              variables: input
+            })
+            .then(data => {
+              showMsg(this.$t('recordupdated'))
+              return true
+            })
+            .catch(error => {
+              showError(error.message)
+              return false
+            })
+        })
     },
     cancel () {
       this.$router.go(-1)
@@ -114,9 +154,7 @@ export default {
     reset () {
       this.editedItem = Object.assign({}, this.currentUser)
     }
-  },
-  created () {
-
   }
+
 }
 </script>

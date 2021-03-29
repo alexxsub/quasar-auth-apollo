@@ -2,9 +2,10 @@
 <template>
 <div>
   <q-select
+      :readonly="readonly"
       square
       :label="$t('roles')"
-      v-model='content'
+      :value="value"
       @input="handleInput"
       use-chips
       multiple
@@ -47,29 +48,35 @@
 import TypeRoles from 'components/TypeRoles'
 export default {
   name: 'RoleSelect',
-  props: ['value'],
+  props: {
+    value: {
+      type: Array,
+      default: () => []
+    },
+    readonly: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
-      content: this.value,
       filterOptions: this.stringOptions
     }
   },
-  mounted () {
-    this.content = this.value
-  },
+
   computed: {
     stringOptions () {
       return TypeRoles.map(i => i.value)
     }
   },
   methods: {
-    handleInput (e) {
-      this.$emit('input', this.content)
+    handleInput (v) {
+      this.$emit('input', v)
     },
     role (key) {
       return TypeRoles.filter(i => i.value === key)[0]
     },
-    // фильтрация записей при выборе ролей на карточке пользователя
+
     onFilter (val, update) {
       update(() => {
         if (val === '') {
