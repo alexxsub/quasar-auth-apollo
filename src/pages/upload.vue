@@ -22,7 +22,7 @@
       />
      </q-tab-panel>
      <q-tab-panel name="custom" style="overflow:hidden">
-       <upload-img ref="Uploader"
+       <upload-img ref="Uploader" id="uploadUpload"
        :url="computedUrl('upload2')"
        />
        <q-btn style="width:150px" :label="$t('upload')" color="primary" icon="file_upload" @click="uploadFile" />

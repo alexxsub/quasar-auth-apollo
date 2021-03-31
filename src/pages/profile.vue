@@ -1,9 +1,8 @@
 <template>
   <q-page padding>
-    {{editedItem.avatar}}
     <div class="q-pa-md" style="max-width: 500px">
     <upload-img ref="Uploader"
-       :src="editedItem.avatar"
+       v-model="editedItem.avatar"
        :url="url"
        />
         <q-input

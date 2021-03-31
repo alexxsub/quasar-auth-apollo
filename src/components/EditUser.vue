@@ -2,7 +2,7 @@
 <!--© 2021 Alexx Sub, https://github.com/alexxsub/-->
 <template>
  <div class="q-pa-md" style="max-width: 500px">
-      <upload-img ref="Uploader"
+      <upload-img ref="Uploader" id="uplodUser"
        :src="editedItem.avatar"
        url="upload2"
        />

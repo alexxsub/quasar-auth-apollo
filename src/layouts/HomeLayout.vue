@@ -54,6 +54,7 @@
         </q-img>
     </q-drawer>
 <q-drawer
+      v-if="drawerOpen"
       v-model="drawerOpen"
       :width="500"
       side="right"
@@ -61,6 +62,7 @@
       overlay
       content-class="bg-grey-1"
     >
+
      <q-toolbar class="bg-grey-2">
         <q-btn dense
       color="red"
@@ -77,7 +79,8 @@
       class="q-mr-sm text-white"
       @click="btnSave"/>
     </q-toolbar>
-    <edit-user ref="editUser" ></edit-user>
+    <edit-user  ref="editUser" ></edit-user>
+
     </q-drawer>
     <q-page-container>
       <router-view />

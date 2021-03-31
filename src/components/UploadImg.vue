@@ -2,7 +2,6 @@
 <template>
 <q-card
 :style="computedStyle">
-{{src}}
 <q-img
   :src="previewSrc"
   placeholder-src="~assets/no-avatar.jpg"
@@ -48,7 +47,7 @@ import { showError, showMsg } from 'src/front-lib'
 export default {
   name: 'UploadImg',
   props: {
-    src: {
+    value: {
       type: String,
       default: ''
     },
@@ -59,12 +58,10 @@ export default {
     width: {
       type: String,
       default: '150'
-
     },
     height: {
       type: String,
       default: '150'
-
     },
     noimg: {
       type: String,
@@ -90,10 +87,13 @@ export default {
       return `width:${this.width}px;height:${this.height}px;border-radius: 8px`
     }
   },
+  watch: {
+    value (v) {
+      this.previewSrc = this.computedUrl(v)
+    }
+  },
   mounted () {
-    console.log(1)
-    console.log(this)
-    this.previewSrc = this.computedUrl(this.src)
+    this.previewSrc = this.computedUrl(this.value)
   },
   methods: {
     computedUrl (url) {
