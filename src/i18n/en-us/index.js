@@ -2,6 +2,7 @@ export default {
   copyright: 'Copyright',
   title: 'SPA authentication and authorization demo',
   username: 'User name',
+  fullname: 'Full name',
   name: 'Name',
   email: 'Email',
   enabled: 'Enabled',

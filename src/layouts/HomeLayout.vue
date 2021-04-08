@@ -44,7 +44,11 @@
             </q-avatar>
             </div>
             <div class="absolute-bottom bg-transparent">
-            <router-link class="routerlink"  to="profile"><div class="text-weight-bold">{{currentUser.username}}</div></router-link>
+            <router-link
+              class="routerlink"
+              to="profile">
+              <div class="text-weight-bold">{{currentUser.fullname===''||currentUser.fullname===null?currentUser.username:currentUser.fullname}}</div>
+            </router-link>
             <div>{{currentUser.email}}</div>
             </div>
             <div class="absolute-bottom-right bg-transparent">

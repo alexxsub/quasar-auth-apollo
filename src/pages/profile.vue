@@ -16,6 +16,17 @@
           <q-icon name="person" />
           </template>
         </q-input>
+         <q-input
+          square
+          clearable
+          v-model="editedItem.fullname"
+          lazy-rules
+          :rules="[]"
+          :label="$t('fullname')">
+          <template v-slot:prepend>
+          <q-icon name="mdi-account-tie" />
+          </template>
+        </q-input>
               <q-input
                        square
                        clearable
@@ -29,8 +40,10 @@
                   <q-icon name="email" />
                 </template>
               </q-input>
-              <role-select readonly v-model="editedItem.roles" >
-        </role-select>
+              <role-select
+                readonly
+                v-model="editedItem.roles" >
+              </role-select>
          <q-checkbox
           v-model="editedItem.changepassword"
           :label="$t('changepassword')"
@@ -104,6 +117,7 @@ export default {
         _id: '',
         avatar: '',
         username: '',
+        fullname: '',
         email: '',
         roles: [],
         changepassword: false,

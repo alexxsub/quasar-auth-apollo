@@ -2,6 +2,7 @@
 <!--© 2021 Alexx Sub, https://github.com/alexxsub/-->
 <template>
  <div class="q-pa-md" style="max-width: 500px">
+   {{editedItem}}
       <upload-img ref="Uploader" id="uplodUser"
        :src="editedItem.avatar"
        url="upload2"
@@ -15,6 +16,17 @@
                        :label="$t('username')">
                   <template v-slot:prepend>
                   <q-icon name="person" />
+                </template>
+              </q-input>
+               <q-input
+                       square
+                       clearable
+                       v-model="editedItem.fullname"
+                       lazy-rules
+                       :rules="[]"
+                       :label="$t('fullname')">
+                  <template v-slot:prepend>
+                  <q-icon name="mdi-account-tie" />
                 </template>
               </q-input>
               <q-input
@@ -90,9 +102,10 @@ export default {
       filterOptions: this.stringOptions,
       editedItem: {},
       defaultItem: {
-        id: '',
+        _id: '',
         avatar: '',
         username: '',
+        fullname: '',
         email: '',
         enabled: false,
         roles: []
@@ -122,15 +135,17 @@ export default {
         }
       })
     },
-    setEditedItem (item) {
+    editRecord (item) {
       // need only default structure
       this.editedItem = Object.assign({}, this.defaultItem)
-      // i use 'id' but in database '_id'
+      console.log(this.editedItem)
+      // use 'id' but in database '_id'
       for (var key in this.editedItem) {
-        if (key === 'id') { this.editedItem[key] = item[`_${key}`] } else { this.editedItem[key] = item[key] }
+        this.editedItem[key] = item[key]
       }
+      // console.log(this.editedItem)
     },
-    setDefaultItem () {
+    newRecord () {
       this.editedItem = Object.assign({}, this.defaultItem)
     },
     saveRecord () {
@@ -160,9 +175,9 @@ export default {
         })
     }
   },
-  created () {
-    bus.$on('editRecord', this.setEditedItem)
-    bus.$on('newRecord', this.setDefaultItem)
+  mounted () {
+    bus.$on('editRecord', this.editRecord)
+    bus.$on('newRecord', this.newRecord)
   }
 }
 </script>

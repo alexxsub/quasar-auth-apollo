@@ -65,6 +65,7 @@ module.exports = {
       const newUser = await new User({
         avatar,
         username,
+        fullname,
         email,
         password,
         roles: defaultRoles,
@@ -77,6 +78,7 @@ module.exports = {
       const set = {
         avatar: input.avatar,
         username: input.username,
+        fullname: input.fullname,
         email: input.email
       }
       const user = await User.findOne({ _id: input._id })
@@ -93,10 +95,11 @@ module.exports = {
       return res
     },
     modifyUser: async (_, { input }, { User }) => {
-      if (input.id === '') {
+      if (input._id === '') {
         const res = await new User({
           avatar: input.avatar,
           username: input.username,
+          name: input.name,
           email: input.email,
           roles: input.roles,
           password: '',
@@ -106,11 +109,12 @@ module.exports = {
         return res
       } else {
         const res = await User.findOneAndUpdate({
-          _id: input.id
+          _id: input._id
         }, {
           $set: {
             avatar: input.avatar,
             username: input.username,
+            name: input.name,
             email: input.email,
             roles: input.roles,
             enabled: input.enabled
@@ -122,9 +126,9 @@ module.exports = {
         return res
       }
     },
-    enabledUser: async (_, { id, enabled }, { User }) => {
+    enabledUser: async (_, { _id, enabled }, { User }) => {
       const res = await User.findOneAndUpdate({
-        _id: id
+        _id
       }, {
         $set: {
           enabled
@@ -135,9 +139,9 @@ module.exports = {
       )
       return res
     },
-    deleteUser: async (_, { id }, { User }) => {
+    deleteUser: async (_, { _id }, { User }) => {
       const res = await User.findByIdAndRemove({
-        _id: id
+        _id
       }).then()
       return res
     }

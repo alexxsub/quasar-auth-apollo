@@ -38,6 +38,9 @@
             <a href='#' @click="editRecord(props.row)">{{props.row.username}}</a>
           </q-td>
           <q-td>
+            {{props.row.fullname}}
+          </q-td>
+          <q-td>
             {{props.row.email}}
           </q-td>
           <q-td>
@@ -148,8 +151,8 @@ export default {
       bus.$emit('newRecord')
     },
     editRecord (row) {
-      event.stopPropagation()
       bus.$emit('editRecord', row)
+      event.stopPropagation()
     },
     deleteRecord (id) {
       this.$q.dialog({

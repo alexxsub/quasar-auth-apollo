@@ -7,6 +7,7 @@ type User {
   _id: ID
   avatar: String
   username: String!
+  fullname: String
   email: String
   password: String
   roles:[Role]
@@ -15,9 +16,10 @@ type User {
 
 }
 input inputUser {
-  id:ID
+  _id:ID
   avatar: String
   username: String
+  fullname: String
   email: String
   roles: [Role]
   enabled: Boolean
@@ -26,6 +28,7 @@ input inputProfile {
   _id:ID
   avatar: String
   username: String
+  fullname: String
   email: String
   changepassword:Boolean
   oldpassword:String
@@ -43,8 +46,8 @@ type Query {
 type Mutation {
   modifyProfile(input:inputProfile!):User
   modifyUser(input: inputUser!):User
-  deleteUser(id: ID!):User
-  enabledUser(id: ID!, enabled: Boolean!):User
+  deleteUser(_id: ID!):User
+  enabledUser(_id: ID!, enabled: Boolean!):User
   signIn(username: String!, password: String!): Token
   signUp(username: String!,email: String!, password: String!): User
 }

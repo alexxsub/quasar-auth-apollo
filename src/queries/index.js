@@ -6,6 +6,7 @@ export const fragment = gql`
     _id
     avatar
     username
+    fullname
     email
     roles
     enabled
