@@ -51,6 +51,10 @@ export default {
       title: 'Пользователи',
       caption: 'Список пользователей и ролей'
     },
+    testmongodb: {
+      title: 'Тест mongoDB',
+      caption: 'Случайная запись в базу'
+    },
     manager: {
       title: 'Для меджера',
       caption: 'Контекст для роли меджера'

@@ -47,6 +47,10 @@ export default {
       title: 'Home',
       caption: 'Start page'
     },
+    testmongodb: {
+      title: 'Test mongoDB',
+      caption: 'Randomize write in DB'
+    },
     users: {
       title: 'Users',
       caption: 'Table of users and roles'
