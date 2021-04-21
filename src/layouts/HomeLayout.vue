@@ -83,7 +83,7 @@
       class="q-mr-sm text-white"
       @click="btnSave"/>
     </q-toolbar>
-    <edit-user  ref="editUser" ></edit-user>
+    <edit-user v-model="editedItem" ref="editUser" ></edit-user>
 
     </q-drawer>
     <q-page-container>
@@ -118,6 +118,7 @@ export default {
   data () {
     return {
       currentUser: {},
+      editedItem: {},
       lang: this.$i18n.locale,
       leftDrawerOpen: true,
       drawerOpen: false,
@@ -168,6 +169,7 @@ export default {
     },
     editRecord (row) {
       this.title = 'updaterecord'
+      this.editedItem = Object.assign({}, row)
       this.drawerOpen = true
     },
     newRecord (row) {

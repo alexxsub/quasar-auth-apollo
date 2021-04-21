@@ -99,6 +99,7 @@ export default {
   components: { UploadImg },
   data () {
     return {
+      render: false,
       filterOptions: this.stringOptions,
       editedItem: {},
       defaultItem: {
@@ -144,6 +145,7 @@ export default {
         this.editedItem[key] = item[key]
       }
       // console.log(this.editedItem)
+      this.render = true
     },
     newRecord () {
       this.editedItem = Object.assign({}, this.defaultItem)
@@ -175,7 +177,7 @@ export default {
         })
     }
   },
-  mounted () {
+  created () {
     bus.$on('editRecord', this.editRecord)
     bus.$on('newRecord', this.newRecord)
   }

@@ -1,23 +1,23 @@
 type Test {
-  _id: ID
-  total: Number
-  createdDate: String
-}
-type Operations {
-  _id: ID
-  testID: ObjectID
-  value: Number
+  _id: String
+  total: Int
   createdDate: String
 }
 
+type Operations {
+  _id: String
+  testID: String
+  value: Int
+  createdDate: String
+}
 
 type Query {
-  getOperations(_id:ObjectID): Number
-  getTotal(_id:ObjectID): Number
+  getOperations(_id: String): Int
+  getTotal(_id: String): Int
 }
 
 type Mutation {
-  writeOperation(value: Number):Operations
-  addTest():ObjectID
-  deletTest(_id:ObjectID):Boolean
+  writeOperation(value: Int): Operations
+  addTest: String
+  deletTest(_id: String): Boolean
 }

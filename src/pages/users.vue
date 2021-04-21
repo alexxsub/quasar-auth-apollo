@@ -152,7 +152,8 @@ export default {
     },
     editRecord (row) {
       bus.$emit('editRecord', row)
-      event.stopPropagation()
+      console.log(row)
+      self.event.stopPropagation()
     },
     deleteRecord (id) {
       this.$q.dialog({
