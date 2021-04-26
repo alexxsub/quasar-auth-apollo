@@ -2,9 +2,8 @@
 <!--© 2021 Alexx Sub, https://github.com/alexxsub/-->
 <template>
  <div class="q-pa-md" style="max-width: 500px">
-   {{editedItem}}
-      <upload-img ref="Uploader" id="uplodUser"
-       :src="editedItem.avatar"
+      <upload-img ref="Uploader"
+       v-model="editedItem.avatar"
        url="upload2"
        />
               <q-input
@@ -139,12 +138,9 @@ export default {
     editRecord (item) {
       // need only default structure
       this.editedItem = Object.assign({}, this.defaultItem)
-      console.log(this.editedItem)
-      // use 'id' but in database '_id'
       for (var key in this.editedItem) {
         this.editedItem[key] = item[key]
       }
-      // console.log(this.editedItem)
       this.render = true
     },
     newRecord () {

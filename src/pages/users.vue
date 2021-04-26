@@ -152,7 +152,6 @@ export default {
     },
     editRecord (row) {
       bus.$emit('editRecord', row)
-      console.log(row)
       self.event.stopPropagation()
     },
     deleteRecord (id) {
