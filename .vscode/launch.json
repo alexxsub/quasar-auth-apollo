@@ -12,8 +12,8 @@
             "webRoot": "${workspaceFolder}"
         },
         {
-            "command": "Бэкенд",
-            "name": "Run npm server",
+            "command": "npm run server",
+            "name": "Бэкенд",
             "request": "launch",
             "type": "node-terminal"
         }

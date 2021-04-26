@@ -9,7 +9,6 @@ const menu = [
     icon: 'mdi-cloud-check',
     link: '/testmongodb'
   },
-
   {
     name: 'upload',
     icon: 'cloud_upload',

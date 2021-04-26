@@ -58,6 +58,7 @@
         </q-img>
     </q-drawer>
 <q-drawer
+
       v-model="drawerOpen"
       :width="500"
       side="right"

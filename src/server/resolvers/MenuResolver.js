@@ -9,7 +9,7 @@ module.exports = {
       if (roles) {
         roles.forEach(role => {
           menu.map(el => {
-            el.enabled = rights[role].includes(el.name) || rights[role].includes('*')
+            el.enabled = el.enabled || rights[role].includes(el.name) || rights[role].includes('*')
             return el
           })
         })
