@@ -71,6 +71,13 @@ const routes = [
     ]
   },
   {
+    path: '/MyUsers',
+    component: () => import('layouts/HomeLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/MyUsers.vue') }
+    ]
+  },
+  {
     path: '/table',
     component: () => import('layouts/HomeLayout.vue'),
     children: [
