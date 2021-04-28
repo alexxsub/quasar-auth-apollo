@@ -5,6 +5,11 @@ const menu = [
     link: '/home'
   },
   {
+    name: 'dashboard',
+    icon: 'mdi-monitor-dashboard',
+    link: '/dashboard'
+  },
+  {
     name: 'testmongodb',
     icon: 'mdi-cloud-check',
     link: '/testmongodb'

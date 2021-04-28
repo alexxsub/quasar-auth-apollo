@@ -1,13 +1,13 @@
 <template>
-  <q-page class="flex flex-center">
-Тест
+   <q-page padding>
+    <div class="q-pa-md">
     <my-table
-      v-if="render"
-      title="users"
-      table="users"
+      title="userstable"
+      table="User"
       :data="getUsers"
       linkfield="username"
     />
+    </div>
   </q-page>
 </template>
 <style>

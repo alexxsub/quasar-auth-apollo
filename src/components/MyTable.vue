@@ -26,6 +26,7 @@
 </template>
 
 <script>
+
 import MyCell from 'src/components/MyCell'
 import { GET_COLUMNS } from 'src/queries'
 export default {
@@ -69,7 +70,7 @@ export default {
     getColumns: {
       query: GET_COLUMNS,
       variables: {
-        model: this.table
+        model: 'User'
       },
       update: function (data) {
         const cols = data.getColumns

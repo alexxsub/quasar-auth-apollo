@@ -15,6 +15,13 @@ const routes = [
     ]
   },
   {
+    path: '/dashboard',
+    component: () => import('layouts/HomeLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/dashboard.vue') }
+    ]
+  },
+  {
     path: '/login',
     component: () => import('layouts/LoginLayout.vue'),
     children: [
