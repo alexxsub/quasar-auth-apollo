@@ -61,3 +61,4 @@ export default {
 .my-card
     width: 100%
 </style>
+<!-- https://asset.mgmt.tensor.ru/ -->
