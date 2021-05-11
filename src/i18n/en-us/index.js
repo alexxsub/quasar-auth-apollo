@@ -51,6 +51,10 @@ export default {
       title: 'Test mongoDB',
       caption: 'Randomize write in DB'
     },
+    dashboard: {
+      title: 'Dashboard',
+      caption: 'Main dashboard'
+    },
     users: {
       title: 'Users',
       caption: 'Table of users and roles'
