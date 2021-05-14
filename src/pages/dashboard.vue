@@ -250,6 +250,57 @@ export default {
     opacity: 0.2
 .my-card
     width: 100%
+.bar-chart {
+  background: #f33;
+  height: 1rem;
+  margin-bottom: 2rem;
+}
+.bar-chart .bar-chart--inner
+  height: 100%;
+  display: block;
+  margin-bottom: .3rem;
+  position: relative;
+  will-change: width;
+width:60%;
+
+.bar-chart .bar-chart--inner:after
+  position: absolute;
+  top: 0;
+  right: 0;
+  content: attr(data-unused);
+  width: 20%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+
+.bar-chart.primary .bar-chart--inner
+  background: green;
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.bar-chart .bar-chart--inner {
+	background: #333;
+	height: 100%;
+	display: block;
+	margin-bottom: .3rem;
+	position: relative;
+	will-change: width;
+}
+.bar-chart .bar-chart--inner:after {
+	position: absolute;
+	top: 0;
+	right: 0;
+	content: " ";
+	width: 1rem;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.1);
+}
+
+.bar-chart.primary .bar-chart--inner {
+	background: #e86951;
+}
+
 </style>
 <!-- https://asset.mgmt.tensor.ru/
 https://github.com/mayank091193/quasar-admin-crm
