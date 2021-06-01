@@ -65,7 +65,7 @@ module.exports = {
       const newUser = await new User({
         avatar,
         username,
-        fullname,
+        fullname: '',
         email,
         password,
         roles: defaultRoles,

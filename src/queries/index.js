@@ -47,7 +47,7 @@ export const MODIFY_PROFILE = gql`
 `
 export const ENABLED_USER = gql`
   mutation enabledUser($id: ID!,$enabled: Boolean!) {
-    enabledUser(id: $id, enabled: $enabled) {
+    enabledUser(_id: $id, enabled: $enabled) {
     ...User
     }
   }
