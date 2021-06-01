@@ -32,14 +32,16 @@
             </div>
             <div class="absolute-full">
             <div class="row">
-                <div class="col-1"/>
+              <div class="col-1"/>
               <div class="col-11">
                 <div class="text-h6">Data Center</div>
               </div>
+
                 <div class="col-1"/>
-                <div class="col-8">1 730 055 000  <i class="fas fa-ruble-sign"></i></div>
+                <div class="col-8">1 730 055 000  <q-icon name="fas fa-ruble-sign"/> </div>
                 <div class="col-2 text-h5 text-right">1264</div>
                <div class="col-1"/>
+
             </div>
             <div class="row">
               <div class="col-1"/>

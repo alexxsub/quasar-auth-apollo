@@ -19,14 +19,14 @@ export default {
       type: Array,
       default: () => [100, 0]
     },
-    heignt: {
+    height: {
       type: Number,
       default: 5
     }
   },
   computed: {
     barStyle () {
-      return `height: ${this.heignt}px;background: green;`
+      return `height: ${this.height}px;background: green;`
     },
     barStyle1 () {
       return `background: rgb(0,255,0,.7);width:${this.value[1] + this.value[0]}%`
