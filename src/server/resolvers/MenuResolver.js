@@ -13,11 +13,11 @@ module.exports = {
             return el
           })
         })
+        console.log(menu)
         var res = []
-        res = menu.map(el => {
-          if (el.enabled) return el
-        })
+        res = menu.filter(el =>el.enabled)
       } else res = []
+      console.log(res)
       return res
     }
   },
