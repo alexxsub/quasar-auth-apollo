@@ -31,6 +31,7 @@
     "vue-i18n": "^8.0.0"
   },
   "devDependencies": {
+    "@quasar/cli":"1.0.4",
     "@quasar/app": "^2.0.0",
     "@quasar/quasar-app-extension-apollo": "^1.0.0-beta.6",
     "@quasar/quasar-app-extension-dotenv": "^1.1.0",

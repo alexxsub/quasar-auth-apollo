@@ -23,7 +23,6 @@ npm run server
 this app for node 12 and quasar 1.x
 ```bash
 nvm use 12.22.12
-npm i @quasar/cli@1.0.4
 npm run client
 ```
 
