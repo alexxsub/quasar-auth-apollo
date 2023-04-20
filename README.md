@@ -7,10 +7,15 @@ A Quasar Framework app and Apollo with GraphQL
 git clone https://github.com/alexxsub/quasar-auth-apollo.git
 ```
 
+## run MongoDB
+```bash
+cd quasar-auth-apollo
+docker compose up - d
+```
+
 ## Install the dependencies (change)
 this app for node 12 and quasar 1.x
 ```bash
-cd quasar-auth-apollo
 nvm install 12.22.12
 nvm use 12.22.12
 npm i
