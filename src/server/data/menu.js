@@ -5,16 +5,6 @@ const menu = [
     link: '/home'
   },
   {
-    name: 'upload',
-    icon: 'cloud_upload',
-    link: '/upload'
-  },
-  {
-    name: 'upload2',
-    icon: 'file_upload',
-    link: '/upload2'
-  },
-  {
     name: 'users',
     icon: 'people',
     link: '/users'

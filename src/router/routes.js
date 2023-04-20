@@ -21,20 +21,7 @@ const routes = [
       { path: '', component: () => import('pages/login.vue') }
     ]
   },
-  {
-    path: '/upload',
-    component: () => import('layouts/HomeLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/upload.vue') }
-    ]
-  },
-  {
-    path: '/upload2',
-    component: () => import('layouts/HomeLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/upload2.vue') }
-    ]
-  },
+
   {
     path: '/profile',
     component: () => import('layouts/HomeLayout.vue'),
