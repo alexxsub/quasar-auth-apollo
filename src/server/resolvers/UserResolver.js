@@ -63,7 +63,6 @@ module.exports = {
         defaultEnabled = (count === 0)
       // add new user
       const newUser = await new User({
-        avatar,
         username,
         email,
         password,
@@ -98,6 +97,7 @@ module.exports = {
         const res = await new User({
           avatar: input.avatar,
           username: input.username,
+          fullname: input.fullname,
           name: input.name,
           email: input.email,
           roles: input.roles,
@@ -113,6 +113,7 @@ module.exports = {
           $set: {
             avatar: input.avatar,
             username: input.username,
+            fullname: input.fullname,
             name: input.name,
             email: input.email,
             roles: input.roles,

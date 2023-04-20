@@ -22,13 +22,6 @@ const routes = [
     ]
   },
   {
-    path: '/testmongodb',
-    component: () => import('layouts/HomeLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/testmongodb.vue') }
-    ]
-  },
-  {
     path: '/upload',
     component: () => import('layouts/HomeLayout.vue'),
     children: [
