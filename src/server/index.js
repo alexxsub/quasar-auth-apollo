@@ -46,7 +46,7 @@ const getUser = async (token, signin) => {
     )
   }
 }
-// enable files upload
+
 app.use(fileUpload({
   createParentPath: true
 }))
@@ -74,19 +74,21 @@ const server = new ApolloServer({
     return error
   },
   context: async ({ req }) => {
-    // list of queries without autentifacation
+    // список запросов , которые нужно пропустить без авторизации
     const noAuth = ['IntrospectionQuery',
         'signIn',
         'signUp'],
       token = req.headers.token,
       query = req.body.operationName,
       signed = noAuth.includes(query)
+      //необходимо получить пользователя, если его нет, знаит авторизации нет
     context.currentUser = await getUser(token, signed)
     context.userIP = req.ip.split(':').pop()
     return context
   }
 })
-// replace code 400 over 401 (correct)
+//Замена ошибки Apollo 400 на http 401 (и это правильно)
+//Apollo генерит только 400 и 500 ошибку, выбор маловат
 const contextAuthError = (req, res, next) => {
   const origSend = res.send
 
