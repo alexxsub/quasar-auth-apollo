@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt'),
   jwt = require('jsonwebtoken'),
   { UserInputError } = require('apollo-server-express')
 
+const { unlink } = require('fs');
 const createToken = (user, secret, expiresIn) => {
   const { _id, username } = user
   return jwt.sign({ _id, username }, secret, { expiresIn })
@@ -59,6 +60,7 @@ module.exports = {
         })
       }
       const count = await User.find().count(),
+      //если нет в базе пользователей, то первый админ, иначе с менеджер с минимальными правами
         defaultRoles = count === 0 ? ['admin'] : ['manager'],
         defaultEnabled = (count === 0)
       // add new user
@@ -126,9 +128,9 @@ module.exports = {
         return res
       }
     },
-    enabledUser: async (_, { _id, enabled }, { User }) => {
+    enabledUser: async (_, { id, enabled }, { User }) => {
       const res = await User.findOneAndUpdate({
-        _id
+        _id:id
       }, {
         $set: {
           enabled
@@ -139,10 +141,25 @@ module.exports = {
       )
       return res
     },
-    deleteUser: async (_, { _id }, { User }) => {
+    deleteUser: async (_, { id }, { User }) => {
+
       const res = await User.findByIdAndRemove({
-        _id
-      }).then()
+        _id:id
+      })
+      //delete avatar file
+      if (res)
+        if (res.avatar)
+        {
+        const filename = './uploads/'+res.avatar;
+
+
+        unlink(filename, (err) => {
+          if (err)
+            console.log(err)
+          else
+            console.log(`Deleted ${filename}`);
+        });
+      }
       return res
     }
 

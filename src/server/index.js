@@ -3,7 +3,6 @@ const app = require('express')(),
   express = require('express'),
   fileUpload = require('express-fileupload'),
   cors = require('cors'),
-  bodyParser = require('body-parser'),
   morgan = require('morgan'),
   path = require('path'),
   { ApolloServer, AuthenticationError } = require('apollo-server-express'),
@@ -105,14 +104,13 @@ const contextAuthError = (req, res, next) => {
 // add other middleware
 app.use(express.static('uploads'))
 app.use(cors())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/api', contextAuthError)// add 401 error code
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'index.html'))
 })
-// app.use(morgan('dev'))
+ app.use(morgan('dev'))
 // custom logger
+/*
 app.use(morgan(function (tokens, req, res) {
   return [
     tokens.date(req, res, 'clf'),
@@ -125,34 +123,10 @@ app.use(morgan(function (tokens, req, res) {
     tokens['response-time'](req, res), 'ms'
   ].join(' ')
 }))
+*/
 
-app.post('/upload', async (req, res) => {
-  try {
-    if (!req.files) {
-      res.send({
-        status: false,
-        message: 'No file uploaded'
-      })
-    } else {
-      const uploadfile = req.files
 
-      Object.keys(uploadfile).forEach(key => {
-        const dst = path.join(__dirname, 'uploads/', uploadfile[key].name)
-        uploadfile[key].mv(dst, err => console.log(err))
-      })
-
-      // send response
-      res.send({
-        status: true,
-        message: 'Files is uploaded'
-      })
-    }
-  } catch (err) {
-    res.status(500).send(err)
-  }
-})
-
-app.post('/upload2', async (req, res, next) => {
+app.post('/upload', async (req, res, next) => {
   if (!req.files) {
     res.status(500).send('No file uploaded')
   } else {
@@ -161,8 +135,8 @@ app.post('/upload2', async (req, res, next) => {
       ext = uploadfile.file.name.split('.').pop(),
       filename = fileID + '.' + ext,
       dst = path.join(__dirname, 'uploads/', filename)
-
-    uploadfile.file.mv(dst, err => console.log(err))
+      console.log(`Uploaded ${dst}`)
+      uploadfile.file.mv(dst, err => console.log(err))
 
     // send response
     res.send({
@@ -176,3 +150,4 @@ server.applyMiddleware({ app, path: '/api' })
 app.listen(port, () =>
   console.log(`🚀  Started at http://localhost:${port}${server.graphqlPath}`)
 )
+//sudo ss -lntup | grep ":4001"

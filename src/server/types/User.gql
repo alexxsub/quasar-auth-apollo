@@ -46,8 +46,8 @@ type Query {
 type Mutation {
   modifyProfile(input:inputProfile!):User
   modifyUser(input: inputUser!):User
-  deleteUser(_id: ID!):User
-  enabledUser(_id: ID!, enabled: Boolean!):User
+  deleteUser(id: ID!):User
+  enabledUser(id: ID!, enabled: Boolean!):User
   signIn(username: String!, password: String!): Token
   signUp(username: String!,email: String!, password: String!): User
 }

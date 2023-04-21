@@ -4,7 +4,7 @@
  <div class="q-pa-md" style="max-width: 500px">
       <upload-img ref="Uploader"
        v-model="editedItem.avatar"
-       url="upload2"
+       url="upload"
        />
               <q-input
                        square
@@ -92,7 +92,7 @@ import bus from '../event-bus'
 import { showError, showMsg } from '../front-lib'
 import UploadImg from 'components/UploadImg.vue'
 import TypeRoles from 'components/TypeRoles'
-import { MODIFY_USER } from 'src/queries'
+import { MODIFY_USER, USERS } from 'src/queries'
 export default {
   name: 'EditUser',
   components: { UploadImg },
@@ -156,7 +156,8 @@ export default {
           this.$apollo
             .mutate({
               mutation: MODIFY_USER,
-              variables: input
+              variables: input,
+              refetchQueries: [{ query: USERS }]
             })
             .then(data => {
               this.drawerOpen = false

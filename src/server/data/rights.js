@@ -4,4 +4,4 @@ const rights = {
   manager: ['home', 'data', 'manager', 'profile']
 }
 
-module.exports = { rights }
+module.exports =  rights
