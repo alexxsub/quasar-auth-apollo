@@ -21,6 +21,12 @@ nvm install 12.22.12
 nvm use 12.22.12
 npm i
 ```
+
+## Init demo data
+```bash
+npm run db-init
+```
+
 ### Start the backend app in development mode (hot-code reloading, error reporting, etc.)
 ```bash
 npm run server
@@ -31,6 +37,8 @@ this app for node 12 and quasar 1.x
 nvm use 12.22.12
 npm run client
 ```
+
+### open http://localhost:8080
 
 ### Lint the files
 ```bash
