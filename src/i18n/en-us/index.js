@@ -63,14 +63,6 @@ export default {
       title: 'For director',
       caption: 'Context for director role'
     },
-    upload: {
-      title: 'Image upload',
-      caption: 'Quasar&custom components uploud'
-    },
-    upload2: {
-      title: 'Image upload 2 ',
-      caption: 'example of upload without components'
-    },
     data: {
       title: 'Data table',
       caption: 'Data table for roles'
