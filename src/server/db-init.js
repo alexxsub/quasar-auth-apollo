@@ -2,22 +2,24 @@ var mongoose = require('mongoose')
 const { User } = require('./models')
 require('dotenv').config({ path: '../../.env' })
 
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true
-}
 
-mongoose.connect(process.env.MONGO_URI, options)
+  const options = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+  }
 
-var db = mongoose.connection
 
-db.on('error', err => console.log(err))
 
-db.once('open',
-  function () {
-    console.log(`🎉  Mongo connected ${process.env.MONGO_URI}`)
-    const data = [{
+async function main()
+{
+  try {
+    // подключаемся к базе данных
+    await mongoose.connect(process.env.MONGO_URI, options)
+    console.log("database connected...");
+
+    // данные для импорта
+    const userArray = [{
       roles: [
         'admin'
       ],
@@ -49,17 +51,22 @@ db.once('open',
       fullname: 'John Doe',
       email: 'manager@mail.ru',
       password: '$2b$10$fYA07e1LPyV83BRVLu9y6O5h5VX4OInrNRZ.g2zLodiHuUj6SOpsq'
-    }]
-    data.map(item => {
+    }];
+    //Добавляем значение свежее для поля дата создания
+    userArray.map(item => {
       item.createdDate = new User().createdDate
     })
 
-    User.collection.insertMany(data, function (err, r) {
-      if (err) {
-        console.error(err)
-      } else {
-        console.log('Demo data has been created')
-        process.exit(1)
-      }
-    })
-  })
+    await User.deleteMany(); // удаляем предыдущие данные, на продуктиве это не запускать
+    const data = await User.insertMany(userArray);
+
+    console.log('Created users',data);
+    console.log('Completed ...')
+    process.exit(0);
+  } catch (error) {
+    console.log('erro:', error);
+  }
+
+}
+
+main();
