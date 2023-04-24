@@ -8,6 +8,7 @@ module.exports = {
       const roles = await User.findOne({ _id: currentUser._id })
         .then(res => res.roles)
       // обнуляем, если были права
+      // eslint-disable-next-line no-return-assign
       menu.map(el => el.enabled = false)
 
       if (roles) {

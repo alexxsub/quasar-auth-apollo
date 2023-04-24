@@ -3,11 +3,9 @@ const { User } = require('./models')
 require('dotenv').config({ path: '../../.env' })
 
 const options = {
-  useCreateIndex: true,
   useNewUrlParser: true,
-  retryWrites: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useCreateIndex: true
 }
 
 mongoose.connect(process.env.MONGO_URI, options)
@@ -52,11 +50,15 @@ db.once('open',
       email: 'manager@mail.ru',
       password: '$2b$10$fYA07e1LPyV83BRVLu9y6O5h5VX4OInrNRZ.g2zLodiHuUj6SOpsq'
     }]
+    data.map(item => {
+      item.createdDate = new User().createdDate
+    })
+
     User.collection.insertMany(data, function (err, r) {
       if (err) {
         console.error(err)
       } else {
-        console.log('Demo has been created')
+        console.log('Demo data has been created')
         process.exit(1)
       }
     })

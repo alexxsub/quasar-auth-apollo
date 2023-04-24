@@ -15,7 +15,6 @@ const app = require('express')(),
 require('dotenv').config({ path: '../../.env' })
 const port = process.env.PORT || 8080
 
-
 mongoose
   .connect(
     process.env.MONGO_URI,
@@ -82,14 +81,14 @@ const server = new ApolloServer({
       token = req.headers.token,
       query = req.body.operationName,
       signed = noAuth.includes(query)
-      //необходимо получить пользователя, если его нет, знаит авторизации нет
+      // необходимо получить пользователя, если его нет, знаит авторизации нет
     context.currentUser = await getUser(token, signed)
     context.userIP = req.ip.split(':').pop()
     return context
   }
 })
-//Замена ошибки Apollo 400 на http 401 (и это правильно)
-//Apollo генерит только 400 и 500 ошибку, выбор маловат
+// Замена ошибки Apollo 400 на http 401 (и это правильно)
+// Apollo генерит только 400 и 500 ошибку, выбор маловат
 const contextAuthError = (req, res, next) => {
   const origSend = res.send
 
@@ -111,7 +110,7 @@ app.use('/api', contextAuthError)// add 401 error code
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'index.html'))
 })
- app.use(morgan('dev'))
+app.use(morgan('dev'))
 // custom logger
 /*
 app.use(morgan(function (tokens, req, res) {
@@ -128,7 +127,6 @@ app.use(morgan(function (tokens, req, res) {
 }))
 */
 
-
 app.post('/upload', async (req, res, next) => {
   if (!req.files) {
     res.status(500).send('No file uploaded')
@@ -138,8 +136,8 @@ app.post('/upload', async (req, res, next) => {
       ext = uploadfile.file.name.split('.').pop(),
       filename = fileID + '.' + ext,
       dst = path.join(__dirname, 'uploads/', filename)
-      console.log(`Uploaded ${dst}`)
-      uploadfile.file.mv(dst, err => console.log(err))
+    console.log(`Uploaded ${dst}`)
+    uploadfile.file.mv(dst, err => console.log(err))
 
     // send response
     res.send({
@@ -153,4 +151,4 @@ server.applyMiddleware({ app, path: '/api' })
 app.listen(port, () =>
   console.log(`🚀  Started at http://localhost:${port}${server.graphqlPath}`)
 )
-//sudo ss -lntup | grep ":4001"
+// sudo ss -lntup | grep ":4001"
