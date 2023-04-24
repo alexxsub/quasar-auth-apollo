@@ -13,6 +13,7 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
+    "@graphql-tools/load-files": "^6.6.1",
     "@quasar/extras": "^1.0.0",
     "apollo-link-error": "^1.1.13",
     "apollo-server-express": "^2.18.2",
@@ -30,8 +31,8 @@
     "vue-i18n": "^8.0.0"
   },
   "devDependencies": {
-    "@quasar/app": "^3.3.3",
-    "@quasar/cli": "^2.0.0",
+    "@quasar/app": "^2.0.0",
+    "@quasar/cli": "^1.0.0",
     "@quasar/quasar-app-extension-apollo": "^1.0.0-beta.6",
     "@quasar/quasar-app-extension-dotenv": "^1.1.0",
     "babel-eslint": "^10.0.1",

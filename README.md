@@ -31,6 +31,39 @@ npm run db-init
 ```bash
 npm run server
 ```
+### get token
+```bash
+mutation signIn($username: String!, $password: String!) {
+  signIn(username: $username, password: $password) {
+    token
+    __typename
+  }
+}
+```
+#### vars
+```bash
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+```
+copy token in headers
+{"token": " ....."}
+
+### Get lis of users
+```bash
+{
+  getUsers {
+    _id
+    username
+    fullname
+    email
+    roles
+  }
+}
+```
+
 ### Start the frontend app in development mode (hot-code reloading, error reporting, etc.)
 this app for node 12 and quasar 1.x
 ```bash
