@@ -11,7 +11,7 @@ git clone https://github.com/alexxsub/quasar-auth-apollo.git
 ## need docker and compose or install docker desktop
 ```bash
 cd quasar-auth-apollo
-docker compose up - d
+docker compose up -d
 ```
 
 ## Install the dependencies (change)
